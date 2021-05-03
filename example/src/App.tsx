@@ -1,12 +1,17 @@
 import * as React from 'react';
 
 import { StyleSheet, View } from 'react-native';
-import ReactNativeLivestreamViewManager from '@api.video/react-native-livestream';
+import StreamView from '@api.video/react-native-livestream';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <ReactNativeLivestreamViewManager color="#32a852" style={styles.box} />
+      <StreamView
+        fps={30}
+        liveStreamKey="d08c582e-e251-4f9e-9894-8c8d69755d45"
+        quality="360p"
+        style={styles.box}
+      />
     </View>
   );
 }
@@ -16,10 +21,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'pink',
   },
   box: {
-    width: 60,
-    height: 60,
+    width: 200,
+    height: 200,
     marginVertical: 20,
+    backgroundColor: 'green',
   },
 });
