@@ -11,4 +11,7 @@ export const ReactNativeLivestreamViewManager = requireNativeComponent<ReactNati
   'ReactNativeLivestreamView'
 );
 
+ReactNativeLivestreamViewManager.displayName =
+  'ReactNativeLivestreamViewManager';
+
 export default ReactNativeLivestreamViewManager;

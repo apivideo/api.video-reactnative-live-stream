@@ -9,15 +9,33 @@ class ReactNativeLivestreamViewManager: RCTViewManager {
   override func view() -> (ReactNativeLivestreamView) {
     return ReactNativeLivestreamView()
   }
+
+  @objc func callItNowPleaseFromManager(_ node: NSNumber) {
+    
+    DispatchQueue.main.async {                              
+      let component = self.bridge.uiManager.view(            
+        forReactTag: node                                     
+      ) as! ReactNativeLivestreamView
+      component.callItNowPlease()
+    }
+  }
+
 }
 
 class ReactNativeLivestreamView : UIView {
-    @objc override func didMoveToWindow() {
-        let apiVideo = ApiVideoLiveStream()
-        apiVideo.startLiveStreamFlux(liveStreamKey: liveStreamKey, captureQuality: quality, streamQuality: quality, fps: fps, view: self)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+       
     }
     
-
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    @objc override func didMoveToWindow() {
+        super.didMoveToWindow()
+    }
     
     @objc var liveStreamKey: String = "" {
       didSet {
@@ -32,5 +50,12 @@ class ReactNativeLivestreamView : UIView {
     @objc var fps: Double = 30 {
       didSet {
       }
+    }
+    
+    @objc func callItNowPlease() {
+      print("Button Press")
+      
+        let apiVideo = ApiVideoLiveStream()
+        apiVideo.startLiveStreamFlux(liveStreamKey: self.liveStreamKey, captureQuality: self.quality, streamQuality: self.quality, fps: self.fps, view: self)
     }
 }
