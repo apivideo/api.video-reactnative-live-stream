@@ -2,7 +2,10 @@ import LiveStreamIos
 
 @objc(ReactNativeLivestreamViewManager)
 class ReactNativeLivestreamViewManager: RCTViewManager {
-
+  override static func requiresMainQueueSetup() -> Bool {
+    return true
+  }
+    
   override func view() -> (ReactNativeLivestreamView) {
     return ReactNativeLivestreamView()
   }
@@ -14,9 +17,7 @@ class ReactNativeLivestreamView : UIView {
         apiVideo.startLiveStreamFlux(liveStreamKey: liveStreamKey, captureQuality: quality, streamQuality: quality, fps: fps, view: self)
     }
     
-    @objc static func requiresMainQueueSetup() -> Bool {
-        return true
-    }
+
     
     @objc var liveStreamKey: String = "" {
       didSet {
