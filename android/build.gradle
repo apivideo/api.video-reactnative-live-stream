@@ -5,6 +5,7 @@ buildscript {
   repositories {
     google()
     jcenter()
+    maven { url 'https://jitpack.io' }
   }
 
   dependencies {
@@ -33,9 +34,9 @@ android {
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
-    
+
   }
-  
+
   buildTypes {
     release {
       minifyEnabled false
@@ -53,6 +54,7 @@ android {
 repositories {
   mavenCentral()
   jcenter()
+  maven { url 'https://jitpack.io' }
   google()
 
   def found = false
@@ -127,4 +129,7 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation ('video.api:android-live-stream:0.1.0'){
+    transitive = true
+  }
 }
