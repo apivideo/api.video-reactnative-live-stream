@@ -15,12 +15,14 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<SurfaceView>(), Conne
   override fun getName() = "ReactNativeLivestreamView"
   private var liveStreamKey: String? = null
   private var quality: String? = null
-  private var fps: Double? = null
+  private var fps: Int = 30
   lateinit var context: ThemedReactContext
+  lateinit var surfaceView: SurfaceView
 
   override fun createViewInstance(reactContext: ThemedReactContext): SurfaceView {
     context = reactContext
-    return SurfaceView(reactContext)
+    surfaceView = SurfaceView(reactContext)
+    return surfaceView
   }
 
   @ReactProp(name = "liveStreamKey")
@@ -34,12 +36,12 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<SurfaceView>(), Conne
     quality = newQuality
   }
   @ReactProp(name = "fps")
-  fun setFps(newFps: Double) {
+  fun setFps(newFps: Int) {
     if (newFps == fps) return
     fps = newFps
   }
 
-  @ReactMethod()
+
   fun callItNowPlease(){
     Log.e("Btn click", "true")
 
@@ -49,8 +51,7 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<SurfaceView>(), Conne
         .videoFps(30)
         .build()
     )
-
-      .start(this.liveStreamKey!!, this, this.context,this)
+      .start(this.liveStreamKey!!, surfaceView, this.context,this)
   }
 
   override fun onConnectionSuccessRtmp() {
