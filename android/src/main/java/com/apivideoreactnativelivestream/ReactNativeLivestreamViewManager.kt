@@ -3,7 +3,7 @@ package com.apivideoreactnativelivestream
 import android.util.Log
 import android.view.SurfaceView
 import android.view.View
-import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
@@ -16,14 +16,23 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheck
   private var quality: String? = null
   private var fps: Double = 30.0
   private lateinit var context: ThemedReactContext
-  private lateinit var surfaceView: View
+  private lateinit var view: View
+  private lateinit var surfaceView: SurfaceView
+
 
   override fun createViewInstance(reactContext: ThemedReactContext): View {
     context = reactContext
-    surfaceView = View(reactContext)
-    return surfaceView
+    view = View(reactContext)
+    surfaceView = SurfaceView(reactContext)
+    return view
   }
 
+  override fun receiveCommand(root: View, commandId: String?, args: ReadableArray?) {
+    super.receiveCommand(root, commandId, args)
+    when (commandId) {
+      "nameOfFunctionToCallInNativeLand" -> callItNowPlease()
+    }
+  }
 
   @ReactProp(name = "fps")
   fun setFps(view: View, newFps: Double) {
@@ -41,18 +50,17 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheck
     quality = newQuality
   }
 
-  @ReactMethod
   fun callItNowPlease(){
     Log.e("Btn click", "true")
 
     ApiVideoLiveStream(
       ApiVideoLiveStream.Config.Builder()
         .videoQuality(ApiVideoLiveStream.Config.Quality.QUALITY_720)
-        .videoFps(30)
+        .videoFps(this.fps.toInt())
         .build()
     )
       //.start(this.liveStreamKey!!, surfaceView, this.context,this)
-      .start(this.liveStreamKey!!, null, this.context,this)
+      .start(this.liveStreamKey!!,surfaceView,this.context, this)
 
   }
 
