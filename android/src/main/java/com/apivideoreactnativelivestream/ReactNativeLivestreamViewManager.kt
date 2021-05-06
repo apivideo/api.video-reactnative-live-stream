@@ -1,6 +1,5 @@
 package com.apivideoreactnativelivestream
 
-import android.graphics.Color
 import android.util.Log
 import android.view.SurfaceView
 import android.view.View
@@ -11,37 +10,38 @@ import com.facebook.react.uimanager.annotations.ReactProp
 import net.ossrs.rtmp.ConnectCheckerRtmp
 import video.api.livestream_module.ApiVideoLiveStream
 
-class ReactNativeLivestreamViewManager : SimpleViewManager<SurfaceView>(), ConnectCheckerRtmp {
+class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheckerRtmp {
   override fun getName() = "ReactNativeLivestreamView"
   private var liveStreamKey: String? = null
   private var quality: String? = null
-  private var fps: Int = 30
-  lateinit var context: ThemedReactContext
-  lateinit var surfaceView: SurfaceView
+  private var fps: Double = 30.0
+  private lateinit var context: ThemedReactContext
+  private lateinit var surfaceView: View
 
-  override fun createViewInstance(reactContext: ThemedReactContext): SurfaceView {
+  override fun createViewInstance(reactContext: ThemedReactContext): View {
     context = reactContext
-    surfaceView = SurfaceView(reactContext)
+    surfaceView = View(reactContext)
     return surfaceView
   }
 
+
+  @ReactProp(name = "fps")
+  fun setFps(view: View, newFps: Double) {
+    if (newFps == fps) return
+    fps = newFps
+  }
   @ReactProp(name = "liveStreamKey")
-  fun setLiveStreamKey(newLiveStreamKey: String) {
+  fun setLiveStreamKey(view: View, newLiveStreamKey: String) {
     if (newLiveStreamKey == liveStreamKey) return
     liveStreamKey = newLiveStreamKey
   }
   @ReactProp(name = "quality")
-  fun setQuality(newQuality: String) {
+  fun setQuality(view: View, newQuality: String) {
     if (newQuality == quality) return
     quality = newQuality
   }
-  @ReactProp(name = "fps")
-  fun setFps(newFps: Int) {
-    if (newFps == fps) return
-    fps = newFps
-  }
 
-
+  @ReactMethod
   fun callItNowPlease(){
     Log.e("Btn click", "true")
 
@@ -51,7 +51,9 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<SurfaceView>(), Conne
         .videoFps(30)
         .build()
     )
-      .start(this.liveStreamKey!!, surfaceView, this.context,this)
+      //.start(this.liveStreamKey!!, surfaceView, this.context,this)
+      .start(this.liveStreamKey!!, null, this.context,this)
+
   }
 
   override fun onConnectionSuccessRtmp() {
