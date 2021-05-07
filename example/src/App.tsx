@@ -1,25 +1,16 @@
 import * as React from 'react';
 
-import {
-  Button,
-  findNodeHandle,
-  StyleSheet,
-  UIManager,
-  View,
-  Animated,
-} from 'react-native';
-import StreamView from '@api.video/react-native-livestream';
+import { Button, StyleSheet, View, Animated } from 'react-native';
+import StreamView, {
+  ReactNativeLivestreamMethods,
+} from '@api.video/react-native-livestream';
 
-const onButtonPress = (ref) => {
-  UIManager.dispatchViewManagerCommand(
-    findNodeHandle(ref),
-    UIManager.ReactNativeLivestreamView.Commands.callItNowPleaseFromManager,
-    null
-  );
+const onButtonPress = (ref: ReactNativeLivestreamMethods | null) => {
+  ref?.startStreaming();
 };
 
 export default function App() {
-  const ref = React.useRef(null);
+  const ref = React.useRef<ReactNativeLivestreamMethods | null>(null);
   const animatedValue = React.useRef(new Animated.Value(200));
 
   React.useEffect(() => {
@@ -35,7 +26,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.box, { width: animatedValue.current }]}>
+      <Animated.View style={[styles.box]}>
         <StreamView
           style={{ flex: 1 }}
           ref={ref}

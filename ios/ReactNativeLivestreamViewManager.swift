@@ -10,19 +10,19 @@ class ReactNativeLivestreamViewManager: RCTViewManager {
     return ReactNativeLivestreamView()
   }
 
-  @objc func callItNowPleaseFromManager(_ node: NSNumber) {
-    
+  @objc func startStreamingFromManager(_ node: NSNumber) {
     DispatchQueue.main.async {                              
       let component = self.bridge.uiManager.view(            
         forReactTag: node                                     
       ) as! ReactNativeLivestreamView
-      component.callItNowPlease()
+      component.startStreaming()
     }
   }
-
 }
 
 class ReactNativeLivestreamView : UIView {
+    private var apiVideo = ApiVideoLiveStream()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
        
@@ -52,10 +52,7 @@ class ReactNativeLivestreamView : UIView {
       }
     }
     
-    @objc func callItNowPlease() {
-      print("Button Press")
-      
-        let apiVideo = ApiVideoLiveStream()
+    @objc func startStreaming() {
         apiVideo.startLiveStreamFlux(liveStreamKey: self.liveStreamKey, captureQuality: self.quality, streamQuality: self.quality, fps: self.fps, view: self)
     }
 }
