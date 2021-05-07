@@ -23,6 +23,8 @@ class ReactNativeLivestreamViewManager: RCTViewManager {
 }
 
 class ReactNativeLivestreamView : UIView {
+    private var apiVideo = ApiVideoLiveStream()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
        
@@ -55,7 +57,6 @@ class ReactNativeLivestreamView : UIView {
     @objc func callItNowPlease() {
       print("Button Press")
       
-        let apiVideo = ApiVideoLiveStream()
         apiVideo.startLiveStreamFlux(liveStreamKey: self.liveStreamKey, captureQuality: self.quality, streamQuality: self.quality, fps: self.fps, view: self)
     }
 }

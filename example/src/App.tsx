@@ -35,7 +35,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.box, { width: animatedValue.current }]}>
+      <Animated.View style={[styles.box]}>
         <StreamView
           style={{ flex: 1 }}
           ref={ref}
