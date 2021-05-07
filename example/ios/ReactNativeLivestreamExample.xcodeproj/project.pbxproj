@@ -578,7 +578,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.apivideoreactnativelivestream.thib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.apivideoreactnativelivestream;
 				PRODUCT_NAME = ReactNativeLivestreamExample;
 				SWIFT_OBJC_BRIDGING_HEADER = "ReactNativeLivestreamExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -602,7 +602,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.apivideoreactnativelivestream.thib;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.apivideoreactnativelivestream;
 				PRODUCT_NAME = ReactNativeLivestreamExample;
 				SWIFT_OBJC_BRIDGING_HEADER = "ReactNativeLivestreamExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
