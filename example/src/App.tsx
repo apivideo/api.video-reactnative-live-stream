@@ -6,6 +6,7 @@ import {
   View,
   Animated,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import StreamView, {
   ReactNativeLivestreamMethods,
@@ -35,9 +36,16 @@ export default function App() {
       <StreamView
         style={{ height: 100, backgroundColor: 'red', alignSelf: 'stretch' }}
         ref={ref}
-        fps={30}
-        liveStreamKey="d08c582e-e251-4f9e-9894-8c8d69755d45"
-        quality="720p"
+        video={{
+          fps: 30,
+          resolution: '720p',
+          camera: 'back',
+        }}
+        liveStreamKey={
+          Platform.OS === 'android'
+            ? '833ae9df-d228-4ff3-b15a-b4ac53280b80'
+            : 'd08c582e-e251-4f9e-9894-8c8d69755d45'
+        }
       />
       <View style={[styles.box, { alignSelf: 'stretch' }]} />
       <View style={{ position: 'absolute', bottom: 40 }}>

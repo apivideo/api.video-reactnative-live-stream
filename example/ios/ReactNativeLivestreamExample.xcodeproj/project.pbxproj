@@ -271,7 +271,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = VY3VXRC7P4;
+						DevelopmentTeam = PPR6UF7PBW;
 						LastSwiftMigration = 1240;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -569,7 +569,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = VY3VXRC7P4;
+				DEVELOPMENT_TEAM = PPR6UF7PBW;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ReactNativeLivestreamExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -578,7 +578,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.apivideoreactnativelivestream;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.apivideoreactnativelivestream.thib;
 				PRODUCT_NAME = ReactNativeLivestreamExample;
 				SWIFT_OBJC_BRIDGING_HEADER = "ReactNativeLivestreamExample-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -594,7 +594,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = VY3VXRC7P4;
+				DEVELOPMENT_TEAM = PPR6UF7PBW;
 				INFOPLIST_FILE = ReactNativeLivestreamExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -602,7 +602,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.example.apivideoreactnativelivestream;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.apivideoreactnativelivestream.thib;
 				PRODUCT_NAME = ReactNativeLivestreamExample;
 				SWIFT_OBJC_BRIDGING_HEADER = "ReactNativeLivestreamExample-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

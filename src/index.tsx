@@ -13,10 +13,10 @@ type ReactNativeLivestreamProps = {
   video: {
     fps: number;
     resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
-    bitrate: number;
+    bitrate?: number;
     camera: 'front' | 'back';
   };
-  audio: {
+  audio?: {
     muted?: boolean;
     bitrate?: number;
   };
@@ -28,7 +28,7 @@ type ReactNativeLivestreamNativeProps = {
   rtmpServerUrl?: string;
   videoFps: number;
   videoResolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
-  videoBitrate: number;
+  videoBitrate?: number;
   videoCamera: 'front' | 'back';
   audioMuted?: boolean;
   audioBitrate?: number;
