@@ -7,7 +7,7 @@ RCT_EXPORT_VIEW_PROPERTY(quality, NSString)
 RCT_EXPORT_VIEW_PROPERTY(fps, double)
 
 RCT_EXTERN_METHOD(
-    callItNowPleaseFromManager:(nonnull NSNumber *)node
+    startStreamingFromManager:(nonnull NSNumber *)node
 )
 
 @end
