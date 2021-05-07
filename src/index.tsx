@@ -36,6 +36,7 @@ type ReactNativeLivestreamNativeProps = {
 
 export type ReactNativeLivestreamMethods = {
   startStreaming: () => void;
+  stopStreaming: () => void;
 };
 
 export const ReactNativeLivestreamViewNative = requireNativeComponent<ReactNativeLivestreamNativeProps>(
@@ -56,6 +57,14 @@ const ReactNativeLiveStreamView = forwardRef<
         findNodeHandle(nativeRef.current),
         UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
           .startStreamingFromManager,
+        []
+      );
+    },
+    stopStreaming: () => {
+      UIManager.dispatchViewManagerCommand(
+        findNodeHandle(nativeRef.current),
+        UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
+          .stopStreamingFromManager,
         []
       );
     },

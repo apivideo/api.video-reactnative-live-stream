@@ -9,10 +9,11 @@ import Foundation
 import LiveStreamIos
 
 class ReactNativeLivestreamView : UIView {
-    private var apiVideo = ApiVideoLiveStream()
+    private var apiVideo: ApiVideoLiveStream?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        apiVideo = ApiVideoLiveStream(videoResolution: self.videoResolution, videoFps: self.videoFps, view: self)
     }
     
     required init?(coder: NSCoder) {
@@ -29,7 +30,7 @@ class ReactNativeLivestreamView : UIView {
       }
     }
     
-    @objc var rtmpServerUrl: String = "" {
+    @objc var rtmpServerUrl: String? {
       didSet {
       }
     }
@@ -65,6 +66,10 @@ class ReactNativeLivestreamView : UIView {
     }
     
     @objc func startStreaming() {
-        apiVideo.startLiveStreamFlux(liveStreamKey: self.liveStreamKey, captureQuality: self.videoResolution, streamQuality: self.videoResolution, fps: self.videoFps, view: self)
+        apiVideo!.startLiveStreamFlux(liveStreamKey: self.liveStreamKey, rtmpServerUrl: self.rtmpServerUrl)
+    }
+    
+    @objc func stopStreaming() {
+        apiVideo!.stopLiveStreamFlux()
     }
 }

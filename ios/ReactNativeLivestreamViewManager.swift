@@ -16,4 +16,13 @@ class ReactNativeLivestreamViewManager: RCTViewManager {
       component.startStreaming()
     }
   }
+    
+    @objc func stopStreamingFromManager(_ node: NSNumber) {
+      DispatchQueue.main.async {
+        let component = self.bridge.uiManager.view(
+          forReactTag: node
+        ) as! ReactNativeLivestreamView
+        component.stopStreaming()
+      }
+    }
 }

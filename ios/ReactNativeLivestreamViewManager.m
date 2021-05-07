@@ -14,5 +14,8 @@ RCT_EXPORT_VIEW_PROPERTY(audioBitrate, double)
 RCT_EXTERN_METHOD(
     startStreamingFromManager:(nonnull NSNumber *)node
 )
+RCT_EXTERN_METHOD(
+    stopStreamingFromManager:(nonnull NSNumber *)node
+)
 
 @end
