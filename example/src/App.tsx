@@ -1,6 +1,12 @@
 import * as React from 'react';
 
-import { Button, StyleSheet, View, Animated } from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  View,
+  Animated,
+  TouchableOpacity,
+} from 'react-native';
 import StreamView, {
   ReactNativeLivestreamMethods,
 } from '@api.video/react-native-livestream';
@@ -26,21 +32,27 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Animated.View style={[styles.box]}>
-        <StreamView
-          style={{ flex: 1 }}
-          ref={ref}
-          fps={30}
-          liveStreamKey="d08c582e-e251-4f9e-9894-8c8d69755d45"
-          quality="720p"
-        />
-      </Animated.View>
-      <Button
-        title="Connect to stream"
-        onPress={() => {
-          onButtonPress(ref.current);
-        }}
+      <StreamView
+        style={{ height: 100, backgroundColor: 'red', alignSelf: 'stretch' }}
+        ref={ref}
+        fps={30}
+        liveStreamKey="d08c582e-e251-4f9e-9894-8c8d69755d45"
+        quality="720p"
       />
+      <View style={[styles.box, { alignSelf: 'stretch' }]} />
+      <View style={{ position: 'absolute', bottom: 40 }}>
+        <TouchableOpacity
+          style={{
+            borderRadius: 50,
+            backgroundColor: 'white',
+            width: 50,
+            height: 50,
+          }}
+          onPress={() => {
+            onButtonPress(ref.current);
+          }}
+        />
+      </View>
     </View>
   );
 }
@@ -53,9 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
   },
   box: {
-    width: 200,
-    height: 200,
-    marginVertical: 20,
+    flex: 1,
     backgroundColor: 'green',
   },
 });
