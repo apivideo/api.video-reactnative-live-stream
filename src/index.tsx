@@ -48,7 +48,7 @@ ReactNativeLivestreamViewNative.displayName = 'ReactNativeLivestreamViewNative';
 const ReactNativeLiveStreamView = forwardRef<
   ReactNativeLivestreamMethods,
   ReactNativeLivestreamProps
->(({ style, video, rtmpServerUrl, liveStreamKey }, forwardedRef) => {
+>(({ style, video, rtmpServerUrl, liveStreamKey, audio }, forwardedRef) => {
   const nativeRef = useRef<typeof ReactNativeLivestreamViewNative | null>(null);
 
   useImperativeHandle(forwardedRef, () => ({
@@ -68,6 +68,22 @@ const ReactNativeLiveStreamView = forwardRef<
         []
       );
     },
+    enableAudio: () => {
+      UIManager.dispatchViewManagerCommand(
+        findNodeHandle(nativeRef.current),
+        UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
+          .enableAudioFromManager,
+        []
+      );
+    },
+    disableAudio: () => {
+      UIManager.dispatchViewManagerCommand(
+        findNodeHandle(nativeRef.current),
+        UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
+          .disableAudioFromManager,
+        []
+      );
+    },
   }));
 
   return (
@@ -77,6 +93,8 @@ const ReactNativeLiveStreamView = forwardRef<
       videoResolution={video.resolution}
       videoFps={video.fps}
       videoBitrate={video.bitrate}
+      audioMuted={audio?.muted}
+      audioBitrate={audio?.bitrate}
       liveStreamKey={liveStreamKey}
       rtmpServerUrl={rtmpServerUrl}
       ref={nativeRef as any}

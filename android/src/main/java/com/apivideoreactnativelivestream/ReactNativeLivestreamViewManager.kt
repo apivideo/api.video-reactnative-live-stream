@@ -1,47 +1,68 @@
 package com.apivideoreactnativelivestream
 
 import android.util.Log
-import android.view.SurfaceView
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintSet
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.common.MapBuilder
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
+import com.pedro.encoder.input.video.CameraHelper
 import net.ossrs.rtmp.ConnectCheckerRtmp
 import video.api.livestream_module.ApiVideoLiveStream
+import video.api.livestream_module.Resolution
+
+private fun getResolutionFromResolutionString(resolutionString: String?): Resolution {
+  return when (resolutionString) {
+    "240p" -> Resolution.RESOLUTION_240
+    "360p" -> Resolution.RESOLUTION_360
+    "480p" -> Resolution.RESOLUTION_480
+    "720p" -> Resolution.RESOLUTION_720
+    "1080p" -> Resolution.RESOLUTION_1080
+    "2160p" -> Resolution.RESOLUTION_2160
+    "240p" -> Resolution.RESOLUTION_240
+    else -> Resolution.RESOLUTION_720
+  }
+}
+private fun getFacingFromCameraString(resolutionString: String?): CameraHelper.Facing {
+  return when (resolutionString) {
+    "front" -> CameraHelper.Facing.FRONT
+    "back" -> CameraHelper.Facing.BACK
+    else -> CameraHelper.Facing.BACK
+  }
+}
 
 class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheckerRtmp {
   override fun getName() = "ReactNativeLivestreamView"
 
   private val COMMAND_START_LIVE = 1
+  private val COMMAND_STOP_LIVE = 2
+  private val ENABLE_AUDIO = 3
+  private val DISABLE_AUDIO = 4
 
   private var liveStreamKey: String? = null
   private var rtmpServerUrl: String? = null
 
-  private var videoResolution: String? = "720p";
-  private var videoCamera: String? = "back";
-  private var videoBitrate: Double? = null;
-  private var videoFps: Double = 30.0
-
-  private var audioMuted: Boolean? = false
-  private var audioBitrate: Double? = null
-
   private lateinit var context: ThemedReactContext
   private lateinit var view: ReactNativeLivestreamView
+
+  private lateinit var apiVideo: ApiVideoLiveStream
 
   override fun createViewInstance(reactContext: ThemedReactContext): View {
     context = reactContext
     view = ReactNativeLivestreamView(reactContext)
+    apiVideo = ApiVideoLiveStream(context, this, view.findViewById(R.id.opengl_view), null)
+
     return view
   }
 
   override fun receiveCommand(root: View, commandId: Int, args: ReadableArray?) {
     super.receiveCommand(root, commandId, args)
-    Log.e("clicked","receiveCommand")
     when (commandId) {
       COMMAND_START_LIVE -> startStreaming()
+      COMMAND_STOP_LIVE -> stopStreaming()
+      ENABLE_AUDIO -> enableAudio()
+      DISABLE_AUDIO -> disableAudio()
       else -> {
         throw IllegalArgumentException("Unsupported command %d received by %s. $commandId")
       }
@@ -50,7 +71,10 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheck
 
   override fun getCommandsMap(): MutableMap<String, Int> {
     return MapBuilder.of(
-      "startStreamingFromManager", COMMAND_START_LIVE
+      "startStreamingFromManager", COMMAND_START_LIVE,
+      "stopStreamingFromManager", COMMAND_STOP_LIVE,
+      "enableAudioFromManager", ENABLE_AUDIO,
+      "disableAudioFromManager", DISABLE_AUDIO
     )
   }
 
@@ -68,48 +92,56 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheck
 
   @ReactProp(name = "videoFps")
   fun setVideoFps(view: View, newVideoFps: Double) {
-    if (newVideoFps == videoFps) return
-    videoFps = newVideoFps
+    if (newVideoFps.toInt() == apiVideo.videoFps) return
+    apiVideo.videoFps = newVideoFps.toInt()
   }
 
   @ReactProp(name = "videoResolution")
-  fun setVideoResolution(view: View, newVideoResolution: String) {
-    if (newVideoResolution == videoResolution) return
-    videoResolution = newVideoResolution
+  fun setVideoResolution(view: View, newVideoResolutionString: String) {
+    val newVideoResolution = getResolutionFromResolutionString(newVideoResolutionString)
+    if (newVideoResolution == apiVideo.videoResolution) return
+    apiVideo.videoResolution = newVideoResolution
   }
 
   @ReactProp(name = "videoBitrate")
   fun setVideoBitrate(view: View, newVideoBitrate: Double) {
-    if (newVideoBitrate == videoBitrate) return
-    videoBitrate = newVideoBitrate
+    if (newVideoBitrate.toInt() == apiVideo.videoBitrate) return
+    apiVideo.videoBitrate = newVideoBitrate.toInt()
   }
 
   @ReactProp(name = "videoCamera")
-  fun setVideoCamera(view: View, newVideoCamera: String) {
-    if (newVideoCamera == videoCamera) return
-    videoCamera = newVideoCamera
+  fun setVideoCamera(view: View, newVideoCameraString: String) {
+    val newVideoCamera = getFacingFromCameraString(newVideoCameraString)
+    if (newVideoCamera == apiVideo.videoCamera) return
+    apiVideo.videoCamera = newVideoCamera
   }
 
   @ReactProp(name = "audioMuted")
   fun setVideoCamera(view: View, newAudioMuted: Boolean) {
-    if (newAudioMuted == audioMuted) return
-    audioMuted = newAudioMuted
+    if (newAudioMuted == apiVideo.audioMuted) return
+    apiVideo.audioMuted = newAudioMuted
   }
 
   @ReactProp(name = "audioBitrate")
   fun setVideoCamera(view: View, newAudioBitrate: Double) {
-    if (newAudioBitrate == audioBitrate) return
-    audioBitrate = newAudioBitrate
+    if (newAudioBitrate.toInt() == apiVideo.audioBitrate) return
+    apiVideo.audioBitrate = newAudioBitrate.toInt()
   }
 
   private fun startStreaming(){
-    ApiVideoLiveStream(
-      ApiVideoLiveStream.Config.Builder()
-        .videoQuality(ApiVideoLiveStream.Config.Quality.QUALITY_720)
-        .videoFps(this.videoFps.toInt())
-        .build()
-    )
-      .start(this.liveStreamKey!!, null, null, view.findViewById(R.id.opengl_view),this.context, this)
+    apiVideo.startStreaming(this.liveStreamKey!!, this.rtmpServerUrl)
+  }
+
+  private fun stopStreaming() {
+    apiVideo.stopStreaming()
+  }
+
+  private fun disableAudio() {
+    apiVideo.audioMuted = true
+  }
+
+  private fun enableAudio() {
+    apiVideo.audioMuted = false
   }
 
   override fun onConnectionSuccessRtmp() {
