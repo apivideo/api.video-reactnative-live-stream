@@ -37,6 +37,8 @@ type ReactNativeLivestreamNativeProps = {
 export type ReactNativeLivestreamMethods = {
   startStreaming: () => void;
   stopStreaming: () => void;
+  enableAudio: () => void;
+  disableAudio: () => void;
 };
 
 export const ReactNativeLivestreamViewNative = requireNativeComponent<ReactNativeLivestreamNativeProps>(
