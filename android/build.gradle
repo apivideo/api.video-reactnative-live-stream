@@ -30,7 +30,7 @@ android {
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   buildToolsVersion getExtOrDefault('buildToolsVersion')
   defaultConfig {
-    minSdkVersion 18
+    minSdkVersion 21
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
@@ -130,7 +130,7 @@ dependencies {
   api 'com.facebook.react:react-native:+'
   implementation "androidx.multidex:multidex:2.0.1"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation ('video.api:android-live-stream:0.1.1'){
+  implementation ('video.api:android-live-stream:0.1.2'){
     transitive = true
   }
 }

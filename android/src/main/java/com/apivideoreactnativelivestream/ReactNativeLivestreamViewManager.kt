@@ -109,7 +109,7 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheck
         .videoFps(this.videoFps.toInt())
         .build()
     )
-      .start(this.liveStreamKey!!,view.findViewById(R.id.surface_view),this.context, this)
+      .start(this.liveStreamKey!!, null, null, view.findViewById(R.id.opengl_view),this.context, this)
   }
 
   override fun onConnectionSuccessRtmp() {
