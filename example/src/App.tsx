@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 
-import { StyleSheet, View, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Platform, PermissionsAndroid } from 'react-native';
 import StreamView, {
   ReactNativeLivestreamMethods,
 } from '@api.video/react-native-livestream';
@@ -12,6 +12,28 @@ export default function App() {
   const [audioMuted, setAudioMuted] = React.useState(false);
   const [res, setRes] = React.useState<'360p' | '720p'>('360p');
   const [camera, setCamera] = React.useState<'front' | 'back'>('back');
+
+  const requestPermissions = async () => {
+    try {
+      PermissionsAndroid.request
+      const granted = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      ]);
+      if (granted['android.permission.CAMERA'] === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the camera");
+      } else {
+        console.log("Camera permission denied");
+      }
+      if (granted['android.permission.RECORD_AUDIO'] === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the microphone");
+      } else {
+        console.log("Microphone permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -41,6 +63,7 @@ export default function App() {
             height: 50,
           }}
           onPress={() => {
+            //requestPermissions()
             if (streaming) {
               ref.current?.stopStreaming();
               setStreaming(false);
