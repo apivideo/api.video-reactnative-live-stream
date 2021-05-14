@@ -1,7 +1,7 @@
 {
   "name": "@api.video/react-native-livestream",
   "version": "0.1.0",
-  "description": "todo",
+  "description": "An RTMP Library from Api.video",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
@@ -10,16 +10,19 @@
   "files": [
     "src",
     "lib",
-    "android",
+    "android/gradle/gradle-wrapper.propoerties",
+    "android/src",
+    "android/build.gradle",
+    "android/gradle.properties",
     "ios",
     "cpp",
     "api-video-react-native-livestream.podspec",
     "!lib/typescript/example",
-    "!android/build",
     "!ios/build",
     "!**/__tests__",
     "!**/__fixtures__",
-    "!**/__mocks__"
+    "!**/__mocks__",
+    "!.DS_Store"
   ],
   "scripts": {
     "test": "jest",
@@ -36,13 +39,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/apivideo/RN-LiveStream",
+  "repository": "https://github.com/apivideo/react-native-livestream",
   "author": "api.video <todo@todo.fr> (https://github.com/apivideo)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/apivideo/RN-LiveStream/issues"
+    "url": "https://github.com/apivideo/react-native-livestream/issues"
   },
-  "homepage": "https://github.com/apivideo/RN-LiveStream#readme",
+  "homepage": "https://github.com/apivideo/react-native-livestream#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

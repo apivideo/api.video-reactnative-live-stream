@@ -6,7 +6,7 @@ import {
   View,
   TouchableOpacity,
   Platform,
-  PermissionsAndroid,
+  // PermissionsAndroid,
   Text,
 } from 'react-native';
 import {
@@ -24,33 +24,33 @@ export default function App() {
     'landscape' | 'portrait'
   >('landscape');
 
-  const requestPermissions = async () => {
-    try {
-      PermissionsAndroid.request;
-      const granted = await PermissionsAndroid.requestMultiple([
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-      ]);
-      if (
-        granted['android.permission.CAMERA'] ===
-        PermissionsAndroid.RESULTS.GRANTED
-      ) {
-        console.log('You can use the camera');
-      } else {
-        console.log('Camera permission denied');
-      }
-      if (
-        granted['android.permission.RECORD_AUDIO'] ===
-        PermissionsAndroid.RESULTS.GRANTED
-      ) {
-        console.log('You can use the microphone');
-      } else {
-        console.log('Microphone permission denied');
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-  };
+  // const requestPermissions = async () => {
+  //   try {
+  //     PermissionsAndroid.request;
+  //     const granted = await PermissionsAndroid.requestMultiple([
+  //       PermissionsAndroid.PERMISSIONS.CAMERA,
+  //       PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+  //     ]);
+  //     if (
+  //       granted['android.permission.CAMERA'] ===
+  //       PermissionsAndroid.RESULTS.GRANTED
+  //     ) {
+  //       console.log('You can use the camera');
+  //     } else {
+  //       console.log('Camera permission denied');
+  //     }
+  //     if (
+  //       granted['android.permission.RECORD_AUDIO'] ===
+  //       PermissionsAndroid.RESULTS.GRANTED
+  //     ) {
+  //       console.log('You can use the microphone');
+  //     } else {
+  //       console.log('Microphone permission denied');
+  //     }
+  //   } catch (err) {
+  //     console.warn(err);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>

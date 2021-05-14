@@ -131,8 +131,7 @@ dependencies {
   implementation "androidx.multidex:multidex:2.0.1"
   implementation "androidx.constraintlayout:constraintlayout:2.0.4"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation ('com.github.pedroSG94.rtmp-rtsp-stream-client-java:rtplibrary:2.0.2'){
+  implementation ('video.api:android-live-stream:0.1.5') {
     transitive = true
   }
-  implementation files ("/Users/romainpetit/Documents/GitHub/live-stream-module-android/livestream-module/build/outputs/aar/livestream-module-release.aar")
 }
