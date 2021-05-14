@@ -1,23 +1,21 @@
 # @api.video/react-native-livestream
-
-todo
+![npm](https://img.shields.io/npm/v/api.video/react-native-livestream) ![ts](https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label)
 
 ## Installation
 
 ```sh
 npm install @api.video/react-native-livestream
 ```
-
-### Usage
-
-```js
-import StreamView, { ReactNativeLivestreamMethods,} from '@api.video/react-native-livestream';
-
-// ...
-
+or
+```sh
+yarn add @api.video/react-native-livestream
+```
+_Note: if you are on iOS, don't forget to install the native dependencies with Cocoapods_
+```sh
+cd ios && pod install
 ```
 
-##### Permissions
+## Permissions
 To be able to broadcast,
 
 1) On Android you must ask for internet, camera and microphone permissions:
@@ -41,31 +39,28 @@ To be able to broadcast,
 	
 ```
 
-```tsx
-const ref = React.useRef<ReactNativeLivestreamMethods | null>(null);
-const [streaming, setStreaming] = React.useState(false);
-const [audioMuted, setAudioMuted] = React.useState(false);
-const [res, setRes] = React.useState<'360p' | '720p'>('360p');
-const [camera, setCamera] = React.useState<'front' | 'back'>('back');
-const [orientation, setOrientation] = React.useState<'landscape' | 'portrait'>('landscape');
-  
-return (
-    <View style={styles.container}>
+## Usage
+
+```jsx
+import React, { useRef, useState } from 'react'; 
+import { LivestreamView } from '@api.video/react-native-livestream';
+
+const App = () => {
+  const ref = useRef(null);
+  const [streaming, setStreaming] = useState(false);
+
+  return (
+    <View style={{ flex: 1, alignItems: 'center' }}>
       <StreamView
-        style={{ flex: 1, backgroundColor: 'red', alignSelf: 'stretch' }}
+        style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
         ref={ref}
         video={{
           fps: 30,
-          resolution: res,
-          camera,
-          orientation,
+          resolution: '720p',
+          camera: 'front',
+          orientation: 'portrait',
         }}
-        liveStreamKey={
-          'your-livestrem-key'
-        }
-        audio={{
-          muted: audioMuted,
-        }}
+        liveStreamKey="your-livestrem-key"
       />
       <View style={{ position: 'absolute', bottom: 40 }}>
         <TouchableOpacity
@@ -88,11 +83,46 @@ return (
       </View>
     </View>
   );
+}
 ```
 
-## Contributing
+## Props & Methods
 
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+```ts
+type ReactNativeLivestreamProps = {
+  // Styles for the view containing the preview
+  style: ViewStyle;
+  // Your Streaming key, we will append this to the rtmpServerUrl
+  liveStreamKey: string;
+  // RTMP server url, default: rtmp://broadcast.api.video/s
+  rtmpServerUrl?: string;
+  video: {
+  // default: 30
+    fps: number;
+  // default: '720p'
+    resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
+  // If omitted we will infer it from the resolution
+    bitrate?: number;
+  // default: 'back'
+    camera?: 'front' | 'back';
+  // default: 'landscape'
+    orientation?: 'landscape' | 'portrait';
+  };
+  audio?: {
+  // default: false
+    muted?: boolean;
+  // default: 128000
+    bitrate?: number;
+  };
+};
+
+type ReactNativeLivestreamMethods = {
+  // Start the stream
+  startStreaming: () => void;
+  // Stops the stream
+  stopStreaming: () => void;
+};
+```
 
 ## License
 
