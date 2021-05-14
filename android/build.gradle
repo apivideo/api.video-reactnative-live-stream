@@ -5,6 +5,7 @@ buildscript {
   repositories {
     google()
     jcenter()
+    maven { url 'https://jitpack.io' }
   }
 
   dependencies {
@@ -29,13 +30,13 @@ android {
   compileSdkVersion getExtOrIntegerDefault('compileSdkVersion')
   buildToolsVersion getExtOrDefault('buildToolsVersion')
   defaultConfig {
-    minSdkVersion 16
+    minSdkVersion 21
     targetSdkVersion getExtOrIntegerDefault('targetSdkVersion')
     versionCode 1
     versionName "1.0"
-    
+    multiDexEnabled true
   }
-  
+
   buildTypes {
     release {
       minifyEnabled false
@@ -53,6 +54,7 @@ android {
 repositories {
   mavenCentral()
   jcenter()
+  maven { url 'https://jitpack.io' }
   google()
 
   def found = false
@@ -126,5 +128,10 @@ def kotlin_version = getExtOrDefault('kotlinVersion')
 dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
+  implementation "androidx.multidex:multidex:2.0.1"
+  implementation "androidx.constraintlayout:constraintlayout:2.0.4"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation ('video.api:android-live-stream:0.1.5') {
+    transitive = true
+  }
 }
