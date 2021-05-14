@@ -49,7 +49,7 @@ export const ReactNativeLivestreamViewNative = requireNativeComponent<ReactNativ
 
 ReactNativeLivestreamViewNative.displayName = 'ReactNativeLivestreamViewNative';
 
-const ReactNativeLiveStreamView = forwardRef<
+const LivestreamView = forwardRef<
   ReactNativeLivestreamMethods,
   ReactNativeLivestreamProps
 >(({ style, video, rtmpServerUrl, liveStreamKey, audio }, forwardedRef) => {
@@ -107,4 +107,4 @@ const ReactNativeLiveStreamView = forwardRef<
   );
 });
 
-export default ReactNativeLiveStreamView;
+export { LivestreamView };

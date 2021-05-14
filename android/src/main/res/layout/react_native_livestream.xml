@@ -5,7 +5,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto">
   <com.pedro.rtplibrary.view.OpenGlView
     app:keepAspectRatio="true"
-    app:aspectRatioMode="fill"
+    app:aspectRatioMode="adjust"
     android:id="@+id/opengl_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

@@ -9,7 +9,8 @@ import {
   PermissionsAndroid,
   Text,
 } from 'react-native';
-import StreamView, {
+import {
+  LivestreamView,
   ReactNativeLivestreamMethods,
 } from '@api.video/react-native-livestream';
 
@@ -53,8 +54,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StreamView
-        style={{ flex: 1, backgroundColor: 'red', alignSelf: 'stretch' }}
+      <LivestreamView
+        style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
         ref={ref}
         video={{
           fps: 30,
