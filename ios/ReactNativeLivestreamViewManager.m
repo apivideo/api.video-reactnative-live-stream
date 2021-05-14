@@ -8,6 +8,7 @@ RCT_EXPORT_VIEW_PROPERTY(videoFps, double)
 RCT_EXPORT_VIEW_PROPERTY(videoResolution, NSString)
 RCT_EXPORT_VIEW_PROPERTY(videoBitrate, double)
 RCT_EXPORT_VIEW_PROPERTY(videoCamera, NSString)
+RCT_EXPORT_VIEW_PROPERTY(videoOrientation, NSString)
 RCT_EXPORT_VIEW_PROPERTY(audioMuted, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(audioBitrate, double)
 

@@ -14,7 +14,8 @@ type ReactNativeLivestreamProps = {
     fps: number;
     resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
     bitrate?: number;
-    camera: 'front' | 'back';
+    camera?: 'front' | 'back';
+    orientation?: 'landscape' | 'portrait';
   };
   audio?: {
     muted?: boolean;
@@ -29,7 +30,8 @@ type ReactNativeLivestreamNativeProps = {
   videoFps: number;
   videoResolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
   videoBitrate?: number;
-  videoCamera: 'front' | 'back';
+  videoCamera?: 'front' | 'back';
+  videoOrientation?: 'landscape' | 'portrait';
   audioMuted?: boolean;
   audioBitrate?: number;
 };
@@ -95,6 +97,7 @@ const ReactNativeLiveStreamView = forwardRef<
       videoResolution={video.resolution}
       videoFps={video.fps}
       videoBitrate={video.bitrate}
+      videoOrientation={video.orientation}
       audioMuted={audio?.muted}
       audioBitrate={audio?.bitrate}
       liveStreamKey={liveStreamKey}

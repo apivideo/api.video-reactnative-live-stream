@@ -1,7 +1,14 @@
 /* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 
-import { StyleSheet, View, TouchableOpacity, Platform, PermissionsAndroid } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Platform,
+  PermissionsAndroid,
+  Text,
+} from 'react-native';
 import StreamView, {
   ReactNativeLivestreamMethods,
 } from '@api.video/react-native-livestream';
@@ -12,23 +19,32 @@ export default function App() {
   const [audioMuted, setAudioMuted] = React.useState(false);
   const [res, setRes] = React.useState<'360p' | '720p'>('360p');
   const [camera, setCamera] = React.useState<'front' | 'back'>('back');
+  const [orientation, setOrientation] = React.useState<
+    'landscape' | 'portrait'
+  >('landscape');
 
   const requestPermissions = async () => {
     try {
-      PermissionsAndroid.request
+      PermissionsAndroid.request;
       const granted = await PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.CAMERA,
         PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
       ]);
-      if (granted['android.permission.CAMERA'] === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the camera");
+      if (
+        granted['android.permission.CAMERA'] ===
+        PermissionsAndroid.RESULTS.GRANTED
+      ) {
+        console.log('You can use the camera');
       } else {
-        console.log("Camera permission denied");
+        console.log('Camera permission denied');
       }
-      if (granted['android.permission.RECORD_AUDIO'] === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the microphone");
+      if (
+        granted['android.permission.RECORD_AUDIO'] ===
+        PermissionsAndroid.RESULTS.GRANTED
+      ) {
+        console.log('You can use the microphone');
       } else {
-        console.log("Microphone permission denied");
+        console.log('Microphone permission denied');
       }
     } catch (err) {
       console.warn(err);
@@ -44,6 +60,7 @@ export default function App() {
           fps: 30,
           resolution: res,
           camera,
+          orientation,
         }}
         liveStreamKey={
           Platform.OS === 'android'
@@ -124,6 +141,39 @@ export default function App() {
             }
           }}
         />
+      </View>
+      <View style={{ position: 'absolute', bottom: 110, left: 20 }}>
+        <TouchableOpacity
+          style={{
+            borderRadius: 50,
+            backgroundColor: 'purple',
+            width: 50,
+            height: 50,
+          }}
+          onPress={() => {
+            if (orientation === 'portrait') {
+              setOrientation('landscape');
+            } else {
+              setOrientation('portrait');
+            }
+          }}
+        />
+      </View>
+      <View
+        style={{
+          position: 'absolute',
+          top: 40,
+          right: 20,
+          padding: 8,
+          backgroundColor: '#00000050',
+        }}
+      >
+        <Text style={{ color: 'white' }}>{`Current Settings:`}</Text>
+        <Text style={{ color: 'white' }}>{`FPS: ${30}`}</Text>
+        <Text style={{ color: 'white' }}>{`Resolution: ${res}`}</Text>
+        <Text style={{ color: 'white' }}>{`Camera: ${camera}`}</Text>
+        <Text style={{ color: 'white' }}>{`Orientation: ${orientation}`}</Text>
+        <Text style={{ color: 'white' }}>{`Muted: ${audioMuted}`}</Text>
       </View>
     </View>
   );

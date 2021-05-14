@@ -98,6 +98,25 @@ class ReactNativeLivestreamView : UIView {
       }
     }
     
+    @objc var videoOrientation: String = "landscape" {
+      didSet {
+        var value : ApiVideoLiveStream.Orientation
+        switch videoOrientation {
+        case "landscape":
+            value = ApiVideoLiveStream.Orientation.landscape
+        case "portrait":
+            value = ApiVideoLiveStream.Orientation.portrait
+        default:
+            value = ApiVideoLiveStream.Orientation.landscape
+        }
+        if(value == apiVideo?.videoOrientation){
+            return
+        }
+        apiVideo?.videoOrientation = value
+        
+      }
+    }
+    
     @objc var audioMuted: Bool = false {
       didSet {
         if(audioMuted == apiVideo!.audioMuted){
