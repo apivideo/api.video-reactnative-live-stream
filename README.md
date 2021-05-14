@@ -10,10 +10,12 @@ or
 ```sh
 yarn add @api.video/react-native-livestream
 ```
-_Note: if you are on iOS, don't forget to install the native dependencies with Cocoapods_
+_Note: if you are on iOS, you will need two extra steps:_
+1) Don't forget to install the native dependencies with Cocoapods
 ```sh
 cd ios && pod install
 ```
+2) This project contains swift code, and if it's your first dependency with swift code, you need to create an empty swift file in your project (with the bridging header) from XCode.
 
 ## Permissions
 To be able to broadcast,
@@ -42,7 +44,8 @@ To be able to broadcast,
 ## Usage
 
 ```jsx
-import React, { useRef, useState } from 'react'; 
+import React, { useRef, useState } from 'react';
+import { View, TouchableOpacity } from 'react-native';
 import { LivestreamView } from '@api.video/react-native-livestream';
 
 const App = () => {
@@ -51,7 +54,7 @@ const App = () => {
 
   return (
     <View style={{ flex: 1, alignItems: 'center' }}>
-      <StreamView
+      <LivestreamView
         style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
         ref={ref}
         video={{
@@ -84,6 +87,8 @@ const App = () => {
     </View>
   );
 }
+
+export default App;
 ```
 
 ## Props & Methods
