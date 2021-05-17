@@ -15,7 +15,7 @@ _Note: if you are on iOS, you will need two extra steps:_
 ```sh
 cd ios && pod install
 ```
-2) This project contains swift code, and if it's your first dependency with swift code, you need to create an empty swift file in your project (with the bridging header) from XCode.
+2) This project contains swift code, and if it's your first dependency with swift code, you need to create an empty swift file in your project (with the bridging header) from XCode. [Find how to do that](docs/install_swift_dependency.md)
 
 ## Permissions
 To be able to broadcast,
