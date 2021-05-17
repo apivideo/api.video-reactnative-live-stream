@@ -1,5 +1,5 @@
 # @api.video/react-native-livestream
-![npm](https://img.shields.io/npm/v/api.video/react-native-livestream) ![ts](https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label)
+![npm](https://img.shields.io/npm/v/@api.video/react-native-livestream) ![ts](https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label)
 
 ## Installation
 
