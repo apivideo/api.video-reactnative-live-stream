@@ -43,6 +43,7 @@ To be able to broadcast,
 ...
 	
 ```
+3) On react-native you must handle the permissions requests before starting your livestream. If permissions are not accepted you will not be able to broadcast.
 
 ## Usage
 
@@ -138,8 +139,15 @@ API.Video LiveStream module is using external native library for broadcasting
 
 | Plugin | README |
 | ------ | ------ |
-| rtmp-rtsp-stream-client-java | [https://github.com/pedroSG94/rtmp-rtsp-stream-client-java][rtmp-rtsp-stream-client-java] |
-| HaishinKit | [https://github.com/shogo4405/HaishinKit.swift][HaishinKit] |
+| rtmp-rtsp-stream-client-java | [rtmp-rtsp-stream-client-java] |
+| HaishinKit | [HaishinKit] |
+
+### FAQ
+If you have any questions, ask us here:  https://community.api.video .
+Or use [Issues].
+
+### Example App
+You can try our [example app](https://github.com/apivideo/react-native-livestream/tree/main/example), feel free to test it. 
 
 ## License
 
