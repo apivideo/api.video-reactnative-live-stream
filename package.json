@@ -40,7 +40,7 @@
     "android"
   ],
   "repository": "https://github.com/apivideo/react-native-livestream",
-  "author": "api.video <todo@todo.fr> (https://github.com/apivideo)",
+  "author": "api.video <ecosystem@api.video> (https://github.com/apivideo)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/apivideo/react-native-livestream/issues"
