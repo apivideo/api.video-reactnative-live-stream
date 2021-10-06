@@ -39,7 +39,17 @@ class ReactNativeLivestreamView : UIView {
             return ApiVideoLiveStream.Resolutions.RESOLUTION_720
         }
     }
-    
+           
+    @objc var onStatusChange: RCTDirectEventBlock? = nil {
+        didSet {
+            apiVideo?.onStatusChange = {(code) in
+                print(code)
+                self.onStatusChange?([
+                    "code": code
+                ])
+            }
+        }
+    }
     
     @objc override func didMoveToWindow() {
         super.didMoveToWindow()

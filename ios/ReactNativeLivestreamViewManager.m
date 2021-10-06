@@ -3,6 +3,7 @@
 @interface RCT_EXTERN_MODULE(ReactNativeLivestreamViewManager, RCTViewManager)
 
 RCT_EXPORT_VIEW_PROPERTY(liveStreamKey, NSString)
+RCT_EXPORT_VIEW_PROPERTY(onStatusChange, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(rtmpServerUrl, NSString)
 RCT_EXPORT_VIEW_PROPERTY(videoFps, double)
 RCT_EXPORT_VIEW_PROPERTY(videoResolution, NSString)
