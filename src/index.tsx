@@ -4,6 +4,7 @@ import {
   ViewStyle,
   UIManager,
   findNodeHandle,
+  NativeSyntheticEvent,
 } from 'react-native';
 
 type ReactNativeLivestreamProps = {
@@ -21,6 +22,7 @@ type ReactNativeLivestreamProps = {
     muted?: boolean;
     bitrate?: number;
   };
+  onStatusChange?: (event: NativeSyntheticEvent<{ code: string }>) => void;
 };
 
 type ReactNativeLivestreamNativeProps = {
@@ -34,6 +36,7 @@ type ReactNativeLivestreamNativeProps = {
   videoOrientation?: 'landscape' | 'portrait';
   audioMuted?: boolean;
   audioBitrate?: number;
+  onStatusChange?: (event: NativeSyntheticEvent<{ code: string }>) => void;
 };
 
 export type ReactNativeLivestreamMethods = {
@@ -52,59 +55,67 @@ ReactNativeLivestreamViewNative.displayName = 'ReactNativeLivestreamViewNative';
 const LivestreamView = forwardRef<
   ReactNativeLivestreamMethods,
   ReactNativeLivestreamProps
->(({ style, video, rtmpServerUrl, liveStreamKey, audio }, forwardedRef) => {
-  const nativeRef = useRef<typeof ReactNativeLivestreamViewNative | null>(null);
+>(
+  (
+    { style, video, rtmpServerUrl, liveStreamKey, audio, onStatusChange },
+    forwardedRef
+  ) => {
+    const nativeRef = useRef<typeof ReactNativeLivestreamViewNative | null>(
+      null
+    );
 
-  useImperativeHandle(forwardedRef, () => ({
-    startStreaming: () => {
-      UIManager.dispatchViewManagerCommand(
-        findNodeHandle(nativeRef.current),
-        UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
-          .startStreamingFromManager,
-        []
-      );
-    },
-    stopStreaming: () => {
-      UIManager.dispatchViewManagerCommand(
-        findNodeHandle(nativeRef.current),
-        UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
-          .stopStreamingFromManager,
-        []
-      );
-    },
-    enableAudio: () => {
-      UIManager.dispatchViewManagerCommand(
-        findNodeHandle(nativeRef.current),
-        UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
-          .enableAudioFromManager,
-        []
-      );
-    },
-    disableAudio: () => {
-      UIManager.dispatchViewManagerCommand(
-        findNodeHandle(nativeRef.current),
-        UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
-          .disableAudioFromManager,
-        []
-      );
-    },
-  }));
+    useImperativeHandle(forwardedRef, () => ({
+      startStreaming: () => {
+        UIManager.dispatchViewManagerCommand(
+          findNodeHandle(nativeRef.current),
+          UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
+            .startStreamingFromManager,
+          []
+        );
+      },
+      stopStreaming: () => {
+        UIManager.dispatchViewManagerCommand(
+          findNodeHandle(nativeRef.current),
+          UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
+            .stopStreamingFromManager,
+          []
+        );
+      },
+      enableAudio: () => {
+        UIManager.dispatchViewManagerCommand(
+          findNodeHandle(nativeRef.current),
+          UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
+            .enableAudioFromManager,
+          []
+        );
+      },
+      disableAudio: () => {
+        UIManager.dispatchViewManagerCommand(
+          findNodeHandle(nativeRef.current),
+          UIManager.getViewManagerConfig('ReactNativeLivestreamView').Commands
+            .disableAudioFromManager,
+          []
+        );
+      },
+    }));
 
-  return (
-    <ReactNativeLivestreamViewNative
-      style={style}
-      videoCamera={video.camera}
-      videoResolution={video.resolution}
-      videoFps={video.fps}
-      videoBitrate={video.bitrate}
-      videoOrientation={video.orientation}
-      audioMuted={audio?.muted}
-      audioBitrate={audio?.bitrate}
-      liveStreamKey={liveStreamKey}
-      rtmpServerUrl={rtmpServerUrl}
-      ref={nativeRef as any}
-    />
-  );
-});
+    return (
+      <ReactNativeLivestreamViewNative
+        style={style}
+        videoCamera={video.camera}
+        videoResolution={video.resolution}
+        videoFps={video.fps}
+        videoBitrate={video.bitrate}
+        videoOrientation={video.orientation}
+        audioMuted={audio?.muted}
+        audioBitrate={audio?.bitrate}
+        liveStreamKey={liveStreamKey}
+        rtmpServerUrl={rtmpServerUrl}
+        ref={nativeRef as any}
+        onStatusChange={onStatusChange}
+      />
+    );
+  }
+);
 
 export { LivestreamView };

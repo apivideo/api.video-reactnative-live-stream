@@ -11,16 +11,16 @@ import AVFoundation
 
 class ReactNativeLivestreamView : UIView {
     private var apiVideo: ApiVideoLiveStream?
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         apiVideo = ApiVideoLiveStream(view: self)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func getResolutionFromString(resolutionString: String) -> ApiVideoLiveStream.Resolutions{
         switch resolutionString {
         case "240p":
@@ -39,22 +39,31 @@ class ReactNativeLivestreamView : UIView {
             return ApiVideoLiveStream.Resolutions.RESOLUTION_720
         }
     }
-    
-    
+
+    @objc var onStatusChange: RCTDirectEventBlock? = nil {
+        didSet {
+            apiVideo?.onStatusChange = {(code) in
+                self.onStatusChange?([
+                    "code": code
+                ])
+            }
+        }
+    }
+
     @objc override func didMoveToWindow() {
         super.didMoveToWindow()
     }
-    
+
     @objc var liveStreamKey: String = "" {
       didSet {
       }
     }
-    
+
     @objc var rtmpServerUrl: String? {
       didSet {
       }
     }
-    
+
     @objc var videoFps: Double = 30 {
       didSet {
         if(videoFps == Double(apiVideo!.videoFps)){
@@ -63,7 +72,7 @@ class ReactNativeLivestreamView : UIView {
         apiVideo?.videoFps = videoFps
       }
     }
-    
+
     @objc var videoResolution: String = "720p" {
       didSet {
         let newResolution = getResolutionFromString(resolutionString: videoResolution)
@@ -73,12 +82,12 @@ class ReactNativeLivestreamView : UIView {
         apiVideo?.videoResolution = newResolution
       }
     }
-    
+
     @objc var videoBitrate: Double = -1  {
       didSet {
       }
     }
-    
+
     @objc var videoCamera: String = "back" {
       didSet {
         var value : AVCaptureDevice.Position
@@ -94,10 +103,10 @@ class ReactNativeLivestreamView : UIView {
             return
         }
         apiVideo?.videoCamera = value
-        
+
       }
     }
-    
+
     @objc var videoOrientation: String = "landscape" {
       didSet {
         var value : ApiVideoLiveStream.Orientation
@@ -113,10 +122,10 @@ class ReactNativeLivestreamView : UIView {
             return
         }
         apiVideo?.videoOrientation = value
-        
+
       }
     }
-    
+
     @objc var audioMuted: Bool = false {
       didSet {
         if(audioMuted == apiVideo!.audioMuted){
@@ -125,16 +134,16 @@ class ReactNativeLivestreamView : UIView {
         apiVideo?.audioMuted = audioMuted
       }
     }
-    
+
     @objc var audioBitrate: Double = -1 {
       didSet {
       }
     }
-    
+
     @objc func startStreaming() {
         apiVideo!.startLiveStreamFlux(liveStreamKey: self.liveStreamKey, rtmpServerUrl: self.rtmpServerUrl)
     }
-    
+
     @objc func stopStreaming() {
         apiVideo!.stopLiveStreamFlux()
     }

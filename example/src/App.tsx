@@ -71,6 +71,9 @@ export default function App() {
         audio={{
           muted: audioMuted,
         }}
+        onStatusChange={(e) => {
+          console.log('Received onStatusChange', e.nativeEvent);
+        }}
       />
       <View style={{ position: 'absolute', bottom: 40 }}>
         <TouchableOpacity
