@@ -6,7 +6,6 @@ import {
   View,
   TouchableOpacity,
   Platform,
-  // PermissionsAndroid,
   Text,
 } from 'react-native';
 import {
@@ -23,34 +22,6 @@ export default function App() {
   const [orientation, setOrientation] = React.useState<
     'landscape' | 'portrait'
   >('landscape');
-
-  // const requestPermissions = async () => {
-  //   try {
-  //     PermissionsAndroid.request;
-  //     const granted = await PermissionsAndroid.requestMultiple([
-  //       PermissionsAndroid.PERMISSIONS.CAMERA,
-  //       PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-  //     ]);
-  //     if (
-  //       granted['android.permission.CAMERA'] ===
-  //       PermissionsAndroid.RESULTS.GRANTED
-  //     ) {
-  //       console.log('You can use the camera');
-  //     } else {
-  //       console.log('Camera permission denied');
-  //     }
-  //     if (
-  //       granted['android.permission.RECORD_AUDIO'] ===
-  //       PermissionsAndroid.RESULTS.GRANTED
-  //     ) {
-  //       console.log('You can use the microphone');
-  //     } else {
-  //       console.log('Microphone permission denied');
-  //     }
-  //   } catch (err) {
-  //     console.warn(err);
-  //   }
-  // };
 
   return (
     <View style={styles.container}>
@@ -71,8 +42,14 @@ export default function App() {
         audio={{
           muted: audioMuted,
         }}
-        onStatusChange={(e) => {
-          console.log('Received onStatusChange', e.nativeEvent);
+        onConnectionSuccess={() => {
+          console.log('Received onConnectionSuccess');
+        }}
+        onConnectionFailed={(e) => {
+          console.log('Received onConnectionFailed', e);
+        }}
+        onDisconnect={() => {
+          console.log('Received onDisconnect');
         }}
       />
       <View style={{ position: 'absolute', bottom: 40 }}>
@@ -84,7 +61,6 @@ export default function App() {
             height: 50,
           }}
           onPress={() => {
-            //requestPermissions()
             if (streaming) {
               ref.current?.stopStreaming();
               setStreaming(false);
