@@ -7,6 +7,7 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 
+
 type ReactNativeLivestreamProps = {
   style: ViewStyle;
   liveStreamKey: string;
@@ -22,7 +23,9 @@ type ReactNativeLivestreamProps = {
     muted?: boolean;
     bitrate?: number;
   };
-  onStatusChange?: (event: NativeSyntheticEvent<{ code: string }>) => void;
+  onConnectionSuccess?: () => void;
+  onConnectionFailed?: (code: string) => void;
+  onDisconnect?: () => void;
 };
 
 type ReactNativeLivestreamNativeProps = {
@@ -36,7 +39,9 @@ type ReactNativeLivestreamNativeProps = {
   videoOrientation?: 'landscape' | 'portrait';
   audioMuted?: boolean;
   audioBitrate?: number;
-  onStatusChange?: (event: NativeSyntheticEvent<{ code: string }>) => void;
+  onConnectionSuccess?: (event: NativeSyntheticEvent<{ }>) => void;
+  onConnectionFailed?: (event: NativeSyntheticEvent<{ code: string }>) => void;
+  onDisconnect?: (event: NativeSyntheticEvent<{  }>) => void;
 };
 
 export type ReactNativeLivestreamMethods = {
@@ -57,9 +62,31 @@ const LivestreamView = forwardRef<
   ReactNativeLivestreamProps
 >(
   (
-    { style, video, rtmpServerUrl, liveStreamKey, audio, onStatusChange },
+    { style, video, rtmpServerUrl, liveStreamKey, audio, onConnectionSuccess, onConnectionFailed, onDisconnect },
     forwardedRef
   ) => {
+    
+    const onConnectionSuccessHandler = (
+      event: NativeSyntheticEvent<{}>
+    ) => {
+      const { } = event.nativeEvent;
+      onConnectionSuccess?.();
+    };
+
+    const onConnectionFailedHandler = (
+      event: NativeSyntheticEvent<{ code: string }>
+    ) => {
+      const { code } = event.nativeEvent;
+      onConnectionFailed?.(code);
+    };
+
+    const onDisconnectHandler = (
+      event: NativeSyntheticEvent<{}>
+    ) => {
+      const { } = event.nativeEvent;
+      onDisconnect?.();
+    };
+
     const nativeRef = useRef<typeof ReactNativeLivestreamViewNative | null>(
       null
     );
@@ -112,7 +139,9 @@ const LivestreamView = forwardRef<
         liveStreamKey={liveStreamKey}
         rtmpServerUrl={rtmpServerUrl}
         ref={nativeRef as any}
-        onStatusChange={onStatusChange}
+        onConnectionSuccess={onConnectionSuccessHandler}
+        onConnectionFailed={onConnectionFailedHandler}
+        onDisconnect={onDisconnectHandler}
       />
     );
   }
