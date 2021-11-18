@@ -4,6 +4,9 @@
 
 RCT_EXPORT_VIEW_PROPERTY(liveStreamKey, NSString)
 RCT_EXPORT_VIEW_PROPERTY(onStatusChange, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onConnectionSuccess, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onConnectionFailed, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onDisconnect, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(rtmpServerUrl, NSString)
 RCT_EXPORT_VIEW_PROPERTY(videoFps, double)
 RCT_EXPORT_VIEW_PROPERTY(videoResolution, NSString)

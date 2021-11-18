@@ -40,12 +40,29 @@ class ReactNativeLivestreamView : UIView {
         }
     }
 
-    @objc var onStatusChange: RCTDirectEventBlock? = nil {
+    
+    @objc var onConnectionSuccess: RCTDirectEventBlock? = nil {
         didSet {
-            apiVideo?.onStatusChange = {(code) in
-                self.onStatusChange?([
+            apiVideo?.onConnectionSuccess = {() in
+                self.onConnectionSuccess?([:])
+            }
+        }
+    }
+    
+    @objc var onConnectionFailed: RCTDirectEventBlock? = nil {
+        didSet {
+            apiVideo?.onConnectionFailed = {(code) in
+                self.onConnectionFailed?([
                     "code": code
                 ])
+            }
+        }
+    }
+    
+    @objc var onDisconnect: RCTDirectEventBlock? = nil {
+        didSet {
+            apiVideo?.onDisconnect = {() in
+                self.onDisconnect?([:])
             }
         }
     }

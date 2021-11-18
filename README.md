@@ -90,6 +90,15 @@ const App = () => {
           orientation: 'portrait',
         }}
         liveStreamKey="your-livestrem-key"
+        onConnectionSuccess={() => {
+          //do what you want
+        }}
+        onConnectionFailed={(e) => {
+          //do what you want
+        }}
+        onDisconnect={() => {
+          //do what you want
+        }}
       />
       <View style={{ position: 'absolute', bottom: 40 }}>
         <TouchableOpacity
@@ -147,6 +156,13 @@ type ReactNativeLivestreamProps = {
   // default: 128000
     bitrate?: number;
   };
+  // will be called when the connection is successful
+  onConnectionSuccess?: (event: NativeSyntheticEvent<{ }>) => void;
+  // will be called on connection's error
+  onConnectionFailed?: (event: NativeSyntheticEvent<{ code: string }>) => void;
+  // will be called when the live-stream is stopped
+  onDisconnect?: (event: NativeSyntheticEvent<{ }>) => void;
+  
 };
 
 type ReactNativeLivestreamMethods = {

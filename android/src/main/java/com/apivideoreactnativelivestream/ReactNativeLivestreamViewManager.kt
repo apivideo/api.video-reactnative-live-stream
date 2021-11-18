@@ -11,6 +11,11 @@ import com.pedro.encoder.input.video.CameraHelper
 import net.ossrs.rtmp.ConnectCheckerRtmp
 import video.api.livestream_module.ApiVideoLiveStream
 import video.api.livestream_module.Resolution
+import com.facebook.react.modules.core.DeviceEventManagerModule.RCTDeviceEventEmitter
+import com.facebook.react.bridge.Arguments
+import com.facebook.react.bridge.ReactContext
+import com.facebook.react.uimanager.events.RCTEventEmitter
+
 
 private fun getResolutionFromResolutionString(resolutionString: String?): Resolution {
   return when (resolutionString) {
@@ -32,6 +37,17 @@ private fun getFacingFromCameraString(resolutionString: String?): CameraHelper.F
   }
 }
 
+enum class Events(private val mName: String) {
+  CONNECTION_SUCCESS("onConnectionSuccess"),
+  CONNECTION_FAILED("onConnectionFailed"),
+  DISCONNECT("onDisconnect");
+
+  override fun toString(): String {
+    return mName
+  }
+}
+
+
 class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheckerRtmp {
   override fun getName() = "ReactNativeLivestreamView"
 
@@ -47,6 +63,16 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheck
   private lateinit var view: ReactNativeLivestreamView
 
   private lateinit var apiVideo: ApiVideoLiveStream
+
+  private var code: String? = null
+
+  override fun getExportedCustomDirectEventTypeConstants(): MutableMap<String, Map<String, String>>? {
+    val builder: MapBuilder.Builder<String, Map<String, String>> = MapBuilder.builder<String, Map<String, String>>()
+    for (event in Events.values()) {
+      builder.put(event.toString(), MapBuilder.of("registrationName", event.toString()))
+    }
+    return builder.build()
+  }
 
   override fun createViewInstance(reactContext: ThemedReactContext): View {
     context = reactContext
@@ -76,6 +102,25 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheck
       "enableAudioFromManager", ENABLE_AUDIO,
       "disableAudioFromManager", DISABLE_AUDIO
     )
+  }
+
+  private fun sendConnectionSuccessEvent() {
+    val reactContext = context as ReactContext
+    val payload = Arguments.createMap()
+    reactContext.getJSModule(RCTEventEmitter::class.java).receiveEvent(view.id, Events.CONNECTION_SUCCESS.toString(), payload)
+  }
+
+  private fun sendConnectionFailedEvent(reason: String?) {
+    val reactContext = context as ReactContext
+    val payload = Arguments.createMap()
+    payload.putString("reason", reason)
+    reactContext.getJSModule(RCTEventEmitter::class.java).receiveEvent(view.id, Events.CONNECTION_FAILED.toString(), payload)
+  }
+
+  private fun sendDisconnectEvent() {
+    val reactContext = context as ReactContext
+    val payload = Arguments.createMap()
+    reactContext.getJSModule(RCTEventEmitter::class.java).receiveEvent(view.id, Events.DISCONNECT.toString(), payload)
   }
 
   @ReactProp(name = "liveStreamKey")
@@ -146,10 +191,12 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheck
 
   override fun onConnectionSuccessRtmp() {
     Log.e("connection rtmp", "success")
+    sendConnectionSuccessEvent()
   }
 
   override fun onConnectionFailedRtmp(reason: String) {
     Log.e("connection rtmp", "error")
+    sendConnectionFailedEvent(reason)
   }
 
   override fun onNewBitrateRtmp(bitrate: Long) {
@@ -158,6 +205,7 @@ class ReactNativeLivestreamViewManager : SimpleViewManager<View>(), ConnectCheck
 
   override fun onDisconnectRtmp() {
     Log.e("disconnect rtmp", "success")
+    sendDisconnectEvent()
   }
 
   override fun onAuthErrorRtmp() {
