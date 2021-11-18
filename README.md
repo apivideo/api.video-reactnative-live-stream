@@ -1,17 +1,30 @@
-[![badge](https://img.shields.io/twitter/follow/api_video?style=social)](https://twitter.com/intent/follow?screen_name=api_video)
-
-[![badge](https://img.shields.io/github/stars/apivideo/react-native-livestream?style=social)](https://github.com/apivideo/react-native-livestream)
-
-[![badge](https://img.shields.io/discourse/topics?server=https%3A%2F%2Fcommunity.api.video)](https://community.api.video)
-
+[![badge](https://img.shields.io/twitter/follow/api_video?style=social)](https://twitter.com/intent/follow?screen_name=api_video) &nbsp; [![badge](https://img.shields.io/github/stars/apivideo/api.video-reactnative-live-stream?style=social)](https://github.com/apivideo/api.video-reactnative-live-stream) &nbsp; [![badge](https://img.shields.io/discourse/topics?server=https%3A%2F%2Fcommunity.api.video)](https://community.api.video)
 ![](https://github.com/apivideo/API_OAS_file/blob/master/apivideo_banner.png)
-
-[api.video](https://api.video) is an API that encodes on the go to facilitate immediate playback, enhancing viewer streaming experiences across multiple devices and platforms. You can stream live or on-demand online videos within minutes.
-
-# @api.video/react-native-livestream
 ![npm](https://img.shields.io/npm/v/@api.video/react-native-livestream) ![ts](https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label)
+<h1 align="center">api.video React Native live stream module</h1>
+
+[api.video](https://api.video) is the video infrastructure for product builders. Lightning fast video APIs for integrating, scaling, and managing on-demand & low latency live streaming features in your app.
+
+
+# Table of contents
+
+- [Table of contents](#table-of-contents)
+- [Project description](#project-description)
+- [Getting started](#getting-started)
+  - [Installation](#installation)
+  - [Permissions](#permissions)
+  - [Code sample](#code-sample)
+- [Documentation](#documentation)
+  - [Props & Methods](#props--methods)
+- [Plugins](#plugins)
+- [FAQ](#faq)
+- [Example App](#example-app)
+
+# Project description
 
 This module is made for broadcasting rtmp livestream from smartphone camera
+
+# Getting started
 
 ## Installation
 
@@ -54,7 +67,7 @@ To be able to broadcast,
 ```
 3) On react-native you must handle the permissions requests before starting your livestream. If permissions are not accepted you will not be able to broadcast.
 
-## Usage
+## Code sample
 
 ```jsx
 import React, { useRef, useState } from 'react';
@@ -104,6 +117,8 @@ const App = () => {
 export default App;
 ```
 
+# Documentation
+
 ## Props & Methods
 
 ```ts
@@ -142,7 +157,7 @@ type ReactNativeLivestreamMethods = {
 };
 ```
 
-## Plugins
+# Plugins
 
 API.Video LiveStream module is using external native library for broadcasting
 
@@ -151,20 +166,16 @@ API.Video LiveStream module is using external native library for broadcasting
 | rtmp-rtsp-stream-client-java | [rtmp-rtsp-stream-client-java] |
 | HaishinKit | [HaishinKit] |
 
-### FAQ
+# FAQ
 If you have any questions, ask us here:  https://community.api.video .
 Or use [Issues].
 
-### Example App
-You can try our [example app](https://github.com/apivideo/react-native-livestream/tree/main/example), feel free to test it. 
+# Example App
+You can try our [example app](https://github.com/apivideo/api.video-reactnative-live-stream/tree/main/example), feel free to test it. 
 
-## License
-
-MIT License
-Copyright (c) 2021 api.video
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
    [rtmp-rtsp-stream-client-java]: <https://github.com/pedroSG94/rtmp-rtsp-stream-client-java>
    [HaishinKit]: <https://github.com/shogo4405/HaishinKit.swift>
-   [Issues]: <https://github.com/apivideo/react-native-livestream/issues>
+   [Issues]: <https://github.com/apivideo/api.video-reactnative-live-stream/issues>

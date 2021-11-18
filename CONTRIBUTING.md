@@ -1,196 +1,224 @@
-# Contributing
+# Contributing to api.video
 
-We want this community to be friendly and respectful to each other. Please follow it in all your interactions with the project.
+:movie_camera::+1::tada: Thank you for taking the time to contribute and participate in the implementation of a Video First World! :tada::+1::movie_camera:
 
-## Development workflow
+The following is a set of guidelines for contributing to api.video and its packages, which are hosted in the [api.video Organization](https://github.com/apivideo) on GitHub.
 
-To get started with the project, run `yarn` in the root directory to install the required dependencies for each package:
+#### Table of contents
 
-```sh
-yarn
-```
+[Code of Conduct](#code-of-conduct)
 
-> While it's possible to use [`npm`](https://github.com/npm/cli), the tooling is built around [`yarn`](https://classic.yarnpkg.com/), so you'll have an easier time if you use `yarn` for development.
+[I just have a question!](#i-just-have-a-question)
 
-While developing, you can run the [example app](/example/) to test your changes. Any changes you make in your library's JavaScript code will be reflected in the example app without a rebuild. If you change any native code, then you'll need to rebuild the example app.
+[How Can I Contribute?](#how-can-i-contribute)
+  * [Reporting Bugs](#reporting-bugs)
+  * [Suggesting Enhancements](#suggesting-enhancements)
+  * [Pull Requests](#pull-requests)
 
-To start the packager:
+[Styleguides](#styleguides)
+  * [Git Commit Messages](#git-commit-messages)
+  * [Documentation Styleguide](#documentation-styleguide)
 
-```sh
-yarn example start
-```
+[Additional Notes](#additional-notes)
+  * [Issue and Pull Request Labels](#issue-and-pull-request-labels)
 
-To run the example app on Android:
+## Code of conduct
 
-```sh
-yarn example android
-```
+This project and everyone participating in it is governed by the [api.video Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [help@api.video](mailto:help@api.video).
 
-To run the example app on iOS:
+## I just have a question!
 
-```sh
-yarn example ios
-```
+> **Note:** [Please don't file an issue to ask a question.] You'll get faster results by using the resources below.
 
-Make sure your code passes TypeScript and ESLint. Run the following to verify:
+We have an official message board with a detailed FAQ and where the community chimes in with helpful advice if you have questions.
 
-```sh
-yarn typescript
-yarn lint
-```
+* [The official api.video's Community](https://community.api.video/)
+* [api.video FAQ](https://community.api.video/c/faq/)
 
-To fix formatting errors, run the following:
 
-```sh
-yarn lint --fix
-```
+## How can I contribute?
 
-Remember to add tests for your change if possible. Run the unit tests by:
+### Reporting bugs
 
-```sh
-yarn test
-```
+This section guides you through submitting a bug report for api.video. Following these guidelines helps maintainers and the community understand your report :pencil:, reproduce the behavior :computer:, and find related reports :mag_right:.
 
-To edit the Objective-C files, open `example/ios/ReactNativeLivestreamExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > @api.video/react-native-livestream`.
+Before creating bug reports, please check [this list](#before-submitting-a-bug-report) as you might find out that you don't need to create one. When you are creating a bug report, please [include as many details as possible](#how-do-i-submit-a-good-bug-report). Fill out [the required template](https://github.com/apivideo/api.video-contribution/blob/main/.github/ISSUE_TEMPLATE/bug_report.md), the information it asks for helps us resolve issues faster.
 
-To edit the Kotlin files, open `example/android` in Android studio and find the source files at `apivideoreactnativelivestream` under `Android`.
+> **Note:** If you find a **Closed** issue that seems like it is the same thing that you're experiencing, open a new issue and include a link to the original issue in the body of your new one.
 
-### Commit message convention
+#### Before submitting a bug report
 
-We follow the [conventional commits specification](https://www.conventionalcommits.org/en) for our commit messages:
+* **Check the [The official api.video's Community](https://community.api.video/)** for a list of common questions and problems.
+* **Determine which repository the problem should be reported in**.
+* **Perform a [cursory search](https://github.com/search?q=is%3Aissue+user%3Aapivideo)** to see if the problem has already been reported. If it has **and the issue is still open**, add a comment to the existing issue instead of opening a new one.
 
-- `fix`: bug fixes, e.g. fix crash due to deprecated method.
-- `feat`: new features, e.g. add new method to the module.
-- `refactor`: code refactor, e.g. migrate from class components to hooks.
-- `docs`: changes into documentation, e.g. add usage example for the module..
-- `test`: adding or updating tests, e.g. add integration tests using detox.
-- `chore`: tooling changes, e.g. change CI config.
+#### How do I submit a (good) bug report?
 
-Our pre-commit hooks verify that your commit message matches this format when committing.
+Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined which repository your bug is related to, create an issue on that repository and provide the following information by filling in [the template](https://github.com/apivideo/api.video-contribution/blob/main/.github/ISSUE_TEMPLATE/bug_report.md).
 
-### Linting and tests
+Explain the problem and include additional details to help maintainers reproduce the problem:
 
-[ESLint](https://eslint.org/), [Prettier](https://prettier.io/), [TypeScript](https://www.typescriptlang.org/)
+* **Use a clear and descriptive title** for the issue to identify the problem.
+* **Describe the exact steps which reproduce the problem** in as many details as possible. When listing steps, **don't just say what you did, but explain how you did it**.
+* **Provide specific examples to demonstrate the steps**. Include links to files or GitHub projects, or copy/pasteable snippets, which you use in those examples. If you're providing snippets in the issue, use [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
+* **Describe the behavior you observed after following the steps** and point out what exactly is the problem with that behavior.
+* **Explain which behavior you expected to see instead and why.**
+* **Include screenshots or videos** which show you following the described steps and clearly demonstrate the problem.
+* **If the problem wasn't triggered by a specific action**, describe what you were doing before the problem happened and share more information using the guidelines below.
 
-We use [TypeScript](https://www.typescriptlang.org/) for type checking, [ESLint](https://eslint.org/) with [Prettier](https://prettier.io/) for linting and formatting the code, and [Jest](https://jestjs.io/) for testing.
+Provide more context by answering these questions:
 
-Our pre-commit hooks verify that the linter and tests pass when committing.
+* **Did the problem start happening recently** (e.g. after updating to a new version of api.video) or was this always a problem?
+* If the problem started happening recently.**
+* **Can you reliably reproduce the issue?** If not, provide details about how often the problem happens and under which conditions it normally happens.
 
-### Publishing to npm
+Include details about your configuration and environment:
 
-We use [release-it](https://github.com/release-it/release-it) to make it easier to publish new versions. It handles common tasks like bumping version based on semver, creating tags and releases etc.
+* **Which version of the api.video package are you using?** 
+* **What's the name and version of the OS you're using?**
 
-To publish new versions, run the following:
+### Suggesting enhancements
 
-```sh
-yarn release
-```
+This section guides you through submitting an enhancement suggestion for api.video project, including completely new features and minor improvements to existing functionality. Following these guidelines helps maintainers and the community understand your suggestion :pencil: and find related suggestions :mag_right:.
 
-### Scripts
+When you are creating an enhancement suggestion, please [include as many details as possible](#how-do-i-submit-a-good-enhancement-suggestion). Fill in [the template](https://github.com/apivideo/api.video-contribution/blob/main/.github/ISSUE_TEMPLATE/feature_request.md), including the steps that you imagine you would take if the feature you're requesting existed.
 
-The `package.json` file contains various scripts for common tasks:
 
-- `yarn bootstrap`: setup project by installing all dependencies and pods.
-- `yarn typescript`: type-check files with TypeScript.
-- `yarn lint`: lint files with ESLint.
-- `yarn test`: run unit tests with Jest.
-- `yarn example start`: start the Metro server for the example app.
-- `yarn example android`: run the example app on Android.
-- `yarn example ios`: run the example app on iOS.
+#### How do I submit a (good) enhancement suggestion?
 
-### Sending a pull request
+Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com/features/issues/). After you've determined which repository your enhancement suggestion is related to, create an issue on that repository and provide the following information:
 
-> **Working on your first pull request?** You can learn how from this _free_ series: [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
+* **Use a clear and descriptive title** for the issue to identify the suggestion.
+* **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
+* **Provide specific examples to demonstrate the steps**. Include copy/pasteable snippets which you use in those examples, as [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
+* **Describe the current behavior** and **explain which behavior you expected to see instead** and why.
+* **Include screenshots** which help you demonstrate the steps or point out the part of api.video which the suggestion is related to.
+* **Explain why this enhancement would be useful** to most api.video users and isn't something that can or should be implemented as a community package.
+* **Specify which version of the api.video package you're using.**
+* **Specify the name and version of the OS you're using.**
 
-When you're sending a pull request:
 
-- Prefer small pull requests focused on one change.
-- Verify that linters and tests are passing.
-- Review the documentation to make sure it looks good.
-- Follow the pull request template when opening a pull request.
-- For pull requests that change the API or implementation, discuss with maintainers first by opening an issue.
-
-## Code of Conduct
-
-### Our Pledge
-
-We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
-
-We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
-
-### Our Standards
-
-Examples of behavior that contributes to a positive environment for our community include:
-
-- Demonstrating empathy and kindness toward other people
-- Being respectful of differing opinions, viewpoints, and experiences
-- Giving and gracefully accepting constructive feedback
-- Accepting responsibility and apologizing to those affected by our mistakes, and learning from the experience
-- Focusing on what is best not just for us as individuals, but for the overall community
-
-Examples of unacceptable behavior include:
-
-- The use of sexualized language or imagery, and sexual attention or
-  advances of any kind
-- Trolling, insulting or derogatory comments, and personal or political attacks
-- Public or private harassment
-- Publishing others' private information, such as a physical or email
-  address, without their explicit permission
-- Other conduct which could reasonably be considered inappropriate in a
-  professional setting
-
-### Enforcement Responsibilities
-
-Community leaders are responsible for clarifying and enforcing our standards of acceptable behavior and will take appropriate and fair corrective action in response to any behavior that they deem inappropriate, threatening, offensive, or harmful.
-
-Community leaders have the right and responsibility to remove, edit, or reject comments, commits, code, wiki edits, issues, and other contributions that are not aligned to this Code of Conduct, and will communicate reasons for moderation decisions when appropriate.
-
-### Scope
-
-This Code of Conduct applies within all community spaces, and also applies when an individual is officially representing the community in public spaces. Examples of representing our community include using an official e-mail address, posting via an official social media account, or acting as an appointed representative at an online or offline event.
-
-### Enforcement
-
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders responsible for enforcement at [INSERT CONTACT METHOD]. All complaints will be reviewed and investigated promptly and fairly.
-
-All community leaders are obligated to respect the privacy and security of the reporter of any incident.
-
-### Enforcement Guidelines
-
-Community leaders will follow these Community Impact Guidelines in determining the consequences for any action they deem in violation of this Code of Conduct:
-
-#### 1. Correction
-
-**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.
-
-**Consequence**: A private, written warning from community leaders, providing clarity around the nature of the violation and an explanation of why the behavior was inappropriate. A public apology may be requested.
-
-#### 2. Warning
-
-**Community Impact**: A violation through a single incident or series of actions.
-
-**Consequence**: A warning with consequences for continued behavior. No interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, for a specified period of time. This includes avoiding interactions in community spaces as well as external channels like social media. Violating these terms may lead to a temporary or permanent ban.
-
-#### 3. Temporary Ban
-
-**Community Impact**: A serious violation of community standards, including sustained inappropriate behavior.
-
-**Consequence**: A temporary ban from any sort of interaction or public communication with the community for a specified period of time. No public or private interaction with the people involved, including unsolicited interaction with those enforcing the Code of Conduct, is allowed during this period. Violating these terms may lead to a permanent ban.
-
-#### 4. Permanent Ban
-
-**Community Impact**: Demonstrating a pattern of violation of community standards, including sustained inappropriate behavior, harassment of an individual, or aggression toward or disparagement of classes of individuals.
-
-**Consequence**: A permanent ban from any sort of public interaction within the community.
-
-### Attribution
-
-This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 2.0,
-available at https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
-
-Community Impact Guidelines were inspired by [Mozilla's code of conduct enforcement ladder](https://github.com/mozilla/diversity).
-
-[homepage]: https://www.contributor-covenant.org
-
-For answers to common questions about this code of conduct, see the FAQ at
-https://www.contributor-covenant.org/faq. Translations are available at https://www.contributor-covenant.org/translations.
+### Pull requests
+
+The process described here has several goals:
+
+- Maintain api.video's quality
+- Fix problems that are important to users
+- Engage the community in working toward the best possible api.video
+- Enable a sustainable system for api.video's maintainers to review contributions
+
+Please follow these steps to have your contribution considered by the maintainers:
+
+1. Follow all instructions in [the template](PULL_REQUEST_TEMPLATE.md)
+2. Follow the [styleguides](#styleguides)
+3. After you submit your pull request, verify that all [status checks](https://help.github.com/articles/about-status-checks/) are passing <details><summary>What if the status checks are failing?</summary>If a status check is failing, and you believe that the failure is unrelated to your change, please leave a comment on the pull request explaining why you believe the failure is unrelated. A maintainer will re-run the status check for you. If we conclude that the failure was a false positive, then we will open an issue to track that problem with our status check suite.</details>
+
+While the prerequisites above must be satisfied prior to having your pull request reviewed, the reviewer(s) may ask you to complete additional design work, tests, or other changes before your pull request can be ultimately accepted.
+
+## Style guides
+
+### Git commit messages
+
+* Use the present tense ("Add feature" not "Added feature")
+* Limit the first line to 72 characters or less
+* Reference issues and pull requests after the first line
+* Consider starting the commit message with an applicable emoji:
+    * :art: `:art:` when improving the format/structure of the code
+    * :racehorse: `:racehorse:` when improving performance
+    * :non-potable_water: `:non-potable_water:` when plugging memory leaks
+    * :memo: `:memo:` when writing docs
+    * :penguin: `:penguin:` when fixing something on Linux
+    * :apple: `:apple:` when fixing something on macOS
+    * :checkered_flag: `:checkered_flag:` when fixing something on Windows
+    * :bug: `:bug:` when fixing a bug
+    * :fire: `:fire:` when removing code or files
+    * :green_heart: `:green_heart:` when fixing the CI build
+    * :white_check_mark: `:white_check_mark:` when adding tests
+    * :lock: `:lock:` when dealing with security
+    * :arrow_up: `:arrow_up:` when upgrading dependencies
+    * :arrow_down: `:arrow_down:` when downgrading dependencies
+    * :shirt: `:shirt:` when removing linter warnings
+
+### Documentation style guide
+
+* Use [Markdown](https://daringfireball.net/projects/markdown).
+
+
+## Additional notes
+
+### Issue and pull request Llabels
+
+This section lists the labels we use to help us track and manage issues and pull requests on all api.video repositories.
+
+[GitHub search](https://help.github.com/articles/searching-issues/) makes it easy to use labels for finding groups of issues or pull requests you're interested in. We encourage you to read about [other search filters](https://help.github.com/articles/searching-issues/) which will help you write more focused queries.
+
+
+#### Type of issue and issue state
+
+| Label name | `apivideo` :mag_right: | Description |
+| --- | --- | --- |
+| `enhancement` | [search][search-apivideo-org-label-enhancement] | Feature requests. |
+| `bug` | [search][search-apivideo-org-label-bug] | Confirmed bugs or reports that are very likely to be bugs. |
+| `question` | [search][search-apivideo-org-label-question] | Questions more than bug reports or feature requests (e.g. how do I do X). |
+| `feedback` | [search][search-apivideo-org-label-feedback] | General feedback more than bug reports or feature requests. |
+| `help-wanted` | [search][search-apivideo-org-label-help-wanted] | The api.video team would appreciate help from the community in resolving these issues. |
+| `more-information-needed` | [search][search-apivideo-org-label-more-information-needed] | More information needs to be collected about these problems or feature requests (e.g. steps to reproduce). |
+| `needs-reproduction` | [search][search-apivideo-org-label-needs-reproduction] | Likely bugs, but haven't been reliably reproduced. |
+| `blocked` | [search][search-apivideo-org-label-blocked] | Issues blocked on other issues. |
+| `duplicate` | [search][search-apivideo-org-label-duplicate] | Issues which are duplicates of other issues, i.e. they have been reported before. |
+| `wontfix` | [search][search-apivideo-org-label-wontfix] | The api.video team has decided not to fix these issues for now, either because they're working as intended or for some other reason. |
+| `invalid` | [search][search-apivideo-org-label-invalid] | Issues which aren't valid (e.g. user errors). |
+| `package-idea` | [search][search-apivideo-org-label-package-idea] | Feature request which might be good candidates for new packages, instead of extending api.video packages. |
+| `wrong-repo` | [search][search-apivideo-org-label-wrong-repo] | Issues reported on the wrong repository. |
+
+#### Topic categories
+
+| Label name | `apivideo` :mag_right: | Description |
+| --- | --- | --- |
+| `windows` | [search][search-apivideo-org-label-windows] | Related to api.video running on Windows. |
+| `linux` | [search][search-apivideo-org-label-linux] | Related to api.video running on Linux. |
+| `mac` | [search][search-apivideo-org-label-mac] | Related to api.video running on macOS. |
+| `documentation` | [search][search-apivideo-org-label-documentation] | Related to any type of documentation. |
+| `performance` | [search][search-apivideo-org-label-performance] | Related to performance. |
+| `security` | [search][search-apivideo-org-label-security] | Related to security. |
+| `ui` | [search][search-apivideo-org-label-ui] | Related to visual design. |
+| `api` | [search][search-apivideo-org-label-api] | Related to api.video's public APIs. |
+
+#### Pull request labels
+
+| Label name | `apivideo` :mag_right: | Description
+| --- | --- | --- |
+| `work-in-progress` | [search][search-apivideo-org-label-work-in-progress] | Pull requests which are still being worked on, more changes will follow. |
+| `needs-review` | [search][search-apivideo-org-label-needs-review] | Pull requests which need code review, and approval from maintainers or api.video team. |
+| `under-review` | [search][search-apivideo-org-label-under-review] | Pull requests being reviewed by maintainers or api.video team. |
+| `requires-changes` | [search][search-apivideo-org-label-requires-changes] | Pull requests which need to be updated based on review comments and then reviewed again. |
+| `needs-testing` | [search][search-apivideo-org-label-needs-testing] | Pull requests which need manual testing. |
+
+[search-apivideo-org-label-enhancement]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Aenhancement
+[search-apivideo-org-label-bug]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Abug
+[search-apivideo-org-label-question]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Aquestion
+[search-apivideo-org-label-feedback]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Afeedback
+[search-apivideo-org-label-help-wanted]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Ahelp-wanted
+[search-apivideo-org-label-more-information-needed]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Amore-information-needed
+[search-apivideo-org-label-needs-reproduction]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Aneeds-reproduction
+[search-apivideo-org-label-windows]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Awindows
+[search-apivideo-org-label-linux]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Alinux
+[search-apivideo-org-label-mac]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Amac
+[search-apivideo-org-label-documentation]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Adocumentation
+[search-apivideo-org-label-performance]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Aperformance
+[search-apivideo-org-label-security]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Asecurity
+[search-apivideo-org-label-ui]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Aui
+[search-apivideo-org-label-api]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Aapi
+[search-apivideo-org-label-blocked]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Ablocked
+[search-apivideo-org-label-duplicate]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Aduplicate
+[search-apivideo-org-label-wontfix]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Awontfix
+[search-apivideo-org-label-invalid]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Ainvalid
+[search-apivideo-org-label-package-idea]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Apackage-idea
+[search-apivideo-org-label-wrong-repo]: https://github.com/search?q=is%3Aopen+is%3Aissue+user%3Aapivideo+label%3Awrong-repo
+[search-apivideo-org-label-work-in-progress]: https://github.com/search?q=is%3Aopen+is%3Apr+repo%3Aapivideo%2Fapivideo+label%3Awork-in-progress
+[search-apivideo-org-label-needs-review]: https://github.com/search?q=is%3Aopen+is%3Apr+repo%3Aapivideo%2Fapivideo+label%3Aneeds-review
+[search-apivideo-org-label-under-review]: https://github.com/search?q=is%3Aopen+is%3Apr+repo%3Aapivideo%2Fapivideo+label%3Aunder-review
+[search-apivideo-org-label-requires-changes]: https://github.com/search?q=is%3Aopen+is%3Apr+repo%3Aapivideo%2Fapivideo+label%3Arequires-changes
+[search-apivideo-org-label-needs-testing]: https://github.com/search?q=is%3Aopen+is%3Apr+repo%3Aapivideo%2Fapivideo+label%3Aneeds-testing
+
+[help-wanted]:https://github.com/search?q=is%3Aopen+is%3Aissue+label%3Ahelp-wanted+user%3Aapivideo+sort%3Acomments-desc

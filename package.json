@@ -39,13 +39,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/apivideo/react-native-livestream",
+  "repository": "https://github.com/apivideo/api.video-reactnative-live-stream",
   "author": "api.video <ecosystem@api.video> (https://github.com/apivideo)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/apivideo/react-native-livestream/issues"
+    "url": "https://github.com/apivideo/api.video-reactnative-live-stream/issues"
   },
-  "homepage": "https://github.com/apivideo/react-native-livestream#readme",
+  "homepage": "https://github.com/apivideo/api.video-reactnative-live-stream#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
