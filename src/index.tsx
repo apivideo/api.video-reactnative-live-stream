@@ -7,7 +7,6 @@ import {
   NativeSyntheticEvent,
 } from 'react-native';
 
-
 type ReactNativeLivestreamProps = {
   style: ViewStyle;
   liveStreamKey: string;
@@ -39,9 +38,9 @@ type ReactNativeLivestreamNativeProps = {
   videoOrientation?: 'landscape' | 'portrait';
   audioMuted?: boolean;
   audioBitrate?: number;
-  onConnectionSuccess?: (event: NativeSyntheticEvent<{ }>) => void;
+  onConnectionSuccess?: (event: NativeSyntheticEvent<{}>) => void;
   onConnectionFailed?: (event: NativeSyntheticEvent<{ code: string }>) => void;
-  onDisconnect?: (event: NativeSyntheticEvent<{  }>) => void;
+  onDisconnect?: (event: NativeSyntheticEvent<{}>) => void;
 };
 
 export type ReactNativeLivestreamMethods = {
@@ -51,9 +50,10 @@ export type ReactNativeLivestreamMethods = {
   disableAudio: () => void;
 };
 
-export const ReactNativeLivestreamViewNative = requireNativeComponent<ReactNativeLivestreamNativeProps>(
-  'ReactNativeLivestreamView'
-);
+export const ReactNativeLivestreamViewNative =
+  requireNativeComponent<ReactNativeLivestreamNativeProps>(
+    'ReactNativeLivestreamView'
+  );
 
 ReactNativeLivestreamViewNative.displayName = 'ReactNativeLivestreamViewNative';
 
@@ -62,14 +62,20 @@ const LivestreamView = forwardRef<
   ReactNativeLivestreamProps
 >(
   (
-    { style, video, rtmpServerUrl, liveStreamKey, audio, onConnectionSuccess, onConnectionFailed, onDisconnect },
+    {
+      style,
+      video,
+      rtmpServerUrl,
+      liveStreamKey,
+      audio,
+      onConnectionSuccess,
+      onConnectionFailed,
+      onDisconnect,
+    },
     forwardedRef
   ) => {
-    
-    const onConnectionSuccessHandler = (
-      event: NativeSyntheticEvent<{}>
-    ) => {
-      const { } = event.nativeEvent;
+    const onConnectionSuccessHandler = (event: NativeSyntheticEvent<{}>) => {
+      const {} = event.nativeEvent;
       onConnectionSuccess?.();
     };
 
@@ -80,10 +86,8 @@ const LivestreamView = forwardRef<
       onConnectionFailed?.(code);
     };
 
-    const onDisconnectHandler = (
-      event: NativeSyntheticEvent<{}>
-    ) => {
-      const { } = event.nativeEvent;
+    const onDisconnectHandler = (event: NativeSyntheticEvent<{}>) => {
+      const {} = event.nativeEvent;
       onDisconnect?.();
     };
 
