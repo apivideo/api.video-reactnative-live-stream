@@ -1,7 +1,7 @@
-name: Release React Native Livestream package
+name: Release React Native Live Stream package
 on:
   release:
-    types: [created]
+    types: [published]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -10,8 +10,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           registry-url: 'https://registry.npmjs.org'
-      - run: npm install --no-save
-      - run: npm run typescript
-      - run: npm publish
+      - run: yarn
+      - name: Publish to npm
+        run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

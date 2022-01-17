@@ -1,0 +1,62 @@
+name: Build
+on: [push]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies
+        run: yarn install
+      - name: Lint
+        run: yarn lint
+  build-android-lib:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Make Gradlew Executable
+        run: chmod +x ./gradlew
+        working-directory: android
+      - name: Build Android lib
+        run: ./gradlew assembleRelease --no-daemon 
+        working-directory: android
+  build-android-example:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies
+        run: yarn install
+      - name: Install example dependencies
+        run: yarn install
+        working-directory: example
+      - name: Make Gradlew Executable
+        run: chmod +x ./gradlew
+        working-directory: example/android
+      - name: Build Android example
+        run: ./gradlew bundleRelease --no-daemon
+        working-directory: example/android
+  build-ios-example:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies
+        run: yarn install
+      - name: Install example dependencies
+        run: yarn install
+        working-directory: example
+      - name: Install pods 
+        run: pod install
+        working-directory: example/ios
+      - name: Build iOS example
+        run: xcodebuild clean build -workspace Example.xcworkspace -scheme Example CODE_SIGNING_ALLOWED=NO | xcpretty
+        working-directory: example/ios

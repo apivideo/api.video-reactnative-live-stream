@@ -4,15 +4,14 @@ on:
     branches:
       - main
 jobs:
-  test:
+  update-documentation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Update readme.io documentation
         uses: apivideo/api.video-readmeio-document-sync-action@1.2
         with:
-          document-slug: react-native-livestream-component
+          document-slug: react-native-live-stream
           markdown-file-path: README.md
           readme-io-api-key: ${{ secrets.README_IO_API_KEY }}
           make-relative-links-absolute: true
-   
