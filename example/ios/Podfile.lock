@@ -1,5 +1,5 @@
 PODS:
-  - api-video-react-native-livestream (0.2.0):
+  - api-video-react-native-livestream (0.2.1):
     - LiveStreamIos (= 0.0.4)
     - React-Core
   - boost (1.76.0)
@@ -493,7 +493,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  api-video-react-native-livestream: 26bc6005b01143499c91917cc047e66a606898f4
+  api-video-react-native-livestream: 9f8ee79e9d67e1736786d3bb3ce6ecc5881b7a38
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cde416483dac037923206447da6e1454df403714
