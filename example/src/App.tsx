@@ -9,39 +9,34 @@ import {
   Text,
 } from 'react-native';
 import {
-  LivestreamView,
-  ReactNativeLivestreamMethods,
+  LiveStreamView,
+  LiveStreamMethods,
 } from '@api.video/react-native-livestream';
 
 export default function App() {
-  const ref = React.useRef<ReactNativeLivestreamMethods | null>(null);
+  const ref = React.useRef<LiveStreamMethods | null>(null);
   const [streaming, setStreaming] = React.useState(false);
   const [audioMuted, setAudioMuted] = React.useState(false);
   const [res, setRes] = React.useState<'360p' | '720p'>('360p');
   const [camera, setCamera] = React.useState<'front' | 'back'>('back');
-  const [orientation, setOrientation] = React.useState<
-    'landscape' | 'portrait'
-  >('landscape');
 
   return (
     <View style={styles.container}>
-      <LivestreamView
+      <LiveStreamView
         style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
         ref={ref}
+        camera={camera}
         video={{
+          bitrate: 3000000,
           fps: 30,
           resolution: res,
-          camera,
-          orientation,
         }}
-        liveStreamKey={
-          Platform.OS === 'android'
-            ? '833ae9df-d228-4ff3-b15a-b4ac53280b80'
-            : 'd08c582e-e251-4f9e-9894-8c8d69755d45'
-        }
         audio={{
-          muted: audioMuted,
+          bitrate: 128000,
+          sampleRate: 44100,
+          isStereo: true,
         }}
+        isMuted={audioMuted}
         onConnectionSuccess={() => {
           console.log('Received onConnectionSuccess');
         }}
@@ -65,25 +60,12 @@ export default function App() {
               ref.current?.stopStreaming();
               setStreaming(false);
             } else {
-              ref.current?.startStreaming();
+              ref.current?.startStreaming(
+                Platform.OS === 'android'
+                  ? '833ae9df-d228-4ff3-b15a-b4ac53280b80'
+                  : 'd08c582e-e251-4f9e-9894-8c8d69755d45'
+              );
               setStreaming(true);
-            }
-          }}
-        />
-      </View>
-      <View style={{ position: 'absolute', bottom: 40, right: 20 }}>
-        <TouchableOpacity
-          style={{
-            borderRadius: 50,
-            backgroundColor: 'blue',
-            width: 50,
-            height: 50,
-          }}
-          onPress={() => {
-            if (audioMuted) {
-              setAudioMuted(false);
-            } else {
-              setAudioMuted(true);
             }
           }}
         />
@@ -105,6 +87,19 @@ export default function App() {
           }}
         />
       </View>
+      <View style={{ position: 'absolute', bottom: 40, right: 20 }}>
+        <TouchableOpacity
+          style={{
+            borderRadius: 50,
+            backgroundColor: 'blue',
+            width: 50,
+            height: 50,
+          }}
+          onPress={() => {
+            setAudioMuted(!audioMuted);
+          }}
+        />
+      </View>
       <View style={{ position: 'absolute', bottom: 110 }}>
         <TouchableOpacity
           style={{
@@ -122,23 +117,6 @@ export default function App() {
           }}
         />
       </View>
-      <View style={{ position: 'absolute', bottom: 110, left: 20 }}>
-        <TouchableOpacity
-          style={{
-            borderRadius: 50,
-            backgroundColor: 'purple',
-            width: 50,
-            height: 50,
-          }}
-          onPress={() => {
-            if (orientation === 'portrait') {
-              setOrientation('landscape');
-            } else {
-              setOrientation('portrait');
-            }
-          }}
-        />
-      </View>
       <View
         style={{
           position: 'absolute',
@@ -149,11 +127,9 @@ export default function App() {
         }}
       >
         <Text style={{ color: 'white' }}>{`Current Settings:`}</Text>
-        <Text style={{ color: 'white' }}>{`FPS: ${30}`}</Text>
-        <Text style={{ color: 'white' }}>{`Resolution: ${res}`}</Text>
         <Text style={{ color: 'white' }}>{`Camera: ${camera}`}</Text>
-        <Text style={{ color: 'white' }}>{`Orientation: ${orientation}`}</Text>
         <Text style={{ color: 'white' }}>{`Muted: ${audioMuted}`}</Text>
+        <Text style={{ color: 'white' }}>{`Resolution: ${res}`}</Text>
       </View>
     </View>
   );

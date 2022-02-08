@@ -1,4 +1,4 @@
-package com.example.apivideoreactnativelivestream;
+package video.api.reactnative.livestream.example;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "ReactNativeLivestreamExample";
+    return "ReactNativeLiveStreamExample";
   }
 }

@@ -1,6 +1,6 @@
-rootProject.name = 'ReactNativeLivestreamExample'
+rootProject.name = 'ReactNativeLiveStreamExample'
 apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
 
-include ':apivideoreactnativelivestream'
-project(':apivideoreactnativelivestream').projectDir = new File(rootProject.projectDir, '../../android')
+include ':rnlivestream'
+project(':rnlivestream').projectDir = new File(rootProject.projectDir, '../../android')
