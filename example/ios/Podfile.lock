@@ -1,7 +1,9 @@
 PODS:
   - api-video-react-native-livestream (0.2.1):
-    - LiveStreamIos (= 0.0.4)
+    - ApiVideoLiveStream (= 0.1.0)
     - React-Core
+  - ApiVideoLiveStream (0.1.0):
+    - HaishinKit (= 1.2.3)
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -76,11 +78,9 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
-  - HaishinKit (1.2.1):
+  - HaishinKit (1.2.3):
     - Logboard (~> 2.2.2)
   - libevent (2.1.12)
-  - LiveStreamIos (0.0.4):
-    - HaishinKit (= 1.2.1)
   - Logboard (2.2.2)
   - OpenSSL-Universal (1.1.180)
   - RCT-Folly (2021.06.28.00-v2):
@@ -409,6 +409,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - ApiVideoLiveStream
     - CocoaAsyncSocket
     - Flipper
     - Flipper-Boost-iOSX
@@ -422,7 +423,6 @@ SPEC REPOS:
     - fmt
     - HaishinKit
     - libevent
-    - LiveStreamIos
     - Logboard
     - OpenSSL-Universal
     - SocketRocket
@@ -493,10 +493,11 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  api-video-react-native-livestream: 9f8ee79e9d67e1736786d3bb3ce6ecc5881b7a38
+  api-video-react-native-livestream: c46bb722e72828ac7a7925cac454429e484915f2
+  ApiVideoLiveStream: 621b628b2428e7bdf2ff2a968f4dae4ce74cf4fa
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  DoubleConversion: cde416483dac037923206447da6e1454df403714
+  DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
   FBLazyVector: e5569e42a1c79ca00521846c223173a57aca1fe1
   FBReactNativeSpec: fe08c1cd7e2e205718d77ad14b34957cce949b58
   Flipper: 0866b26151933c224d73a387f2e28be944be126f
@@ -509,10 +510,9 @@ SPEC CHECKSUMS:
   Flipper-RSocket: d9d9ade67cbecf6ac10730304bf5607266dd2541
   FlipperKit: 09f334dd75c2119e864815dfd555b7503c23cca5
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
-  glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
-  HaishinKit: 2b924f6ce90483e373f7079de90b2496fea30241
+  glog: 5337263514dd6f09803962437687240c5dc39aa4
+  HaishinKit: abf62d8ed7fc380c97a96077a0e37c7f79e69e08
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  LiveStreamIos: 6bd9055c6eebfd91f5df0fbd2eb334a9cc5bdb68
   Logboard: 0ab6bbd984ed032b3f0b615cef06779a73445c80
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
   RCT-Folly: a21c126816d8025b547704b777a2ba552f3d9fa9
@@ -543,6 +543,6 @@ SPEC CHECKSUMS:
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 1529adab306a58344ecb68bdb9c3e738b1342f73
+PODFILE CHECKSUM: 5f122108db2fb11870a8eb9d64366e2fbd6f92ea
 
 COCOAPODS: 1.11.2
