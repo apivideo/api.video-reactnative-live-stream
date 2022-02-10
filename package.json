@@ -1,5 +1,5 @@
 {
-  "name": "@api.video/react-native-livestream",
+  "name": "@api.video/react-native-live-stream",
   "version": "0.2.1",
   "description": "An RTMP Library from Api.video",
   "main": "lib/commonjs/index",
@@ -16,7 +16,7 @@
     "android/gradle.properties",
     "ios",
     "cpp",
-    "api-video-react-native-livestream.podspec",
+    "api-video-react-native-live-stream.podspec",
     "!lib/typescript/example",
     "!ios/build",
     "!**/__tests__",

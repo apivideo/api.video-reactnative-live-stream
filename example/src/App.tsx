@@ -11,7 +11,7 @@ import {
 import {
   LiveStreamView,
   LiveStreamMethods,
-} from '@api.video/react-native-livestream';
+} from '@api.video/react-native-live-stream';
 
 export default function App() {
   const ref = React.useRef<LiveStreamMethods | null>(null);
