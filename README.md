@@ -45,28 +45,29 @@ cd ios && pod install
 2) This project contains swift code, and if it's your first dependency with swift code, you need to create an empty swift file in your project (with the bridging header) from XCode. [Find how to do that](docs/install_swift_dependency.md)
 
 ## Permissions
-To be able to broadcast,
+To be able to broadcast, you must:
 
-1) On Android you must ask for internet, camera and microphone permissions:
+1) On Android: ask for internet, camera and microphone permissions:
 
-```java
+```xml
+<manifest>
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.RECORD_AUDIO" />
   <uses-permission android:name="android.permission.CAMERA" />
+</manifest>
 ```
+Your application must dynamically require android.permission.CAMERA and android.permission.RECORD_AUDIO.
 
-2) On iOS, you must update Info.plist with a usage description for camera and microphone
+2) On iOS: update Info.plist with a usage description for camera and microphone
 
 ```xml
-...
 <key>NSCameraUsageDescription</key>
 <string>Your own description of the purpose</string>
 
 <key>NSMicrophoneUsageDescription</key>
 <string>Your own description of the purpose</string>
-...
-	
 ```
+
 3) On react-native you must handle the permissions requests before starting your livestream. If permissions are not accepted you will not be able to broadcast.
 
 ## Code sample
@@ -74,7 +75,7 @@ To be able to broadcast,
 ```jsx
 import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { LivestreamView } from '@api.video/react-native-live-stream';
+import { LiveStreamView } from '@api.video/react-native-live-stream';
 
 const App = () => {
   const ref = useRef(null);
@@ -82,16 +83,21 @@ const App = () => {
 
   return (
     <View style={{ flex: 1, alignItems: 'center' }}>
-      <LivestreamView
+      <LiveStreamView
         style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
         ref={ref}
+        camera: 'back',
         video={{
           fps: 30,
           resolution: '720p',
-          camera: 'front',
-          orientation: 'portrait',
+          bitrate: '2*1024*1024', // # 2 Mbps
         }}
-        liveStreamKey="your-livestrem-key"
+        audio={{
+          bitrate: 128000,
+          sampleRate: 44100,
+          isStereo: true,
+        }}
+        isMuted: false
         onConnectionSuccess={() => {
           //do what you want
         }}
@@ -115,7 +121,7 @@ const App = () => {
               ref.current?.stopStreaming();
               setStreaming(false);
             } else {
-              ref.current?.startStreaming();
+              ref.current?.startStreaming('YOUR_STREAM_KEY');
               setStreaming(true);
             }
           }}
@@ -133,31 +139,29 @@ export default App;
 ## Props & Methods
 
 ```ts
-type ReactNativeLivestreamProps = {
+type ReactNativeLiveStreamProps = {
   // Styles for the view containing the preview
   style: ViewStyle;
-  // Your Streaming key, we will append this to the rtmpServerUrl
-  liveStreamKey: string;
-  // RTMP server url, default: rtmp://broadcast.api.video/s
-  rtmpServerUrl?: string;
-  video: {
-  // default: 30
-    fps: number;
-  // default: '720p'
-    resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
-  // If omitted we will infer it from the resolution
-    bitrate?: number;
   // default: 'back'
-    camera?: 'front' | 'back';
-  // default: 'landscape'
-    orientation?: 'landscape' | 'portrait';
+  camera?: 'front' | 'back';
+  video: {
+    // default: 30
+    fps: number;
+    // default: '720p'
+    resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
+    // If omitted we will infer it from the resolution
+    bitrate: number;
   };
-  audio?: {
-  // default: false
-    muted?: boolean;
-  // default: 128000
+  audio: {
+    // sample rate. Only for Android. default: 44100
+    sampleRate: 44100;
+    // true for stereo, false for mono. Only for Android. default: true
+    isStereo: true;
+    // default: 128000
     bitrate?: number;
   };
+  // Mute/unmute microphone
+  isMuted: false;
   // will be called when the connection is successful
   onConnectionSuccess?: (event: NativeSyntheticEvent<{ }>) => void;
   // will be called on connection's error
@@ -167,17 +171,23 @@ type ReactNativeLivestreamProps = {
   
 };
 
-type ReactNativeLivestreamMethods = {
+type ReactNativeLiveStreamMethods = {
   // Start the stream
-  startStreaming: () => void;
+  // streamKey: your live stream RTMP key
+  // url: RTMP server url, default: rtmp://broadcast.api.video/s
+  startStreaming: (streamKey: string, url?: string) => void;
   // Stops the stream
   stopStreaming: () => void;
 };
 ```
 
+# Example
+
+An example that demonstrates how to use the API is provided in folder [./example](https://github.com/apivideo/api.video-reactnative-live-stream/tree/main/example).
+
 # Plugins
 
-API.Video LiveStream module is using external native library for broadcasting
+api.video live stream library is using external native library for broadcasting
 
 | Plugin | README |
 | ------ | ------ |
@@ -185,12 +195,9 @@ API.Video LiveStream module is using external native library for broadcasting
 | HaishinKit | [HaishinKit] |
 
 # FAQ
+
 If you have any questions, ask us here:  https://community.api.video .
 Or use [Issues].
-
-# Example App
-You can try our [example app](https://github.com/apivideo/api.video-reactnative-live-stream/tree/main/example), feel free to test it. 
-
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
