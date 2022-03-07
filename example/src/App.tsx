@@ -2,7 +2,6 @@
 import * as React from 'react';
 
 import {
-  StyleSheet,
   View,
   TouchableOpacity,
   Platform,
@@ -12,18 +11,26 @@ import {
   LiveStreamView,
   LiveStreamMethods,
 } from '@api.video/react-native-live-stream';
+import Icon from 'react-native-vector-icons/Ionicons';
+import styles, { button } from './style';
 
 export default function App() {
-  const ref = React.useRef<LiveStreamMethods | null>(null);
+  // LOCAL STATE
   const [streaming, setStreaming] = React.useState(false);
   const [audioMuted, setAudioMuted] = React.useState(false);
   const [res, setRes] = React.useState<'360p' | '720p'>('360p');
   const [camera, setCamera] = React.useState<'front' | 'back'>('back');
+  
+  // CONSTANTS
+  const ref = React.useRef<LiveStreamMethods | null>(null);
+  const style = styles(streaming)
 
+  // RETURN
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
+
       <LiveStreamView
-        style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
+        style={style.livestreamView}
         ref={ref}
         camera={camera}
         video={{
@@ -47,14 +54,10 @@ export default function App() {
           console.log('Received onDisconnect');
         }}
       />
-      <View style={{ position: 'absolute', bottom: 40 }}>
+
+      <View style={button({ bottom: 40 }).container}>
         <TouchableOpacity
-          style={{
-            borderRadius: 50,
-            backgroundColor: streaming ? 'red' : 'white',
-            width: 50,
-            height: 50,
-          }}
+          style={style.streamButton}
           onPress={() => {
             if (streaming) {
               ref.current?.stopStreaming();
@@ -68,16 +71,24 @@ export default function App() {
               setStreaming(true);
             }
           }}
-        />
+        >
+          {streaming ? (
+            <Icon 
+              name="stop-circle-outline" 
+              size={50} 
+              color="#FF0001" 
+            />
+          ) : (
+            <Text style={style.streamText}>
+              Start streaming
+            </Text>
+          )}
+        </TouchableOpacity>
       </View>
-      <View style={{ position: 'absolute', bottom: 40, left: 20 }}>
+
+      <View style={button({ top: 40, left: 20 }).container}>
         <TouchableOpacity
-          style={{
-            borderRadius: 50,
-            backgroundColor: 'yellow',
-            width: 50,
-            height: 50,
-          }}
+          style={style.resolutionButton}
           onPress={() => {
             if (res === '360p') {
               setRes('720p');
@@ -87,27 +98,25 @@ export default function App() {
           }}
         />
       </View>
-      <View style={{ position: 'absolute', bottom: 40, right: 20 }}>
+
+      <View style={button({ bottom: 40, left: 20 }).container}>
         <TouchableOpacity
-          style={{
-            borderRadius: 50,
-            backgroundColor: 'blue',
-            width: 50,
-            height: 50,
-          }}
+          style={style.audioButton}
           onPress={() => {
             setAudioMuted(!audioMuted);
           }}
-        />
+        >
+          <Icon 
+            name={audioMuted ? 'mic-off-outline' : 'mic-outline'}
+            size={30} 
+            color="#FA5B30"  
+          />
+        </TouchableOpacity>
       </View>
-      <View style={{ position: 'absolute', bottom: 110 }}>
+
+      <View style={button({ bottom: 40, right: 20 }).container}>
         <TouchableOpacity
-          style={{
-            borderRadius: 50,
-            backgroundColor: 'green',
-            width: 50,
-            height: 50,
-          }}
+          style={style.cameraButton}
           onPress={() => {
             if (camera === 'back') {
               setCamera('front');
@@ -115,8 +124,15 @@ export default function App() {
               setCamera('back');
             }
           }}
-        />
+        >
+          <Icon 
+            name="camera-reverse-outline" 
+            size={30} 
+            color="#FA5B30" 
+          />
+        </TouchableOpacity>
       </View>
+
       <View
         style={{
           position: 'absolute',
@@ -131,19 +147,7 @@ export default function App() {
         <Text style={{ color: 'white' }}>{`Muted: ${audioMuted}`}</Text>
         <Text style={{ color: 'white' }}>{`Resolution: ${res}`}</Text>
       </View>
+
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'pink',
-  },
-  box: {
-    flex: 1,
-    backgroundColor: 'green',
-  },
-});
