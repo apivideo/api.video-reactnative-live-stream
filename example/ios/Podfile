@@ -16,6 +16,7 @@ target 'Example' do
   # you should disable these next few lines.
   use_flipper!({ 'Flipper' => '0.126.0' })
 
+
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   post_install do |installer|
