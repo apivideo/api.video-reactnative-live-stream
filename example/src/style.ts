@@ -1,16 +1,13 @@
 import { StyleSheet } from 'react-native'
 
 export default (
-	streaming: boolean
+	streaming: boolean,
+	android: boolean
 ) => StyleSheet.create({
 	container: {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-	},
-	box: {
-		flex: 1,
-		backgroundColor: 'green',
 	},
 	livestreamView: {
 		flex: 1,
@@ -61,7 +58,7 @@ export default (
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		top: 60,
+		top: android ? 20 : 60,
 		right: 30,
 		minHeight: 50
 	},

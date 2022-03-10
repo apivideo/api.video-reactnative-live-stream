@@ -38,7 +38,8 @@ export default function App() {
   
   // CONSTANTS
   const ref = React.useRef<LiveStreamMethods | null>(null)
-  const style = styles(streaming)
+  const isAndroid = Platform.OS === 'android'
+  const style = styles(streaming, isAndroid)
 
 
   // HANDLERS
@@ -69,7 +70,7 @@ export default function App() {
       setStreaming(false)
     } else {
       ref.current?.startStreaming(
-        Platform.OS === 'android'
+        isAndroid
           ? '833ae9df-d228-4ff3-b15a-b4ac53280b80'
           : 'd08c582e-e251-4f9e-9894-8c8d69755d45'
       )
@@ -166,7 +167,7 @@ export default function App() {
         }}
       />
 
-      <View style={button({ bottom: 40 }).container}>
+      <View style={button({ bottom: isAndroid ? 20 : 40 }).container}>
         <TouchableOpacity
           style={style.streamButton}
           onPress={handleStreaming}
@@ -185,7 +186,7 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      <View style={button({ bottom: 40, left: 20 }).container}>
+      <View style={button({ bottom: isAndroid ? 20 : 40, left: 20 }).container}>
         <TouchableOpacity
           style={style.audioButton}
           onPress={() => setAudioMuted(_prev => !_prev)}
@@ -198,7 +199,7 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      <View style={button({ bottom: 40, right: 20 }).container}>
+      <View style={button({ bottom: isAndroid ? 20 : 40, right: 20 }).container}>
         <TouchableOpacity
           style={style.cameraButton}
           onPress={handleCamera}
