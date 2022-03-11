@@ -48,17 +48,17 @@ export default function App() {
   const growAnim = React.useRef(new Animated.Value(0)).current;
 
   React.useEffect(() => {
+    const grow = () => {
+      Animated.timing(growAnim, {
+        toValue: isAndroid ? 265 : 290,
+        duration: 200,
+        useNativeDriver: false,
+      }).start();
+    };
     warning.display && grow();
-  }, [warning.display]);
+  }, [warning.display, growAnim, isAndroid]);
 
   // HANDLERS
-  const grow = () => {
-    Animated.timing(growAnim, {
-      toValue: isAndroid ? 265 : 290,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
-  };
   const shrink = () => {
     Animated.timing(growAnim, {
       toValue: 0,
