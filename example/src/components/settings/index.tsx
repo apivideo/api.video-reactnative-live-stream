@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 import { 
 	Modal,
 	SafeAreaView,
 	Text,
 	TouchableOpacity,
 	View
-} from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
-import Section from './sections'
-import styles from './style'
-import assets from '../../assets'
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Section from './sections';
+import styles from './style';
+import assets from '../../assets';
 
 interface ISettingsProps {
 	closeSettings: () => void
@@ -39,7 +39,7 @@ const Settings: React.FC<ISettingsProps> = ({
 	handleChangeSettingItem,
 	settings
 }): JSX.Element => {
-	const [openSection, setOpenSection] = React.useState<Opensection>(null)
+	const [openSection, setOpenSection] = React.useState<Opensection>(null);
 
 	return (
 		<Modal

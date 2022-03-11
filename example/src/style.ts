@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 export default (
 	streaming: boolean,
@@ -76,14 +76,14 @@ export default (
 		fontSize: 10,
 		fontWeight: '700'
 	}
-})
+});
 
 interface IButtonParams {
 	top?: number,
 	bottom?: number,
 	left?: number,
 	right?: number
-}
+};
 
 export const button = (position: IButtonParams) => StyleSheet.create({
 	container: {
@@ -93,4 +93,4 @@ export const button = (position: IButtonParams) => StyleSheet.create({
 		left: position.left,
 		right: position.right
 	}
-})
+});

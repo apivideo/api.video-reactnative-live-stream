@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 import { 
 	Text, 
 	View
-} from 'react-native'
-import styles from './style'
-import assets from '../../../assets'
-import type { Opensection } from '..'
-import SectionListItem from './listItem'
-import SectionSliderItem from './sliderItem'
-import SectionInputItem from './inputItem'
+} from 'react-native';
+import styles from './style';
+import assets from '../../../assets';
+import type { Opensection } from '..';
+import SectionListItem from './listItem';
+import SectionSliderItem from './sliderItem';
+import SectionInputItem from './inputItem';
 
 export interface ISectionProps {
 	sectionName: string
@@ -36,7 +36,7 @@ const Section: React.FC<ISectionProps> = ({
 	handleChangeSettingItem,
 	settings
 }): JSX.Element => {
-	const { videoBitrate, rtmpEndpoint, streamKey } = settings
+	const { videoBitrate, rtmpEndpoint, streamKey } = settings;
 
 	return (
 		<View style={styles.subSectionsContainer}>

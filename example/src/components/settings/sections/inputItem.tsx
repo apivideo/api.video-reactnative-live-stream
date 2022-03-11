@@ -1,6 +1,6 @@
-import React from 'react'
-import { Text, TextInput, View } from 'react-native'
-import styles from './style'
+import React from 'react';
+import { Text, TextInput, View } from 'react-native';
+import styles from './style';
 
 interface ISectionInputProps {
     subSectionName: 'RTMP endpoint' | 'Stream key',

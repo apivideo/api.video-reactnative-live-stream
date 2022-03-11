@@ -1,45 +1,45 @@
 /* eslint-disable react-native/no-inline-styles */
-import * as React from 'react'
+import * as React from 'react';
 import {
   View,
   TouchableOpacity,
   Platform,
   Text,
   StatusBar
-} from 'react-native'
+} from 'react-native';
 import {
   LiveStreamView,
   LiveStreamMethods,
-} from '@api.video/react-native-live-stream'
-import Icon from 'react-native-vector-icons/Ionicons'
-import styles, { button } from './style'
-import Settings from './components/settings'
-import assets from './assets'
+} from '@api.video/react-native-live-stream';
+import Icon from 'react-native-vector-icons/Ionicons';
+import styles, { button } from './style';
+import Settings from './components/settings';
+import assets from './assets';
 
 export default function App() {
   // LOCAL STATE
   // Stream view
-  const [streaming, setStreaming] = React.useState(false)
-  const [audioMuted, setAudioMuted] = React.useState(false)
-  const [camera, setCamera] = React.useState<'front' | 'back'>('back')
-  const [settingsOpen, setSettingsOpen] = React.useState<boolean>(false)
+  const [streaming, setStreaming] = React.useState(false);
+  const [audioMuted, setAudioMuted] = React.useState(false);
+  const [camera, setCamera] = React.useState<'front' | 'back'>('back');
+  const [settingsOpen, setSettingsOpen] = React.useState<boolean>(false);
   const [warning, setWarning] = React.useState<{ display: Boolean, message: string }>({
     display: false,
     message: ''
-  })
+  });
   // Settings
-  const [resolution, setResolution] = React.useState<string>('640x340')
-  const [framerate, setFramerate] = React.useState<number>(30)
-  const [audioBitrate, setAudioBitrate] = React.useState<number>(64000)
-  const [videoBitrate, setVideoBitrate] = React.useState<number>(assets.sections.video.Bitrate.min)
-  const [rtmpEndpoint, setRtmpEndpoint] = React.useState<string>(assets.sections.endpoint['RTMP endpoint'].value)
-  const [streamKey, setStreamKey] = React.useState<string>(assets.sections.endpoint['Stream key'].value)
+  const [resolution, setResolution] = React.useState<string>('640x340');
+  const [framerate, setFramerate] = React.useState<number>(30);
+  const [audioBitrate, setAudioBitrate] = React.useState<number>(64000);
+  const [videoBitrate, setVideoBitrate] = React.useState<number>(assets.sections.video.Bitrate.min);
+  const [rtmpEndpoint, setRtmpEndpoint] = React.useState<string>(assets.sections.endpoint['RTMP endpoint'].value);
+  const [streamKey, setStreamKey] = React.useState<string>(assets.sections.endpoint['Stream key'].value);
 
   
   // CONSTANTS
-  const ref = React.useRef<LiveStreamMethods | null>(null)
-  const isAndroid = Platform.OS === 'android'
-  const style = styles(streaming, isAndroid)
+  const ref = React.useRef<LiveStreamMethods | null>(null);
+  const isAndroid = Platform.OS === 'android';
+  const style = styles(streaming, isAndroid);
 
 
   // HANDLERS
@@ -76,12 +76,12 @@ export default function App() {
       )
       setStreaming(true)
     }
-  }
+  };
 
   const handleCamera = (): void =>  {
     if (camera === 'back') setCamera('front')
     else setCamera('back')
-  }
+  };
 
   const handleChangeTextInput = (
     value: string,
@@ -89,7 +89,7 @@ export default function App() {
   ): void => {
     input === 'RTMP endpoint' && setRtmpEndpoint(value)
     input === 'Stream key' && setStreamKey(value)
-  }
+  };
 
   const handleChangeSettingItem = (
     value: string | number,
@@ -123,13 +123,13 @@ export default function App() {
           break
       }
     }
-  }
+  };
 
   const resetWarning = () => {
     setTimeout(() => {
       setWarning({ display: false, message: '' })
     }, 3000);
-  }
+  };
 
 
   // RETURN

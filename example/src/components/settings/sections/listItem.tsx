@@ -30,14 +30,14 @@ const SectionListItem: React.FC<ISectionListProps> = ({
 }): JSX.Element => {
     const iconName = openSection === subSectionName.toLowerCase() 
         ? 'chevron-up-outline' 
-        : 'chevron-down-outline'
+        : 'chevron-down-outline';
     let settingValue = settings[
         subSectionName === 'Resolution'
             ? 'resolution'
             : subSectionName === 'Framerate'
                 ? 'framerate'
                 : 'audioBitrate'
-    ]
+    ];
 
     if (subSectionName === 'Bitrate') {
         switch (settingValue) {
@@ -63,7 +63,7 @@ const SectionListItem: React.FC<ISectionListProps> = ({
         setOpenSection(openSection === subSectionName.toLowerCase() as Opensection 
             ? null 
             : subSectionName.toLowerCase() as Opensection)
-    }
+    };
 
     return (
         <>

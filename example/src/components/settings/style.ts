@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
 	modalView: {
@@ -20,4 +20,4 @@ export default StyleSheet.create({
 		fontWeight: '700',
 		marginLeft: 15
 	}
-})
+});

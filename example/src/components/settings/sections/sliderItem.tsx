@@ -1,7 +1,7 @@
-import React from 'react'
-import Slider from '@ptomasroos/react-native-multi-slider'
-import { Text, View } from 'react-native'
-import styles from './style'
+import React from 'react';
+import Slider from '@ptomasroos/react-native-multi-slider';
+import { Text, View } from 'react-native';
+import styles from './style';
 
 interface ISectionSliderProps {
     subSectionName: string,
