@@ -56,5 +56,5 @@ export default StyleSheet.create({
   },
   inputItemField: {
     color: '#FFFFFF',
-  }
+  },
 });

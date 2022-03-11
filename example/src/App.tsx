@@ -23,9 +23,10 @@ export default function App() {
   const [audioMuted, setAudioMuted] = React.useState(false);
   const [camera, setCamera] = React.useState<'front' | 'back'>('back');
   const [settingsOpen, setSettingsOpen] = React.useState<boolean>(false);
-  const [warning, setWarning] = React.useState<
-    { display: boolean, message: string, }
-  >({ display: false, message: '', });
+  const [warning, setWarning] = React.useState<{
+    display: boolean;
+    message: string;
+  }>({ display: false, message: '' });
   // Settings
   const [resolution, setResolution] = React.useState<string>('640x340');
   const [framerate, setFramerate] = React.useState<number>(30);
@@ -40,7 +41,6 @@ export default function App() {
     assets.sections.endpoint['Stream key'].value
   );
 
-  
   // CONSTANTS
   const ref = React.useRef<LiveStreamMethods | null>(null);
   const isAndroid = Platform.OS === 'android';
@@ -50,7 +50,6 @@ export default function App() {
   React.useEffect(() => {
     warning.display && grow();
   }, [warning.display]);
-
 
   // HANDLERS
   const grow = () => {
@@ -101,14 +100,14 @@ export default function App() {
     }
   };
 
-  const handleCamera = (): void =>  {
+  const handleCamera = (): void => {
     if (camera === 'back') setCamera('front');
     else setCamera('back');
   };
 
   const handleChangeTextInput = (
     value: string,
-    input: 'RTMP endpoint' | 'Stream key',
+    input: 'RTMP endpoint' | 'Stream key'
   ): void => {
     input === 'RTMP endpoint' && setRtmpEndpoint(value);
     input === 'Stream key' && setStreamKey(value);
@@ -116,7 +115,7 @@ export default function App() {
 
   const handleChangeSettingItem = (
     value: string | number,
-    key: string,
+    key: string
   ): void => {
     if (key === 'Resolution') {
       setResolution(value as string);
@@ -140,7 +139,7 @@ export default function App() {
         case '128Kbps':
           setAudioBitrate(128000);
           break;
-      
+
         default:
           setAudioBitrate(192000);
           break;
@@ -149,20 +148,15 @@ export default function App() {
   };
 
   const handleClickOnSettings = () => {
-    setSettingsOpen(_prev => !_prev);
+    setSettingsOpen((_prev) => !_prev);
     shrink();
-    setWarning({ display: false, message: '', });
+    setWarning({ display: false, message: '' });
   };
-
 
   // RETURN
   return (
     <View style={style.container}>
-
-      <StatusBar 
-        animated={true}
-        barStyle='light-content'
-      />
+      <StatusBar animated={true} barStyle="light-content" />
 
       <LiveStreamView
         style={style.livestreamView}
@@ -171,7 +165,7 @@ export default function App() {
         video={{
           bitrate: videoBitrate,
           fps: framerate,
-          resolution
+          resolution,
         }}
         audio={{
           bitrate: audioBitrate,
@@ -180,31 +174,22 @@ export default function App() {
         }}
         isMuted={audioMuted}
         onConnectionSuccess={() => {
-          console.log('Received onConnectionSuccess')
+          console.log('Received onConnectionSuccess');
         }}
         onConnectionFailed={(e) => {
-          console.log('Received onConnectionFailed', e)
+          console.log('Received onConnectionFailed', e);
         }}
         onDisconnect={() => {
-          console.log('Received onDisconnect')
+          console.log('Received onDisconnect');
         }}
       />
 
       <View style={button({ bottom: isAndroid ? 20 : 40 }).container}>
-        <TouchableOpacity
-          style={style.streamButton}
-          onPress={handleStreaming}
-        >
+        <TouchableOpacity style={style.streamButton} onPress={handleStreaming}>
           {streaming ? (
-            <Icon 
-              name="stop-circle-outline" 
-              size={50} 
-              color="#FF0001" 
-            />
+            <Icon name="stop-circle-outline" size={50} color="#FF0001" />
           ) : (
-            <Text style={style.streamText}>
-              Start streaming
-            </Text>
+            <Text style={style.streamText}>Start streaming</Text>
           )}
         </TouchableOpacity>
       </View>
@@ -212,51 +197,42 @@ export default function App() {
       <View style={button({ bottom: isAndroid ? 20 : 40, left: 20 }).container}>
         <TouchableOpacity
           style={style.audioButton}
-          onPress={() => setAudioMuted(_prev => !_prev)}
+          onPress={() => setAudioMuted((_prev) => !_prev)}
         >
-          <Icon 
+          <Icon
             name={audioMuted ? 'mic-off-outline' : 'mic-outline'}
-            size={30} 
+            size={30}
             color={audioMuted ? '#DC3546' : '#FFFFFF'}
           />
         </TouchableOpacity>
       </View>
 
-      <View style={button({ bottom: isAndroid ? 20 : 40, right: 20 }).container}>
-        <TouchableOpacity
-          style={style.cameraButton}
-          onPress={handleCamera}
-        >
-          <Icon 
-            name="camera-reverse-outline" 
-            size={30} 
-            color="#FFFFFF" 
-          />
+      <View
+        style={button({ bottom: isAndroid ? 20 : 40, right: 20 }).container}
+      >
+        <TouchableOpacity style={style.cameraButton} onPress={handleCamera}>
+          <Icon name="camera-reverse-outline" size={30} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
 
       <Animated.View style={[style.settingsButton, { width: growAnim }]}>
         {warning.display && (
           <View style={style.warningContainer}>
-          <Text style={style.warning} numberOfLines={1} >
-            {warning.message}
-          </Text>
+            <Text style={style.warning} numberOfLines={1}>
+              {warning.message}
+            </Text>
           </View>
         )}
         <TouchableOpacity
-        style={{position: 'absolute', right: 10 }}
+          style={{ position: 'absolute', right: 10 }}
           onPress={handleClickOnSettings}
         >
-          <Icon
-            name='settings-outline'
-            size={30} 
-            color="#FFFFFF" 
-          />
+          <Icon name="settings-outline" size={30} color="#FFFFFF" />
         </TouchableOpacity>
       </Animated.View>
 
       {settingsOpen && (
-        <Settings 
+        <Settings
           closeSettings={() => setSettingsOpen(false)}
           setVideoBitrate={setVideoBitrate}
           handleChangeTextInput={handleChangeTextInput}
@@ -267,10 +243,10 @@ export default function App() {
             videoBitrate,
             audioBitrate,
             rtmpEndpoint,
-            streamKey
+            streamKey,
           }}
         />
       )}
     </View>
   );
-};
+}
