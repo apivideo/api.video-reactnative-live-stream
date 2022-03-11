@@ -4,11 +4,11 @@ import { Text, View } from 'react-native';
 import styles from './style';
 
 interface ISectionSliderProps {
-    subSectionName: string,
+    subSectionName: string
     subSection: { type: 'slider', min: number, max: number }
     videoBitrate: number
     setVideoBitrate: (bitrate: number) => void
-}
+};
 
 const SectionSliderItem: React.FC<ISectionSliderProps> = ({
     subSectionName,
@@ -29,6 +29,6 @@ const SectionSliderItem: React.FC<ISectionSliderProps> = ({
         />
         <Text style={styles.sliderItemLabel}>{videoBitrate}</Text>
     </View>
-)
+);
 
-export default SectionSliderItem
+export default SectionSliderItem;

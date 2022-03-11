@@ -25,7 +25,7 @@ export interface ISectionProps {
 		rtmpEndpoint: string
 		streamKey: string
 	}
-}
+};
 
 const Section: React.FC<ISectionProps> = ({
 	sectionName,
@@ -85,7 +85,7 @@ const Section: React.FC<ISectionProps> = ({
 			})}
 
 		</View>
-	)
-}
+	);
+};
 
-export default Section
+export default Section;

@@ -24,13 +24,13 @@ interface ISettingsProps {
 		rtmpEndpoint: string
 		streamKey: string
 	}
-}
+};
 
 export type Opensection = 
 | 'resolution'
 | 'framerate'
 | 'bitrateAudio'
-| null
+| null;
 
 const Settings: React.FC<ISettingsProps> = ({
 	closeSettings,
@@ -81,7 +81,7 @@ const Settings: React.FC<ISettingsProps> = ({
 
 			</SafeAreaView>
 		</Modal>
-	)
-}
+	);
+};
 
-export default Settings
+export default Settings;

@@ -1,8 +1,8 @@
-import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import styles from './style'
-import Icon from 'react-native-vector-icons/Ionicons'
-import type { Opensection } from '..'
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import styles from './style';
+import Icon from 'react-native-vector-icons/Ionicons';
+import type { Opensection } from '..';
 
 interface ISectionListProps {
 	openSection: Opensection
@@ -18,7 +18,7 @@ interface ISectionListProps {
 		rtmpEndpoint: string
 		streamKey: string
 	}
-}
+};
 
 const SectionListItem: React.FC<ISectionListProps> = ({
     setOpenSection,
@@ -98,8 +98,8 @@ const SectionListItem: React.FC<ISectionListProps> = ({
                 </View>
             )}
         </>
-    )
+    );
 
-}
+};
 
-export default SectionListItem
+export default SectionListItem;

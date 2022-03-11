@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import * as React from 'react';
 import {
   View,
@@ -23,7 +22,7 @@ export default function App() {
   const [audioMuted, setAudioMuted] = React.useState(false);
   const [camera, setCamera] = React.useState<'front' | 'back'>('back');
   const [settingsOpen, setSettingsOpen] = React.useState<boolean>(false);
-  const [warning, setWarning] = React.useState<{ display: Boolean, message: string }>({
+  const [warning, setWarning] = React.useState<{ display: boolean, message: string }>({
     display: false,
     message: ''
   });
@@ -39,7 +38,7 @@ export default function App() {
   // CONSTANTS
   const ref = React.useRef<LiveStreamMethods | null>(null);
   const isAndroid = Platform.OS === 'android';
-  const style = styles(streaming, isAndroid);
+  const style = styles(streaming, isAndroid, warning.display);
 
 
   // HANDLERS
@@ -194,7 +193,7 @@ export default function App() {
           <Icon 
             name={audioMuted ? 'mic-off-outline' : 'mic-outline'}
             size={30} 
-            color="#FA5B30"  
+            color={audioMuted ? '#FF0001' : '#FFFFFF'}
           />
         </TouchableOpacity>
       </View>
@@ -207,7 +206,7 @@ export default function App() {
           <Icon 
             name="camera-reverse-outline" 
             size={30} 
-            color="#FA5B30" 
+            color="#FFFFFF" 
           />
         </TouchableOpacity>
       </View>
@@ -228,7 +227,7 @@ export default function App() {
           <Icon
             name='settings-outline'
             size={30} 
-            color="#FA5B30" 
+            color="#FFFFFF" 
           />
         </TouchableOpacity>
       </View>
@@ -250,5 +249,5 @@ export default function App() {
         />
       )}
     </View>
-  )
-}
+  );
+};

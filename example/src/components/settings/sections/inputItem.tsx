@@ -7,7 +7,7 @@ interface ISectionInputProps {
     handleChangeTextInput: (value: string, input: 'RTMP endpoint' | 'Stream key') => void
     value: string
     placeholder: string
-}
+};
 
 const SectionInputItem: React.FC<ISectionInputProps> = ({
     subSectionName,
@@ -25,6 +25,6 @@ const SectionInputItem: React.FC<ISectionInputProps> = ({
             placeholderTextColor='#42474f'
         />
     </View>
-)
+);
 
-export default SectionInputItem
+export default SectionInputItem;
