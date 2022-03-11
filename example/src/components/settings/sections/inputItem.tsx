@@ -20,7 +20,7 @@ const SectionInputItem: React.FC<ISectionInputProps> = ({
         <TextInput
             style={styles.inputItemField}
             value={value}
-            onChangeText={value => handleChangeTextInput(value, subSectionName)}
+            onChangeText={v => handleChangeTextInput(v, subSectionName)}
             placeholder={placeholder}
             placeholderTextColor='#42474f'
         />
