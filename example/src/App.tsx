@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   Platform,
   Text,
-  StatusBar
+  StatusBar,
+  Animated,
 } from 'react-native';
 import {
   LiveStreamView,
@@ -22,112 +23,135 @@ export default function App() {
   const [audioMuted, setAudioMuted] = React.useState(false);
   const [camera, setCamera] = React.useState<'front' | 'back'>('back');
   const [settingsOpen, setSettingsOpen] = React.useState<boolean>(false);
-  const [warning, setWarning] = React.useState<{ display: boolean, message: string }>({
-    display: false,
-    message: ''
-  });
+  const [warning, setWarning] = React.useState<
+    { display: boolean, message: string, }
+  >({ display: false, message: '', });
   // Settings
   const [resolution, setResolution] = React.useState<string>('640x340');
   const [framerate, setFramerate] = React.useState<number>(30);
   const [audioBitrate, setAudioBitrate] = React.useState<number>(64000);
-  const [videoBitrate, setVideoBitrate] = React.useState<number>(assets.sections.video.Bitrate.min);
-  const [rtmpEndpoint, setRtmpEndpoint] = React.useState<string>(assets.sections.endpoint['RTMP endpoint'].value);
-  const [streamKey, setStreamKey] = React.useState<string>(assets.sections.endpoint['Stream key'].value);
+  const [videoBitrate, setVideoBitrate] = React.useState<number>(
+    assets.sections.video.Bitrate.min
+  );
+  const [rtmpEndpoint, setRtmpEndpoint] = React.useState<string>(
+    assets.sections.endpoint['RTMP endpoint'].value
+  );
+  const [streamKey, setStreamKey] = React.useState<string>(
+    assets.sections.endpoint['Stream key'].value
+  );
 
   
   // CONSTANTS
   const ref = React.useRef<LiveStreamMethods | null>(null);
   const isAndroid = Platform.OS === 'android';
   const style = styles(streaming, isAndroid, warning.display);
+  const growAnim = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    warning.display && grow();
+  }, [warning.display]);
 
 
   // HANDLERS
+  const grow = () => {
+    Animated.timing(growAnim, {
+      toValue: isAndroid ? 265 : 290,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  };
+  const shrink = () => {
+    Animated.timing(growAnim, {
+      toValue: 0,
+      duration: 200,
+      useNativeDriver: false,
+    }).start();
+  };
+
   const handleStreaming = (): void => {
     // Reset warning
-    setWarning({ display: false, message: '' })
+    setWarning({ display: false, message: '' });
     // No RTMP
     if (rtmpEndpoint.trim().length === 0) {
       setWarning({
         display: true,
-        message: 'Be sure to enter a valid RTMP endpoint in settings'
-      })
-      resetWarning()
-      return
+        message: 'Please enter a valid RTMP endpoint in settings',
+      });
+      return;
     }
     // No stream key
     if (streamKey.trim().length === 0) {
       setWarning({
         display: true,
-        message: 'Be sure to enter a valid stream key in settings'
-      })
-      resetWarning()
-      return
+        message: 'Please enter a valid stream key in settings',
+      });
+      return;
     }
 
     if (streaming) {
-      ref.current?.stopStreaming()
-      setStreaming(false)
+      ref.current?.stopStreaming();
+      setStreaming(false);
     } else {
       ref.current?.startStreaming(
         isAndroid
           ? '833ae9df-d228-4ff3-b15a-b4ac53280b80'
           : 'd08c582e-e251-4f9e-9894-8c8d69755d45'
-      )
-      setStreaming(true)
+      );
+      setStreaming(true);
     }
   };
 
   const handleCamera = (): void =>  {
-    if (camera === 'back') setCamera('front')
-    else setCamera('back')
+    if (camera === 'back') setCamera('front');
+    else setCamera('back');
   };
 
   const handleChangeTextInput = (
     value: string,
-    input: 'RTMP endpoint' | 'Stream key'
+    input: 'RTMP endpoint' | 'Stream key',
   ): void => {
-    input === 'RTMP endpoint' && setRtmpEndpoint(value)
-    input === 'Stream key' && setStreamKey(value)
+    input === 'RTMP endpoint' && setRtmpEndpoint(value);
+    input === 'Stream key' && setStreamKey(value);
   };
 
   const handleChangeSettingItem = (
     value: string | number,
-    key: string
+    key: string,
   ): void => {
     if (key === 'Resolution') {
-      setResolution(value as string)
-      return
+      setResolution(value as string);
+      return;
     }
     if (key === 'Framerate') {
-      setFramerate(value as number)
-      return
+      setFramerate(value as number);
+      return;
     }
     if (key === 'Bitrate') {
-      setAudioBitrate(value as number)
+      setAudioBitrate(value as number);
       switch (value) {
         case '24Kbps':
-          setAudioBitrate(24000)
-          break
+          setAudioBitrate(24000);
+          break;
 
         case '64Kbps':
-          setAudioBitrate(64000)
-          break
+          setAudioBitrate(64000);
+          break;
 
         case '128Kbps':
-          setAudioBitrate(128000)
-          break
+          setAudioBitrate(128000);
+          break;
       
         default:
-          setAudioBitrate(192000)
-          break
+          setAudioBitrate(192000);
+          break;
       }
     }
   };
 
-  const resetWarning = () => {
-    setTimeout(() => {
-      setWarning({ display: false, message: '' })
-    }, 3000);
+  const handleClickOnSettings = () => {
+    setSettingsOpen(_prev => !_prev);
+    shrink();
+    setWarning({ display: false, message: '', });
   };
 
 
@@ -193,7 +217,7 @@ export default function App() {
           <Icon 
             name={audioMuted ? 'mic-off-outline' : 'mic-outline'}
             size={30} 
-            color={audioMuted ? '#FF0001' : '#FFFFFF'}
+            color={audioMuted ? '#DC3546' : '#FFFFFF'}
           />
         </TouchableOpacity>
       </View>
@@ -211,18 +235,17 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      <View
-        style={style.settingsButton}
-      >
+      <Animated.View style={[style.settingsButton, { width: growAnim }]}>
         {warning.display && (
           <View style={style.warningContainer}>
-          <Text style={style.warning}>
+          <Text style={style.warning} numberOfLines={1} >
             {warning.message}
           </Text>
           </View>
         )}
         <TouchableOpacity
-          onPress={() => setSettingsOpen(_prev => !_prev)}
+        style={{position: 'absolute', right: 10 }}
+          onPress={handleClickOnSettings}
         >
           <Icon
             name='settings-outline'
@@ -230,7 +253,7 @@ export default function App() {
             color="#FFFFFF" 
           />
         </TouchableOpacity>
-      </View>
+      </Animated.View>
 
       {settingsOpen && (
         <Settings 
