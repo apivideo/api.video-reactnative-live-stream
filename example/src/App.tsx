@@ -224,7 +224,7 @@ export default function App() {
           </View>
         )}
         <TouchableOpacity
-          style={{ position: 'absolute', right: 10 }}
+          style={style.settingsIcon}
           onPress={handleClickOnSettings}
         >
           <Icon name="settings-outline" size={30} color="#FFFFFF" />

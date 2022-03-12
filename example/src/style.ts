@@ -66,6 +66,10 @@ export default (streaming: boolean, android: boolean, warning: boolean) =>
       borderWidth: warning ? 0.5 : undefined,
       backgroundColor: warning ? '#DC3546' : undefined,
     },
+    settingsIcon: {
+      position: 'absolute',
+      right: 10,
+    },
     warningContainer: {
       marginRight: 20,
     },
