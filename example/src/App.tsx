@@ -91,11 +91,7 @@ export default function App() {
       ref.current?.stopStreaming();
       setStreaming(false);
     } else {
-      ref.current?.startStreaming(
-        isAndroid
-          ? '833ae9df-d228-4ff3-b15a-b4ac53280b80'
-          : 'd08c582e-e251-4f9e-9894-8c8d69755d45'
-      );
+      ref.current?.startStreaming(streamKey);
       setStreaming(true);
     }
   };
@@ -176,7 +172,7 @@ export default function App() {
         onConnectionSuccess={() => {
           console.log('Received onConnectionSuccess');
         }}
-        onConnectionFailed={(e) => {
+        onConnectionFailed={(e: any) => {
           console.log('Received onConnectionFailed', e);
         }}
         onDisconnect={() => {
