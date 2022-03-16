@@ -16,6 +16,15 @@ import styles, { button } from './style';
 import Settings from './components/settings';
 import assets from './assets';
 
+export interface ISettingsState {
+  resolution: string;
+  framerate: number;
+  videoBitrate: number;
+  audioBitrate: number;
+  rtmpEndpoint: string;
+  streamKey: string;
+}
+
 export default function App() {
   // LOCAL STATE
   // Stream view
@@ -27,19 +36,14 @@ export default function App() {
     display: boolean;
     message: string;
   }>({ display: false, message: '' });
-  // Settings
-  const [resolution, setResolution] = React.useState<string>('640x340');
-  const [framerate, setFramerate] = React.useState<number>(30);
-  const [audioBitrate, setAudioBitrate] = React.useState<number>(64000);
-  const [videoBitrate, setVideoBitrate] = React.useState<number>(
-    assets.sections.video.Bitrate.min
-  );
-  const [rtmpEndpoint, setRtmpEndpoint] = React.useState<string>(
-    assets.sections.endpoint['RTMP endpoint'].value
-  );
-  const [streamKey, setStreamKey] = React.useState<string>(
-    assets.sections.endpoint['Stream key'].value
-  );
+  const [settings, setSettings] = React.useState<ISettingsState>({
+    resolution: '640x340',
+    framerate: 30,
+    videoBitrate: assets.sections.video.Bitrate.min,
+    audioBitrate: 64000,
+    rtmpEndpoint: assets.sections.endpoint['RTMP endpoint'].value,
+    streamKey: assets.sections.endpoint['Stream key'].value,
+  });
 
   // CONSTANTS
   const ref = React.useRef<LiveStreamMethods | null>(null);
@@ -71,7 +75,7 @@ export default function App() {
     // Reset warning
     setWarning({ display: false, message: '' });
     // No RTMP
-    if (rtmpEndpoint.trim().length === 0) {
+    if (settings.rtmpEndpoint.trim().length === 0) {
       setWarning({
         display: true,
         message: 'Please enter a valid RTMP endpoint in settings',
@@ -79,7 +83,7 @@ export default function App() {
       return;
     }
     // No stream key
-    if (streamKey.trim().length === 0) {
+    if (settings.streamKey.trim().length === 0) {
       setWarning({
         display: true,
         message: 'Please enter a valid stream key in settings',
@@ -91,7 +95,7 @@ export default function App() {
       ref.current?.stopStreaming();
       setStreaming(false);
     } else {
-      ref.current?.startStreaming(streamKey);
+      ref.current?.startStreaming(settings.streamKey);
       setStreaming(true);
     }
   };
@@ -99,48 +103,6 @@ export default function App() {
   const handleCamera = (): void => {
     if (camera === 'back') setCamera('front');
     else setCamera('back');
-  };
-
-  const handleChangeTextInput = (
-    value: string,
-    input: 'RTMP endpoint' | 'Stream key'
-  ): void => {
-    input === 'RTMP endpoint' && setRtmpEndpoint(value);
-    input === 'Stream key' && setStreamKey(value);
-  };
-
-  const handleChangeSettingItem = (
-    value: string | number,
-    key: string
-  ): void => {
-    if (key === 'Resolution') {
-      setResolution(value as string);
-      return;
-    }
-    if (key === 'Framerate') {
-      setFramerate(value as number);
-      return;
-    }
-    if (key === 'Bitrate') {
-      setAudioBitrate(value as number);
-      switch (value) {
-        case '24Kbps':
-          setAudioBitrate(24000);
-          break;
-
-        case '64Kbps':
-          setAudioBitrate(64000);
-          break;
-
-        case '128Kbps':
-          setAudioBitrate(128000);
-          break;
-
-        default:
-          setAudioBitrate(192000);
-          break;
-      }
-    }
   };
 
   const handleClickOnSettings = () => {
@@ -159,12 +121,12 @@ export default function App() {
         ref={ref}
         camera={camera}
         video={{
-          bitrate: videoBitrate,
-          fps: framerate,
-          resolution,
+          bitrate: settings.videoBitrate,
+          fps: settings.framerate,
+          resolution: settings.resolution,
         }}
         audio={{
-          bitrate: audioBitrate,
+          bitrate: settings.audioBitrate,
           sampleRate: 44100,
           isStereo: true,
         }}
@@ -230,17 +192,8 @@ export default function App() {
       {settingsOpen && (
         <Settings
           closeSettings={() => setSettingsOpen(false)}
-          setVideoBitrate={setVideoBitrate}
-          handleChangeTextInput={handleChangeTextInput}
-          handleChangeSettingItem={handleChangeSettingItem}
-          settings={{
-            resolution,
-            framerate,
-            videoBitrate,
-            audioBitrate,
-            rtmpEndpoint,
-            streamKey,
-          }}
+          settings={settings}
+          setSettings={setSettings}
         />
       )}
     </View>
