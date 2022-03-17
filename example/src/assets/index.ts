@@ -3,14 +3,7 @@ export default {
     video: {
       Resolution: {
         type: 'list',
-        data: [
-          '352x240',
-          '640x360',
-          '858x480',
-          '1280x720',
-          '1920x1080',
-          '3860x2160',
-        ],
+        data: ['240p', '360p', '480p', '720p', '1080p', '2160p'],
       },
       Framerate: {
         type: 'list',

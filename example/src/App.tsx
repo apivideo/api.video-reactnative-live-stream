@@ -37,7 +37,7 @@ export default function App() {
     message: string;
   }>({ display: false, message: '' });
   const [settings, setSettings] = React.useState<ISettingsState>({
-    resolution: '640x340',
+    resolution: '360p',
     framerate: 30,
     videoBitrate: assets.sections.video.Bitrate.min,
     audioBitrate: 64000,
