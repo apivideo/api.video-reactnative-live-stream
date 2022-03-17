@@ -173,21 +173,23 @@ export default function App() {
         </TouchableOpacity>
       </View>
 
-      <Animated.View style={[style.settingsButton, { width: growAnim }]}>
-        {warning.display && (
-          <View style={style.warningContainer}>
-            <Text style={style.warning} numberOfLines={1}>
-              {warning.message}
-            </Text>
-          </View>
-        )}
-        <TouchableOpacity
-          style={style.settingsIcon}
-          onPress={handleClickOnSettings}
-        >
-          <Icon name="settings-outline" size={30} color="#FFFFFF" />
-        </TouchableOpacity>
-      </Animated.View>
+      {!streaming && (
+        <Animated.View style={[style.settingsButton, { width: growAnim }]}>
+          {warning.display && (
+            <View style={style.warningContainer}>
+              <Text style={style.warning} numberOfLines={1}>
+                {warning.message}
+              </Text>
+            </View>
+          )}
+          <TouchableOpacity
+            style={style.settingsIcon}
+            onPress={handleClickOnSettings}
+          >
+            <Icon name="settings-outline" size={30} color="#FFFFFF" />
+          </TouchableOpacity>
+        </Animated.View>
+      )}
 
       {settingsOpen && (
         <Settings
