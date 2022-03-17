@@ -121,7 +121,7 @@ export default function App() {
         ref={ref}
         camera={camera}
         video={{
-          bitrate: settings.videoBitrate,
+          bitrate: settings.videoBitrate * 1000,
           fps: settings.framerate,
           resolution: settings.resolution,
         }}
