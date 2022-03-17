@@ -19,7 +19,7 @@ export default (streaming: boolean, android: boolean, warning: boolean) =>
       borderRadius: 60,
       width: streaming ? 50 : undefined,
       height: streaming ? 50 : undefined,
-      backgroundColor: streaming ? undefined : '#8137FF',
+      backgroundColor: streaming ? undefined : '#E53101',
       paddingVertical: streaming ? undefined : 15,
       paddingHorizontal: streaming ? undefined : 25,
     },
