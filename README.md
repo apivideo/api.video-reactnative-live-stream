@@ -181,9 +181,48 @@ type ReactNativeLiveStreamMethods = {
 };
 ```
 
-# Example
+# Example App
+You can try our [example app](https://github.com/apivideo/api.video-reactnative-live-stream/tree/main/example), feel free to test it.
 
-An example that demonstrates how to use the API is provided in folder [./example](https://github.com/apivideo/api.video-reactnative-live-stream/tree/main/example).
+## Setup
+Be sure to follow the [React Native installation steps](https://reactnative.dev/docs/environment-setup) before anything.
+
+1) Open a new terminal
+2) Clone this repository and install the packages
+
+```shell
+git clone https://github.com/apivideo/api.video-reactnative-live-stream.git livestream_example_app
+cd livestream_example_app
+yarn install
+```
+3) Go into the `/example` directory and install the packages
+
+```shell
+cd example
+yarn install
+```
+
+### Android
+
+You can launch the application
+
+From root directory
+```shell
+yarn example android
+```
+
+From `/example` directory
+```shell
+yarn android
+```
+
+### iOS
+
+1) Once in `/example`, go into `example/ios` and install the Pods
+
+```shell
+pod install
+```
 
 # Plugins
 
