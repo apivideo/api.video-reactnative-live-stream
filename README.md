@@ -188,40 +188,32 @@ You can try our [example app](https://github.com/apivideo/api.video-reactnative-
 Be sure to follow the [React Native installation steps](https://reactnative.dev/docs/environment-setup) before anything.
 
 1) Open a new terminal
-2) Clone this repository and install the packages
+2) Clone the repository and go into it
 
 ```shell
-git clone https://github.com/apivideo/api.video-reactnative-live-stream.git livestream_example_app
-cd livestream_example_app
-yarn install
-```
-3) Go into the `/example` directory and install the packages
-
-```shell
-cd example
-yarn install
+git clone https://github.com/apivideo/api.video-reactnative-live-stream.git livestream_example_app && cd livestream_example_app
 ```
 
 ### Android
 
-You can launch the application
+Install the packages and launch the application
 
-From root directory
 ```shell
-yarn example android
-```
-
-From `/example` directory
-```shell
-yarn android
+yarn && yarn example android
 ```
 
 ### iOS
 
-1) Once in `/example`, go into `example/ios` and install the Pods
+1) Install the packages
 
 ```shell
-pod install
+yarn install
+```
+
+2) Go into `/example/ios` and install the Pods
+
+```shell
+cd /example/ios && pod install
 ```
 
 # Plugins
