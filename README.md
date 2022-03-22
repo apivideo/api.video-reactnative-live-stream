@@ -181,9 +181,53 @@ type ReactNativeLiveStreamMethods = {
 };
 ```
 
-# Example
+# Example App
+You can try our [example app](https://github.com/apivideo/api.video-reactnative-live-stream/tree/main/example), feel free to test it.
 
-An example that demonstrates how to use the API is provided in folder [./example](https://github.com/apivideo/api.video-reactnative-live-stream/tree/main/example).
+## Setup
+Be sure to follow the [React Native installation steps](https://reactnative.dev/docs/environment-setup) before anything.
+
+1) Open a new terminal
+2) Clone the repository and go into it
+
+```shell
+git clone https://github.com/apivideo/api.video-reactnative-live-stream.git livestream_example_app && cd livestream_example_app
+```
+
+### Android
+
+Install the packages and launch the application
+
+```shell
+yarn && yarn example android
+```
+
+### iOS
+
+1) Install the packages
+
+```shell
+yarn install
+```
+
+2) Go into `/example/ios` and install the Pods
+
+```shell
+cd /example/ios && pod install
+```
+
+3) Sign your application
+
+Open Xcode, click on "Open a project or file" and open the `Example.xcworkspace` file.
+<br />You can find it in `YOUR_PROJECT_NAME/example/ios`.
+<br />Click on Example, go in `Signin & Capabilities` tab, add your team and create a unique 
+bundle identifier.
+
+4) Launch the application, from the root of your project
+
+```shell
+yarn example ios
+```
 
 # Plugins
 

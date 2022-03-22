@@ -9,8 +9,10 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "react": "16.13.1",
-    "react-native": "0.66.4"
+    "react-native": "0.66.4",
+    "react-native-vector-icons": "^9.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

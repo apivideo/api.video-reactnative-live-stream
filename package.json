@@ -1,6 +1,6 @@
 {
   "name": "@api.video/react-native-live-stream",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "An RTMP Library from Api.video",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -141,5 +141,6 @@
         }
       ]
     ]
-  }
+  },
+  "dependencies": {}
 }
