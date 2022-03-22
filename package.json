@@ -1,6 +1,6 @@
 {
   "name": "@api.video/react-native-livestream",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "An RTMP Library from Api.video",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -16,7 +16,7 @@
     "android/gradle.properties",
     "ios",
     "cpp",
-    "api-video-react-native-livestream.podspec",
+    "react-native-live-stream.podspec",
     "!lib/typescript/example",
     "!ios/build",
     "!**/__tests__",
@@ -141,5 +141,6 @@
         }
       ]
     ]
-  }
+  },
+  "dependencies": {}
 }

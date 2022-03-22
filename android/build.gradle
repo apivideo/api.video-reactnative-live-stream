@@ -1,6 +1,6 @@
 buildscript {
   // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['ReactNativeLivestream_kotlinVersion']
+  def kotlin_version = rootProject.ext.has('kotlinVersion') ? rootProject.ext.get('kotlinVersion') : project.properties['ReactNativeLiveStream_kotlinVersion']
 
   repositories {
     google()
@@ -19,11 +19,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 def getExtOrDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['ReactNativeLivestream_' + name]
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['ReactNativeLiveStream_' + name]
 }
 
 def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['ReactNativeLivestream_' + name]).toInteger()
+  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties['ReactNativeLiveStream_' + name]).toInteger()
 }
 
 android {
@@ -128,9 +128,7 @@ dependencies {
   // noinspection GradleDynamicVersion
   api 'com.facebook.react:react-native:+'
   implementation "androidx.multidex:multidex:2.0.1"
-  implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+  implementation "androidx.constraintlayout:constraintlayout:2.1.3"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-  implementation ('video.api:android-live-stream:0.1.5') {
-    transitive = true
-  }
+  implementation "video.api:android-live-stream:0.3.3"
 }

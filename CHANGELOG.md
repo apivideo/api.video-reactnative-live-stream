@@ -1,6 +1,11 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.0.0] - 2022-03-22
+- Update sample app
+- Update README
+- Update API / client / NPM package
+
 ## [0.2.1] - 2022-01-21
 - Remove jcenter as a dependency repository
 - Update dependencies (react-native)
