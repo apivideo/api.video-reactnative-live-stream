@@ -1,0 +1,16 @@
+name: Create draft release if needed
+on:
+  push:
+    branches:
+      - main
+jobs:
+  update-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create draft release if needed
+        uses: apivideo/api.video-release-from-changelog-action@v0.0.1
+        with:
+          github-auth-token: ${{ secrets.GITHUB_TOKEN }}
+          prefix: v
+   
