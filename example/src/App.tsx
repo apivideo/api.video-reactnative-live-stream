@@ -10,7 +10,7 @@ import {
 import {
   LiveStreamView,
   LiveStreamMethods,
-} from '@api.video/react-native-live-stream';
+} from '@api.video/react-native-livestream';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { button } from './style';
 import Settings from './components/settings';

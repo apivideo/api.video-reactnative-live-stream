@@ -1,7 +1,7 @@
 [![badge](https://img.shields.io/twitter/follow/api_video?style=social)](https://twitter.com/intent/follow?screen_name=api_video) &nbsp; [![badge](https://img.shields.io/github/stars/apivideo/api.video-reactnative-live-stream?style=social)](https://github.com/apivideo/api.video-reactnative-live-stream) &nbsp; [![badge](https://img.shields.io/discourse/topics?server=https%3A%2F%2Fcommunity.api.video)](https://community.api.video)
 ![](https://github.com/apivideo/API_OAS_file/blob/master/apivideo_banner.png)
 
-![npm](https://img.shields.io/npm/v/@api.video/react-native-live-stream) 
+![npm](https://img.shields.io/npm/v/@api.video/react-native-livestream) 
 ![ts](https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label)
 <h1 align="center">React Native RTMP live stream client</h1>
 
@@ -18,9 +18,12 @@
   - [Code sample](#code-sample)
 - [Documentation](#documentation)
   - [Props & Methods](#props--methods)
+- [Example App](#example-app)
+  - [Setup](#setup)
+    - [Android](#android)
+    - [iOS](#ios)
 - [Plugins](#plugins)
 - [FAQ](#faq)
-- [Example App](#example-app)
 
 # Project description
 
@@ -31,11 +34,11 @@ This module is made for broadcasting rtmp live stream from smartphone camera
 ## Installation
 
 ```sh
-npm install @api.video/react-native-live-stream
+npm install @api.video/react-native-livestream
 ```
 or
 ```sh
-yarn add @api.video/react-native-live-stream
+yarn add @api.video/react-native-livestream
 ```
 _Note: if you are on iOS, you will need two extra steps:_
 1) Don't forget to install the native dependencies with Cocoapods
@@ -75,7 +78,7 @@ Your application must dynamically require android.permission.CAMERA and android.
 ```jsx
 import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { LiveStreamView } from '@api.video/react-native-live-stream';
+import { LiveStreamView } from '@api.video/react-native-livestream';
 
 const App = () => {
   const ref = useRef(null);
