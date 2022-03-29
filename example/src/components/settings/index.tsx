@@ -46,7 +46,16 @@ const Settings: React.FC<ISettingsProps> = ({
     key: string
   ): void => {
     if (key === 'Resolution') {
-      setSettingsState((_prev) => ({ ..._prev, resolution: value as string }));
+      setSettingsState((_prev) => ({
+        ..._prev,
+        resolution: value as
+          | '240p'
+          | '360p'
+          | '480p'
+          | '720p'
+          | '1080p'
+          | '2160p',
+      }));
       return;
     }
     if (key === 'Framerate') {

@@ -6,6 +6,7 @@ import {
   Text,
   StatusBar,
   Animated,
+  Button,
 } from 'react-native';
 import {
   LiveStreamView,
@@ -17,7 +18,7 @@ import Settings from './components/settings';
 import assets from './assets';
 
 export interface ISettingsState {
-  resolution: string;
+  resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
   framerate: number;
   videoBitrate: number;
   audioBitrate: number;
@@ -25,7 +26,7 @@ export interface ISettingsState {
   streamKey: string;
 }
 
-export default function App() {
+export default function App({ navigation }) {
   // LOCAL STATE
   // Stream view
   const [streaming, setStreaming] = React.useState(false);
@@ -199,5 +200,12 @@ export default function App() {
         />
       )}
     </View>
+    // <Button
+    //   title="Go to home"
+    //   onPress={() => {
+    //     console.log('PRESS HOME');
+    //     navigation.navigate('Home');
+    //   }}
+    // />
   );
 }
