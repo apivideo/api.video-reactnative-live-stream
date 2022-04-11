@@ -109,21 +109,9 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
     onConnectionFailedEvent(reason)
   }
 
-  override fun onConnectionStarted(url: String) {
-    Log.w(this::class.simpleName, "Connection started")
-  }
-
   override fun onDisconnect() {
     Log.w(this::class.simpleName, "Disconnected")
     onDisconnectEvent()
-  }
-
-  override fun onAuthError() {
-    Log.e(this::class.simpleName, "Authentication failed")
-  }
-
-  override fun onAuthSuccess() {
-    Log.i(this::class.simpleName, "Authentication is successful")
   }
 
   private fun onConnectionSuccessEvent() {

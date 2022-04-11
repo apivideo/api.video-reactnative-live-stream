@@ -5,10 +5,9 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
-import video.api.livestream.models.AudioConfig
-import video.api.livestream.models.VideoConfig
 import video.api.reactnative.livestream.utils.getCameraFacing
-import video.api.reactnative.livestream.utils.getResolution
+import video.api.reactnative.livestream.utils.toAudioConfig
+import video.api.reactnative.livestream.utils.toVideoConfig
 
 
 class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStreamView>() {
@@ -51,22 +50,12 @@ class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStream
 
   @ReactProp(name = ViewProps.VIDEO_CONFIG)
   fun setVideoConfig(view: ReactNativeLiveStreamView, videoMap: ReadableMap) {
-    view.videoConfig = VideoConfig(
-      bitrate = videoMap.getInt(ViewProps.BITRATE),
-      resolution = videoMap.getString(ViewProps.RESOLUTION)?.getResolution()!!,
-      fps = videoMap.getInt(ViewProps.FPS)
-    )
+    view.videoConfig = videoMap.toVideoConfig()
   }
 
   @ReactProp(name = ViewProps.AUDIO_CONFIG)
   fun setAudioConfig(view: ReactNativeLiveStreamView, audioMap: ReadableMap) {
-    view.audioConfig = AudioConfig(
-      bitrate = audioMap.getInt(ViewProps.BITRATE),
-      sampleRate = audioMap.getInt(ViewProps.SAMPLE_RATE),
-      stereo = audioMap.getBoolean(ViewProps.IS_STEREO),
-      echoCanceler = true,
-      noiseSuppressor = true
-    )
+    view.audioConfig = audioMap.toAudioConfig()
   }
 
   @ReactProp(name = ViewProps.CAMERA)

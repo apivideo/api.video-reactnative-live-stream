@@ -238,7 +238,7 @@ api.video live stream library is using external native library for broadcasting
 
 | Plugin | README |
 | ------ | ------ |
-| rtmp-rtsp-stream-client-java | [rtmp-rtsp-stream-client-java] |
+| StreamPack | [StreamPack] |
 | HaishinKit | [HaishinKit] |
 
 # FAQ
@@ -248,6 +248,6 @@ Or use [Issues].
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
-   [rtmp-rtsp-stream-client-java]: <https://github.com/pedroSG94/rtmp-rtsp-stream-client-java>
+   [StreamPack]: <https://github.com/ThibaultBee/StreamPack>
    [HaishinKit]: <https://github.com/shogo4405/HaishinKit.swift>
    [Issues]: <https://github.com/apivideo/api.video-reactnative-live-stream/issues>
