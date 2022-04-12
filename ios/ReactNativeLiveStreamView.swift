@@ -21,8 +21,6 @@ extension String {
             return Resolutions.RESOLUTION_720
         case "1080p":
             return Resolutions.RESOLUTION_1080
-        case "2160p":
-            return Resolutions.RESOLUTION_2160
         default:
             return Resolutions.RESOLUTION_720
         }

@@ -13,7 +13,7 @@ type LiveStreamProps = {
   video: {
     bitrate: number;
     fps: number;
-    resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
+    resolution: '240p' | '360p' | '480p' | '720p' | '1080p';
   };
   isMuted: boolean;
   audio: {
@@ -32,7 +32,7 @@ type NativeLiveStreamProps = {
   video: {
     bitrate: number;
     fps: number;
-    resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
+    resolution: '240p' | '360p' | '480p' | '720p' | '1080p';
   };
   isMuted: boolean;
   audio: {

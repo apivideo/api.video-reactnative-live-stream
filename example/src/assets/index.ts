@@ -3,11 +3,11 @@ export default {
     video: {
       Resolution: {
         type: 'list',
-        data: ['240p', '360p', '480p', '720p', '1080p', '2160p'],
+        data: ['240p', '360p', '480p', '720p', '1080p'],
       },
       Framerate: {
         type: 'list',
-        data: [24, 30, 60, 120],
+        data: [24, 30, 60],
       },
       Bitrate: {
         type: 'slider',
