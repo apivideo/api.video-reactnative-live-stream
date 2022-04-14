@@ -1,5 +1,5 @@
 PODS:
-  - ApiVideoLiveStream (0.1.0):
+  - ApiVideoLiveStream (0.2.0):
     - HaishinKit (= 1.2.3)
   - boost (1.76.0)
   - CocoaAsyncSocket (7.6.5)
@@ -279,7 +279,7 @@ PODS:
   - React-logger (0.66.4):
     - glog
   - react-native-live-stream (1.0.0):
-    - ApiVideoLiveStream (= 0.1.0)
+    - ApiVideoLiveStream (= 0.2.0)
     - React-Core
   - React-perflogger (0.66.4)
   - React-RCTActionSheet (0.66.4):
@@ -498,7 +498,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  ApiVideoLiveStream: 621b628b2428e7bdf2ff2a968f4dae4ce74cf4fa
+  ApiVideoLiveStream: 2213b8d1a5e5776bb91a274dc05f35d1f60349c2
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: 831926d9b8bf8166fd87886c4abab286c2422662
@@ -531,7 +531,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 94ce921e1d8ce7023366873ec371f3441383b396
   React-jsinspector: d0374f7509d407d2264168b6d0fad0b54e300b85
   React-logger: 933f80c97c633ee8965d609876848148e3fef438
-  react-native-live-stream: 48db1ceed7d0681314aa9ad315f3589d710a5535
+  react-native-live-stream: aa7fe690346ec8e88456d6534d3aed450253102a
   React-perflogger: 93075d8931c32cd1fce8a98c15d2d5ccc4d891bd
   React-RCTActionSheet: 7d3041e6761b4f3044a37079ddcb156575fb6d89
   React-RCTAnimation: 743e88b55ac62511ae5c2e22803d4f503f2a3a13

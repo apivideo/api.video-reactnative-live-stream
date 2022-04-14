@@ -12,7 +12,7 @@ RCT_EXPORT_VIEW_PROPERTY(onConnectionFailed, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onDisconnect, RCTDirectEventBlock)
 
 RCT_EXTERN_METHOD(
-    startStreamingFromManager:(nonnull NSNumber *)node withStreamKey:(nonnull NSString)streamKey withUrl:(NSString)url
+    startStreamingFromManager:(nonnull NSNumber *)node withStreamKey:(nonnull NSString)streamKey withUrl:(NSString)url (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject
 )
 RCT_EXTERN_METHOD(
     stopStreamingFromManager:(nonnull NSNumber *)node

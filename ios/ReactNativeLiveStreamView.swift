@@ -9,20 +9,20 @@ import AVFoundation
 
 
 extension String {
-    func toResolution() -> Resolutions {
+    func toResolution() -> Resolution {
         switch self {
         case "240p":
-            return Resolutions.RESOLUTION_240
+            return Resolution.RESOLUTION_240
         case "360p":
-            return Resolutions.RESOLUTION_360
+            return Resolution.RESOLUTION_360
         case "480p":
-            return Resolutions.RESOLUTION_480
+            return Resolution.RESOLUTION_480
         case "720p":
-            return Resolutions.RESOLUTION_720
+            return Resolution.RESOLUTION_720
         case "1080p":
-            return Resolutions.RESOLUTION_1080
+            return Resolution.RESOLUTION_1080
         default:
-            return Resolutions.RESOLUTION_720
+            return Resolution.RESOLUTION_720
         }
     }
     
@@ -119,11 +119,11 @@ class ReactNativeLiveStreamView : UIView {
       }
     }
 
-    @objc func startStreaming(streamKey: String, url: String? = nil) {
+    @objc func startStreaming(streamKey: String, url: String? = nil) throws {
         if let url = url {
-            liveStream!.startStreaming(streamKey: streamKey, url: url)
+            try liveStream!.startStreaming(streamKey: streamKey, url: url)
         } else {
-            liveStream!.startStreaming(streamKey: streamKey)
+            try liveStream!.startStreaming(streamKey: streamKey)
         }
     }
 
