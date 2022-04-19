@@ -31,7 +31,7 @@ object ViewProps {
     ON_START_STREAMING("onStartStreaming"),
     CONNECTION_SUCCESS("onConnectionSuccess"),
     CONNECTION_FAILED("onConnectionFailed"),
-    DISCONNECT("onDisconnect");
+    DISCONNECTED("onDisconnect");
 
     companion object {
       fun toEventsMap(): Map<String, *> {

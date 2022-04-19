@@ -8,13 +8,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReactContext
+import com.facebook.react.bridge.WritableMap
 import com.facebook.react.uimanager.events.RCTEventEmitter
 import video.api.livestream.ApiVideoLiveStream
 import video.api.livestream.enums.CameraFacingDirection
 import video.api.livestream.interfaces.IConnectionChecker
 import video.api.livestream.models.AudioConfig
 import video.api.livestream.models.VideoConfig
-import java.lang.IllegalArgumentException
 import java.net.ConnectException
 
 
@@ -101,7 +101,8 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
       Log.w(this::class.simpleName, "startStreaming failed", e)
       onStartStreamingEvent(requestId, false, e.message)
     } catch (e: ConnectException) {
-      // Already send with onConnectionFailed
+      // Exception is already returned by onConnectionFailed
+      onStartStreamingEvent(requestId, true)
     }
   }
 
@@ -121,37 +122,40 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
 
   override fun onDisconnect() {
     Log.w(this::class.simpleName, "Disconnected")
-    onDisconnectEvent()
+    onDisconnectedEvent()
   }
 
   private fun onStartStreamingEvent(requestId: Int, result: Boolean, error: String? = null) {
-    val reactContext = context as ReactContext
     val payload = Arguments.createMap().apply {
       putInt("requestId", requestId)
       putBoolean("result", result)
-      error?.let {  putString("error", error) }
+      error?.let { putString("error", error) }
     }
-    reactContext.getJSModule(RCTEventEmitter::class.java)
-      .receiveEvent(id, ViewProps.Events.ON_START_STREAMING.type, payload)
+    sendEvent(context as ReactContext, ViewProps.Events.ON_START_STREAMING.type, payload)
   }
 
   private fun onConnectionSuccessEvent() {
-    val reactContext = context as ReactContext
-    reactContext.getJSModule(RCTEventEmitter::class.java)
-      .receiveEvent(id, ViewProps.Events.CONNECTION_SUCCESS.type, null)
+    sendEvent(context as ReactContext, ViewProps.Events.CONNECTION_SUCCESS.type)
   }
 
   private fun onConnectionFailedEvent(reason: String?) {
-    val reactContext = context as ReactContext
-    val payload = Arguments.createMap()
-    payload.putString("reason", reason)
-    reactContext.getJSModule(RCTEventEmitter::class.java)
-      .receiveEvent(id, ViewProps.Events.CONNECTION_FAILED.type, payload)
+    val payload = Arguments.createMap().apply {
+      putString("reason", reason)
+    }
+    sendEvent(context as ReactContext, ViewProps.Events.CONNECTION_FAILED.type, payload)
   }
 
-  private fun onDisconnectEvent() {
-    val reactContext = context as ReactContext
-    reactContext.getJSModule(RCTEventEmitter::class.java)
-      .receiveEvent(id, ViewProps.Events.DISCONNECT.type, null)
+  private fun onDisconnectedEvent() {
+    sendEvent(context as ReactContext, ViewProps.Events.DISCONNECTED.type)
+  }
+
+  private fun sendEvent(
+    reactContext: ReactContext,
+    eventName: String,
+    params: WritableMap? = null
+  ) {
+    reactContext
+      .getJSModule(RCTEventEmitter::class.java)
+      .receiveEvent(id, eventName, params)
   }
 }
