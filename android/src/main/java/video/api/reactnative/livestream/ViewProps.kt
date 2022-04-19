@@ -28,6 +28,7 @@ object ViewProps {
   }
 
   enum class Events(val type: String) {
+    ON_START_STREAMING("onStartStreaming"),
     CONNECTION_SUCCESS("onConnectionSuccess"),
     CONNECTION_FAILED("onConnectionFailed"),
     DISCONNECT("onDisconnect");

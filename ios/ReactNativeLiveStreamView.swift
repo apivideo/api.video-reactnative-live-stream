@@ -119,17 +119,37 @@ class ReactNativeLiveStreamView : UIView {
       }
     }
 
-    @objc func startStreaming(streamKey: String, url: String? = nil) throws {
-        if let url = url {
-            try liveStream!.startStreaming(streamKey: streamKey, url: url)
-        } else {
-            try liveStream!.startStreaming(streamKey: streamKey)
+    @objc func startStreaming(requestId: Int, streamKey: String, url: String? = nil) {
+        do {
+            if let url = url {
+                try liveStream!.startStreaming(streamKey: streamKey, url: url)
+            } else {
+                try liveStream!.startStreaming(streamKey: streamKey)
+            }
+            self.onStartStreaming?([
+                "requestId": requestId,
+                "result": true
+            ])
+        } catch  LiveStreamError.IllegalArgumentError(let message) {
+            self.onStartStreaming?([
+                "requestId": requestId,
+                "result": false,
+                "error": message
+            ])
+        } catch {
+            self.onStartStreaming?([
+                "requestId": requestId,
+                "result": false,
+                "error": "Unknown error"
+            ])
         }
     }
 
     @objc func stopStreaming() {
         liveStream!.stopStreaming()
     }
+    
+    @objc var onStartStreaming: RCTDirectEventBlock? = nil
     
     @objc var onConnectionSuccess: RCTDirectEventBlock? = nil {
         didSet {

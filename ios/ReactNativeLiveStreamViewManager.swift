@@ -10,19 +10,12 @@ class ReactNativeLiveStreamViewManager: RCTViewManager {
     return ReactNativeLiveStreamView()
   }
 
-    @objc func startStreamingFromManager(_ node: NSNumber, withStreamKey streamKey: String, withUrl url: String?, resolver resolve:  @escaping RCTPromiseResolveBlock, rejecter reject: @escaping  RCTPromiseRejectBlock) -> Void {
+    @objc func startStreamingFromManager(_ node: NSNumber, withRequestId requestId: NSNumber, withStreamKey streamKey: String, withUrl url: String?) -> Void {
     DispatchQueue.main.async {                              
       let component = self.bridge.uiManager.view(            
         forReactTag: node                                     
       ) as! ReactNativeLiveStreamView
-        do {
-            try component.startStreaming(streamKey: streamKey, url: url)
-            resolve(true)
-        } catch LiveStreamError.IllegalArgumentError(let message) {
-            reject("IllegalArgumentError", message, nil)
-        } catch {
-            reject("UnknownError", nil, error)
-        }
+        component.startStreaming(requestId: Int(truncating: requestId), streamKey: streamKey, url: url)
     }
   }
     

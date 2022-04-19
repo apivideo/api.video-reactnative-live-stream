@@ -10,9 +10,10 @@ RCT_EXPORT_VIEW_PROPERTY(isMuted, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(onConnectionSuccess, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onConnectionFailed, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onDisconnect, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onStartStreaming, RCTDirectEventBlock)
 
 RCT_EXTERN_METHOD(
-    startStreamingFromManager:(nonnull NSNumber *)node withStreamKey:(nonnull NSString)streamKey withUrl:(NSString)url (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject
+                  startStreamingFromManager:(nonnull NSNumber *)node withRequestId:(nonnull NSNumber)requestId withStreamKey:(nonnull NSString)streamKey withUrl:(NSString)url
 )
 RCT_EXTERN_METHOD(
     stopStreamingFromManager:(nonnull NSNumber *)node

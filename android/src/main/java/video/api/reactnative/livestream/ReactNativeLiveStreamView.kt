@@ -14,6 +14,8 @@ import video.api.livestream.enums.CameraFacingDirection
 import video.api.livestream.interfaces.IConnectionChecker
 import video.api.livestream.models.AudioConfig
 import video.api.livestream.models.VideoConfig
+import java.lang.IllegalArgumentException
+import java.net.ConnectException
 
 
 class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), IConnectionChecker {
@@ -90,9 +92,17 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
       field = value
     }
 
-  internal fun startStreaming(streamKey: String, url: String?) {
-    url?.let { apiVideoLiveStream?.startStreaming(streamKey, it) }
-      ?: apiVideoLiveStream?.startStreaming(streamKey)
+  internal fun startStreaming(requestId: Int, streamKey: String, url: String?) {
+    try {
+      url?.let { apiVideoLiveStream?.startStreaming(streamKey, it) }
+        ?: apiVideoLiveStream?.startStreaming(streamKey)
+      onStartStreamingEvent(requestId, true)
+    } catch (e: IllegalArgumentException) {
+      Log.w(this::class.simpleName, "startStreaming failed", e)
+      onStartStreamingEvent(requestId, false, e.message)
+    } catch (e: ConnectException) {
+      // Already send with onConnectionFailed
+    }
   }
 
   internal fun stopStreaming() {
@@ -112,6 +122,17 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
   override fun onDisconnect() {
     Log.w(this::class.simpleName, "Disconnected")
     onDisconnectEvent()
+  }
+
+  private fun onStartStreamingEvent(requestId: Int, result: Boolean, error: String? = null) {
+    val reactContext = context as ReactContext
+    val payload = Arguments.createMap().apply {
+      putInt("requestId", requestId)
+      putBoolean("result", result)
+      error?.let {  putString("error", error) }
+    }
+    reactContext.getJSModule(RCTEventEmitter::class.java)
+      .receiveEvent(id, ViewProps.Events.ON_START_STREAMING.type, payload)
   }
 
   private fun onConnectionSuccessEvent() {
