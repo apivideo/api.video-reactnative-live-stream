@@ -4,8 +4,7 @@ import {
   ViewStyle,
   UIManager,
   findNodeHandle,
-  NativeSyntheticEvent,
-  NativeModules
+  NativeSyntheticEvent
 } from 'react-native';
 
 type LiveStreamProps = {
