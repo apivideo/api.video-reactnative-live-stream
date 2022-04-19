@@ -46,7 +46,7 @@ class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStream
     return ViewProps.Commands.toCommandsMap()
   }
 
-  override fun getExportedCustomBubblingEventTypeConstants(): Map<String, *> {
+  override fun getExportedCustomDirectEventTypeConstants(): Map<String, *> {
     return ViewProps.Events.toEventsMap()
   }
 
