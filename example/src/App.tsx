@@ -139,11 +139,13 @@ export default function App() {
         onConnectionSuccess={() => {
           console.log('Received onConnectionSuccess');
         }}
-        onConnectionFailed={(e: any) => {
-          console.log('Received onConnectionFailed', e);
+        onConnectionFailed={(reason: string) => {
+          console.log('Received onConnectionFailed: ' + reason);
+          setStreaming(false);
         }}
         onDisconnect={() => {
           console.log('Received onDisconnect');
+          setStreaming(false);
         }}
       />
 
