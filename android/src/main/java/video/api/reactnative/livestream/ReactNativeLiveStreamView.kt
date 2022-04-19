@@ -140,7 +140,7 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
 
   private fun onConnectionFailedEvent(reason: String?) {
     val payload = Arguments.createMap().apply {
-      putString("reason", reason)
+      putString("code", reason)
     }
     sendEvent(context as ReactContext, ViewProps.Events.CONNECTION_FAILED.type, payload)
   }
