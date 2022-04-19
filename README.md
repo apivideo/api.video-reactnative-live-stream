@@ -142,39 +142,38 @@ export default App;
 ## Props & Methods
 
 ```ts
-type ReactNativeLiveStreamProps = {
+type LiveStreamProps = {
   // Styles for the view containing the preview
   style: ViewStyle;
-  // default: 'back'
+  // camera facing orientation
   camera?: 'front' | 'back';
   video: {
-    // default: 30
+    // frame rate
     fps: number;
-    // default: '720p'
-    resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
-    // If omitted we will infer it from the resolution
+    // resolution
+    resolution: '240p' | '360p' | '480p' | '720p' | '1080p';
+    // video bitrate. depends on resolutions.
     bitrate: number;
   };
   audio: {
-    // sample rate. Only for Android. default: 44100
+    // sample rate. Only for Android. Recommended: 44100
     sampleRate: 44100;
-    // true for stereo, false for mono. Only for Android. default: true
+    // true for stereo, false for mono. Only for Android. Recommended: true
     isStereo: true;
-    // default: 128000
-    bitrate?: number;
+    // audio bitrate. Recommended: 128000
+    bitrate: number;
   };
   // Mute/unmute microphone
   isMuted: false;
   // will be called when the connection is successful
-  onConnectionSuccess?: (event: NativeSyntheticEvent<{ }>) => void;
-  // will be called on connection's error
-  onConnectionFailed?: (event: NativeSyntheticEvent<{ code: string }>) => void;
+  onConnectionSuccess?: () => void;
+  // will be called when connection failed
+  onConnectionFailed?: (code: string) => void;
   // will be called when the live-stream is stopped
-  onDisconnect?: (event: NativeSyntheticEvent<{ }>) => void;
-  
+  onDisconnect?: () => void;
 };
 
-type ReactNativeLiveStreamMethods = {
+type LiveStreamMethods = {
   // Start the stream
   // streamKey: your live stream RTMP key
   // url: RTMP server url, default: rtmp://broadcast.api.video/s
