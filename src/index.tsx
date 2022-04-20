@@ -4,7 +4,7 @@ import {
   ViewStyle,
   UIManager,
   findNodeHandle,
-  NativeSyntheticEvent
+  NativeSyntheticEvent,
 } from 'react-native';
 
 type LiveStreamProps = {
@@ -43,7 +43,13 @@ type NativeLiveStreamProps = {
   onConnectionSuccess?: (event: NativeSyntheticEvent<{}>) => void;
   onConnectionFailed?: (event: NativeSyntheticEvent<{ code: string }>) => void;
   onDisconnect?: (event: NativeSyntheticEvent<{}>) => void;
-  onStartStreaming?: (event: NativeSyntheticEvent<{ requestId: number, result: boolean, error: string }>) => void;
+  onStartStreaming?: (
+    event: NativeSyntheticEvent<{
+      requestId: number;
+      result: boolean;
+      error: string;
+    }>
+  ) => void;
 };
 
 export type LiveStreamMethods = {
@@ -69,8 +75,13 @@ const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
     forwardedRef
   ) => {
     const nativeRef = useRef<typeof NativeLiveStreamView | null>(null);
-    let _nextRequestId = 1;
-    const _requestMap = new Map();
+    let _nextRequestId = useRef<number>(1);
+    const _requestMap = useRef<
+      Map<
+        number,
+        { resolve: (result: boolean) => void; reject: (error?: string) => void }
+      >
+    >(new Map());
 
     const onConnectionSuccessHandler = (event: NativeSyntheticEvent<{}>) => {
       const {} = event.nativeEvent;
@@ -89,27 +100,31 @@ const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
       onDisconnect?.();
     };
 
-    const _onStartStreamingHandler = (event: NativeSyntheticEvent<{requestId: number, result: boolean, error?: string }>) => {
+    const _onStartStreamingHandler = (
+      event: NativeSyntheticEvent<{
+        requestId: number;
+        result: boolean;
+        error?: string;
+      }>
+    ) => {
       const { requestId, result, error } = event.nativeEvent;
-      const promise = _requestMap.get(requestId);
-      console.log("callback")
-      console.log(promise)
-      console.log(_requestMap)
+      const promise = _requestMap.current.get(requestId);
+
       if (result) {
-        promise.resolve(result);
+        promise?.resolve(result);
       } else {
-        promise.reject(error);
+        promise?.reject(error);
       }
-      _requestMap.delete(requestId);
+      _requestMap.current.delete(requestId);
     };
 
     useImperativeHandle(forwardedRef, () => ({
       startStreaming: (streamKey: string, url?: string): Promise<boolean> => {
-        const requestId = _nextRequestId++;
+        const requestId = _nextRequestId.current++;
         const requestMap = _requestMap;
 
         const promise = new Promise<boolean>((resolve, reject) => {
-          requestMap.set(requestId, { resolve: resolve, reject: reject });
+          requestMap.current.set(requestId, { resolve, reject });
         });
 
         UIManager.dispatchViewManagerCommand(
@@ -120,7 +135,7 @@ const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
         );
 
         return promise;
-    },
+      },
       stopStreaming: () => {
         UIManager.dispatchViewManagerCommand(
           findNodeHandle(nativeRef.current),
