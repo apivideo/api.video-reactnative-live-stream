@@ -52,7 +52,11 @@ class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStream
 
   @ReactProp(name = ViewProps.VIDEO_CONFIG)
   fun setVideoConfig(view: ReactNativeLiveStreamView, videoMap: ReadableMap) {
-    view.videoConfig = videoMap.toVideoConfig()
+    if (view.isStreaming) {
+      view.videoBitrate = videoMap.getInt(ViewProps.BITRATE)
+    } else {
+      view.videoConfig = videoMap.toVideoConfig()
+    }
   }
 
   @ReactProp(name = ViewProps.AUDIO_CONFIG)

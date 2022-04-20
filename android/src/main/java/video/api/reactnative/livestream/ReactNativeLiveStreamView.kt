@@ -29,6 +29,12 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
     inflate(context, R.layout.react_native_livestream, this)
   }
 
+  var videoBitrate: Int
+    get() = apiVideoLiveStream?.videoBitrate ?: 0
+    set(value) {
+      apiVideoLiveStream?.videoBitrate = value
+    }
+
   var videoConfig: VideoConfig? = null
     set(value) {
       field = value
@@ -45,9 +51,12 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
       if (apiVideoLiveStream == null) {
         apiVideoLiveStream = buildOrNull()
       } else {
-        apiVideoLiveStream?.audioConfig = audioConfig!!
+        apiVideoLiveStream?.audioConfig = value!!
       }
     }
+
+  val isStreaming: Boolean
+    get() = apiVideoLiveStream?.isStreaming ?: false
 
   private fun buildOrNull(): ApiVideoLiveStream? {
     if (ActivityCompat.checkSelfPermission(
@@ -97,12 +106,12 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
       url?.let { apiVideoLiveStream?.startStreaming(streamKey, it) }
         ?: apiVideoLiveStream?.startStreaming(streamKey)
       onStartStreamingEvent(requestId, true)
-    } catch (e: IllegalArgumentException) {
-      Log.w(this::class.simpleName, "startStreaming failed", e)
-      onStartStreamingEvent(requestId, false, e.message)
     } catch (e: ConnectException) {
       // Exception is already returned by onConnectionFailed
       onStartStreamingEvent(requestId, true)
+    } catch (e: Exception) {
+      Log.w(this::class.simpleName, "startStreaming failed", e)
+      onStartStreamingEvent(requestId, false, e.message)
     }
   }
 

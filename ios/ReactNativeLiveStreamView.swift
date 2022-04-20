@@ -40,6 +40,7 @@ extension String {
 
 class ReactNativeLiveStreamView : UIView {
     private var liveStream: ApiVideoLiveStream?
+    private var isStreaming: Bool = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -76,6 +77,14 @@ class ReactNativeLiveStreamView : UIView {
         return nil
     }
 
+    private var videoBitrate: Int? {
+        didSet {
+            if let liveStream = liveStream {
+                liveStream.videoBitrate = videoBitrate
+            }
+        }
+    }
+
     private var audioConfig: AudioConfig? {
         didSet {
             if let liveStream = liveStream {
@@ -104,9 +113,13 @@ class ReactNativeLiveStreamView : UIView {
 
     @objc var video: NSDictionary = [:] {
         didSet {
-            videoConfig = VideoConfig(bitrate: video["bitrate"] as! Int,
-                                      resolution: (video["resolution"] as! String).toResolution(),
-                                      fps: video["fps"] as! Int)
+            if (isStreaming) {
+                videoBitrate = video["bitrate"] as! Int
+            } else {
+                videoConfig = VideoConfig(bitrate: video["bitrate"] as! Int,
+                                          resolution: (video["resolution"] as! String).toResolution(),
+                                          fps: video["fps"] as! Int)
+            }
         }
     }
 
@@ -140,6 +153,7 @@ class ReactNativeLiveStreamView : UIView {
             } else {
                 try liveStream!.startStreaming(streamKey: streamKey)
             }
+            isStreaming = true
             self.onStartStreaming?([
                 "requestId": requestId,
                 "result": true
@@ -160,6 +174,7 @@ class ReactNativeLiveStreamView : UIView {
     }
 
     @objc func stopStreaming() {
+        isStreaming = false
         liveStream!.stopStreaming()
     }
 
