@@ -25,7 +25,7 @@ extension String {
             return Resolution.RESOLUTION_720
         }
     }
-    
+
     func toCaptureDevicePosition() -> AVCaptureDevice.Position {
         switch self {
         case "back":
@@ -54,14 +54,28 @@ class ReactNativeLiveStreamView : UIView {
         if let audioConfig = audioConfig,
            let videoConfig = videoConfig {
             do {
-            return try ApiVideoLiveStream(initialAudioConfig: audioConfig, initialVideoConfig: videoConfig, preview: self)
+                let liveStream = try ApiVideoLiveStream(initialAudioConfig: audioConfig, initialVideoConfig: videoConfig, preview: self)
+                liveStream.onConnectionSuccess = {() in
+                    self.onConnectionSuccess?([:])
+                }
+                liveStream.onDisconnect = {() in
+                    self.isStreaming = false
+                    self.onDisconnect?([:])
+                }
+                liveStream.onConnectionFailed = {(code) in
+                    self.isStreaming = false
+                    self.onConnectionFailed?([
+                        "code": code
+                    ])
+                }
+                return liveStream
             } catch {
                 fatalError("build(): Can't create a live stream instance")
             }
         }
         return nil
     }
-    
+
     private var audioConfig: AudioConfig? {
         didSet {
             if let liveStream = liveStream {
@@ -71,7 +85,7 @@ class ReactNativeLiveStreamView : UIView {
             }
         }
     }
-    
+
     private var videoConfig: VideoConfig? {
         didSet {
             if let liveStream = liveStream {
@@ -81,13 +95,13 @@ class ReactNativeLiveStreamView : UIView {
             }
         }
     }
-    
+
     @objc var audio: NSDictionary = [:] {
         didSet {
             audioConfig = AudioConfig(bitrate: audio["bitrate"] as! Int)
         }
     }
-    
+
     @objc var video: NSDictionary = [:] {
         didSet {
             videoConfig = VideoConfig(bitrate: video["bitrate"] as! Int,
@@ -95,7 +109,7 @@ class ReactNativeLiveStreamView : UIView {
                                       fps: video["fps"] as! Int)
         }
     }
-    
+
     @objc var camera: String = "back" {
       didSet {
           if let apiVideo = liveStream {
@@ -148,34 +162,14 @@ class ReactNativeLiveStreamView : UIView {
     @objc func stopStreaming() {
         liveStream!.stopStreaming()
     }
-    
+
     @objc var onStartStreaming: RCTDirectEventBlock? = nil
-    
-    @objc var onConnectionSuccess: RCTDirectEventBlock? = nil {
-        didSet {
-            liveStream?.onConnectionSuccess = {() in
-                self.onConnectionSuccess?([:])
-            }
-        }
-    }
-    
-    @objc var onConnectionFailed: RCTDirectEventBlock? = nil {
-        didSet {
-            liveStream?.onConnectionFailed = {(code) in
-                self.onConnectionFailed?([
-                    "code": code
-                ])
-            }
-        }
-    }
-    
-    @objc var onDisconnect: RCTDirectEventBlock? = nil {
-        didSet {
-            liveStream?.onDisconnect = {() in
-                self.onDisconnect?([:])
-            }
-        }
-    }
+
+    @objc var onConnectionSuccess: RCTDirectEventBlock? = nil
+
+    @objc var onConnectionFailed: RCTDirectEventBlock? = nil
+
+    @objc var onDisconnect: RCTDirectEventBlock? = nil
 
     @objc override func didMoveToWindow() {
         super.didMoveToWindow()
