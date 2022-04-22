@@ -11,23 +11,7 @@
 		21C5F70D27B3D50200DF510C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 21C5F70827B3D50200DF510C /* main.m */; };
 		21C5F70E27B3D50200DF510C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21C5F70927B3D50200DF510C /* Images.xcassets */; };
 		21C5F70F27B3D50200DF510C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 21C5F70A27B3D50200DF510C /* AppDelegate.m */; };
-		34A8E5DE0C7248839CC30D89 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89188C4B8E264563B5739638 /* Foundation.ttf */; };
-		3807DABAE7384A9AB7B8BF76 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F901B29FD6C64D20A35873E6 /* Zocial.ttf */; };
-		4C1EFD957CE94E6EB16CD09A /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EED512FEA8534238A1B271D0 /* Entypo.ttf */; };
-		690561A602D94DEBACEDB334 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F774848DC30F4AEE9B9BADCA /* FontAwesome.ttf */; };
 		8ED2E7501DAF0CB87D469D65 /* libPods-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D828BE88C8E61F39BCA0B29 /* libPods-Example.a */; };
-		966E59743D9B428B906161F1 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BAF713F51AB84F9986FAC063 /* FontAwesome5_Solid.ttf */; };
-		97E941A3701149B5A4FD7250 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45B9FE7F780A46F9B1D4E29A /* AntDesign.ttf */; };
-		98112CB6E8EF423EBB8558C6 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B5F608F378E4C5F84EFEEB8 /* Octicons.ttf */; };
-		A73506692C554F9BB0371BF0 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ED189CD3C04C40398A1C011F /* FontAwesome5_Brands.ttf */; };
-		B338EE64971A4E22923E3FEC /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 967D37902FC34F40A06248D6 /* SimpleLineIcons.ttf */; };
-		B568340273D3452AB31EA649 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 574F8ED428A24733B1B74ED1 /* FontAwesome5_Regular.ttf */; };
-		B6AE857CCD1842C1B96B7A9C /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DFE5667271D74F7597B59C3C /* MaterialCommunityIcons.ttf */; };
-		D9351BD9CB84426BA4E9E447 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AF72C87DA234AB2AB214A1F /* EvilIcons.ttf */; };
-		DA454386A19A4F6B89451660 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17AB46AEA93F42A4AFB104A1 /* Ionicons.ttf */; };
-		DF681D32DCEA45A69BF877A9 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3321E42F644ACF9DBB1A1E /* Feather.ttf */; };
-		E117E04908E7498882454BA8 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B19E3F49E3A84114B266A7C2 /* Fontisto.ttf */; };
-		FA803361CB0C47BB975FF604 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 920A38E237BA443F8A25129D /* MaterialIcons.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -196,7 +180,7 @@
 				LastUpgradeCheck = 1130;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = T2GKRZNM7N;
+						DevelopmentTeam = GBC36KP98K;
 						LastSwiftMigration = 1240;
 					};
 				};
@@ -226,22 +210,6 @@
 			files = (
 				21C5F70C27B3D50200DF510C /* LaunchScreen.storyboard in Resources */,
 				21C5F70E27B3D50200DF510C /* Images.xcassets in Resources */,
-				97E941A3701149B5A4FD7250 /* AntDesign.ttf in Resources */,
-				4C1EFD957CE94E6EB16CD09A /* Entypo.ttf in Resources */,
-				D9351BD9CB84426BA4E9E447 /* EvilIcons.ttf in Resources */,
-				DF681D32DCEA45A69BF877A9 /* Feather.ttf in Resources */,
-				690561A602D94DEBACEDB334 /* FontAwesome.ttf in Resources */,
-				A73506692C554F9BB0371BF0 /* FontAwesome5_Brands.ttf in Resources */,
-				B568340273D3452AB31EA649 /* FontAwesome5_Regular.ttf in Resources */,
-				966E59743D9B428B906161F1 /* FontAwesome5_Solid.ttf in Resources */,
-				E117E04908E7498882454BA8 /* Fontisto.ttf in Resources */,
-				34A8E5DE0C7248839CC30D89 /* Foundation.ttf in Resources */,
-				DA454386A19A4F6B89451660 /* Ionicons.ttf in Resources */,
-				B6AE857CCD1842C1B96B7A9C /* MaterialCommunityIcons.ttf in Resources */,
-				FA803361CB0C47BB975FF604 /* MaterialIcons.ttf in Resources */,
-				98112CB6E8EF423EBB8558C6 /* Octicons.ttf in Resources */,
-				B338EE64971A4E22923E3FEC /* SimpleLineIcons.ttf in Resources */,
-				3807DABAE7384A9AB7B8BF76 /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,7 +363,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = T2GKRZNM7N;
+				DEVELOPMENT_TEAM = GBC36KP98K;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -420,7 +388,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = T2GKRZNM7N;
+				DEVELOPMENT_TEAM = GBC36KP98K;
 				INFOPLIST_FILE = "$(SRCROOT)/Example/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
