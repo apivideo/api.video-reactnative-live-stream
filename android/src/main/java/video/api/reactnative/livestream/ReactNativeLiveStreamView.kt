@@ -15,7 +15,6 @@ import video.api.livestream.enums.CameraFacingDirection
 import video.api.livestream.interfaces.IConnectionChecker
 import video.api.livestream.models.AudioConfig
 import video.api.livestream.models.VideoConfig
-import java.net.ConnectException
 
 
 class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), IConnectionChecker {
@@ -105,9 +104,6 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
     try {
       url?.let { apiVideoLiveStream?.startStreaming(streamKey, it) }
         ?: apiVideoLiveStream?.startStreaming(streamKey)
-      onStartStreamingEvent(requestId, true)
-    } catch (e: ConnectException) {
-      // Exception is already returned by onConnectionFailed
       onStartStreamingEvent(requestId, true)
     } catch (e: Exception) {
       Log.w(this::class.simpleName, "startStreaming failed", e)
