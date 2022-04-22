@@ -96,13 +96,14 @@ export default function App() {
       ref.current?.stopStreaming();
       setStreaming(false);
     } else {
-      ref.current?.startStreaming(settings.streamKey)
-      .then((_: boolean) => {
-        setStreaming(true);
-      })
-      .catch((_: any) => {
-        setStreaming(false);
-      });
+      ref.current
+        ?.startStreaming(settings.streamKey)
+        .then((_: boolean) => {
+          setStreaming(true);
+        })
+        .catch((_: any) => {
+          setStreaming(false);
+        });
     }
   };
 
