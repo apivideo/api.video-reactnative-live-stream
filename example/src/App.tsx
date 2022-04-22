@@ -10,6 +10,7 @@ import {
 import {
   LiveStreamView,
   LiveStreamMethods,
+  Resolution,
 } from '@api.video/react-native-livestream';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { button } from './style';
@@ -17,7 +18,7 @@ import Settings from './components/settings';
 import assets from './assets';
 
 export interface ISettingsState {
-  resolution: string;
+  resolution: Resolution;
   framerate: number;
   videoBitrate: number;
   audioBitrate: number;
