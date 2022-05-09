@@ -9,25 +9,23 @@ import AVFoundation
 
 
 extension String {
-    func toResolution() -> Resolutions {
+    func toResolution() -> Resolution {
         switch self {
         case "240p":
-            return Resolutions.RESOLUTION_240
+            return Resolution.RESOLUTION_240
         case "360p":
-            return Resolutions.RESOLUTION_360
+            return Resolution.RESOLUTION_360
         case "480p":
-            return Resolutions.RESOLUTION_480
+            return Resolution.RESOLUTION_480
         case "720p":
-            return Resolutions.RESOLUTION_720
+            return Resolution.RESOLUTION_720
         case "1080p":
-            return Resolutions.RESOLUTION_1080
-        case "2160p":
-            return Resolutions.RESOLUTION_2160
+            return Resolution.RESOLUTION_1080
         default:
-            return Resolutions.RESOLUTION_720
+            return Resolution.RESOLUTION_720
         }
     }
-    
+
     func toCaptureDevicePosition() -> AVCaptureDevice.Position {
         switch self {
         case "back":
@@ -42,6 +40,7 @@ extension String {
 
 class ReactNativeLiveStreamView : UIView {
     private var liveStream: ApiVideoLiveStream?
+    private var isStreaming: Bool = false
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,14 +55,36 @@ class ReactNativeLiveStreamView : UIView {
         if let audioConfig = audioConfig,
            let videoConfig = videoConfig {
             do {
-            return try ApiVideoLiveStream(initialAudioConfig: audioConfig, initialVideoConfig: videoConfig, preview: self)
+                let liveStream = try ApiVideoLiveStream(initialAudioConfig: audioConfig, initialVideoConfig: videoConfig, preview: self)
+                liveStream.onConnectionSuccess = {() in
+                    self.onConnectionSuccess?([:])
+                }
+                liveStream.onDisconnect = {() in
+                    self.isStreaming = false
+                    self.onDisconnect?([:])
+                }
+                liveStream.onConnectionFailed = {(code) in
+                    self.isStreaming = false
+                    self.onConnectionFailed?([
+                        "code": code
+                    ])
+                }
+                return liveStream
             } catch {
                 fatalError("build(): Can't create a live stream instance")
             }
         }
         return nil
     }
-    
+
+    private var videoBitrate: Int? {
+        didSet {
+            if let liveStream = liveStream {
+                liveStream.videoBitrate = videoBitrate
+            }
+        }
+    }
+
     private var audioConfig: AudioConfig? {
         didSet {
             if let liveStream = liveStream {
@@ -73,7 +94,7 @@ class ReactNativeLiveStreamView : UIView {
             }
         }
     }
-    
+
     private var videoConfig: VideoConfig? {
         didSet {
             if let liveStream = liveStream {
@@ -83,21 +104,25 @@ class ReactNativeLiveStreamView : UIView {
             }
         }
     }
-    
+
     @objc var audio: NSDictionary = [:] {
         didSet {
             audioConfig = AudioConfig(bitrate: audio["bitrate"] as! Int)
         }
     }
-    
+
     @objc var video: NSDictionary = [:] {
         didSet {
-            videoConfig = VideoConfig(bitrate: video["bitrate"] as! Int,
-                                      resolution: (video["resolution"] as! String).toResolution(),
-                                      fps: video["fps"] as! Int)
+            if (isStreaming) {
+                videoBitrate = video["bitrate"] as! Int
+            } else {
+                videoConfig = VideoConfig(bitrate: video["bitrate"] as! Int,
+                                          resolution: (video["resolution"] as! String).toResolution(),
+                                          fps: video["fps"] as! Int)
+            }
         }
     }
-    
+
     @objc var camera: String = "back" {
       didSet {
           if let apiVideo = liveStream {
@@ -121,43 +146,45 @@ class ReactNativeLiveStreamView : UIView {
       }
     }
 
-    @objc func startStreaming(streamKey: String, url: String? = nil) {
-        if let url = url {
-            liveStream!.startStreaming(streamKey: streamKey, url: url)
-        } else {
-            liveStream!.startStreaming(streamKey: streamKey)
+    @objc func startStreaming(requestId: Int, streamKey: String, url: String? = nil) {
+        do {
+            if let url = url {
+                try liveStream!.startStreaming(streamKey: streamKey, url: url)
+            } else {
+                try liveStream!.startStreaming(streamKey: streamKey)
+            }
+            isStreaming = true
+            self.onStartStreaming?([
+                "requestId": requestId,
+                "result": true
+            ])
+        } catch  LiveStreamError.IllegalArgumentError(let message) {
+            self.onStartStreaming?([
+                "requestId": requestId,
+                "result": false,
+                "error": message
+            ])
+        } catch {
+            self.onStartStreaming?([
+                "requestId": requestId,
+                "result": false,
+                "error": "Unknown error"
+            ])
         }
     }
 
     @objc func stopStreaming() {
+        isStreaming = false
         liveStream!.stopStreaming()
     }
-    
-    @objc var onConnectionSuccess: RCTDirectEventBlock? = nil {
-        didSet {
-            liveStream?.onConnectionSuccess = {() in
-                self.onConnectionSuccess?([:])
-            }
-        }
-    }
-    
-    @objc var onConnectionFailed: RCTDirectEventBlock? = nil {
-        didSet {
-            liveStream?.onConnectionFailed = {(code) in
-                self.onConnectionFailed?([
-                    "code": code
-                ])
-            }
-        }
-    }
-    
-    @objc var onDisconnect: RCTDirectEventBlock? = nil {
-        didSet {
-            liveStream?.onDisconnect = {() in
-                self.onDisconnect?([:])
-            }
-        }
-    }
+
+    @objc var onStartStreaming: RCTDirectEventBlock? = nil
+
+    @objc var onConnectionSuccess: RCTDirectEventBlock? = nil
+
+    @objc var onConnectionFailed: RCTDirectEventBlock? = nil
+
+    @objc var onDisconnect: RCTDirectEventBlock? = nil
 
     @objc override func didMoveToWindow() {
         super.didMoveToWindow()

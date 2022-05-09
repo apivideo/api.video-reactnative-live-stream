@@ -5,10 +5,9 @@ import com.facebook.react.bridge.ReadableMap
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.annotations.ReactProp
-import video.api.livestream.models.AudioConfig
-import video.api.livestream.models.VideoConfig
 import video.api.reactnative.livestream.utils.getCameraFacing
-import video.api.reactnative.livestream.utils.getResolution
+import video.api.reactnative.livestream.utils.toAudioConfig
+import video.api.reactnative.livestream.utils.toVideoConfig
 
 
 class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStreamView>() {
@@ -27,12 +26,14 @@ class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStream
 
     when (commandId) {
       ViewProps.Commands.START_STREAMING.ordinal -> {
+        val requestId = args!!.getInt(0)
+        val streamKey = args.getString(1)
         val url = try {
-          args!!.getString(1)
+          args.getString(2)
         } catch (e: Exception) {
           null
         }
-        view.startStreaming(args!!.getString(0), url)
+        view.startStreaming(requestId, streamKey, url)
       }
       ViewProps.Commands.STOP_STREAMING.ordinal -> view.stopStreaming()
       else -> {
@@ -45,28 +46,22 @@ class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStream
     return ViewProps.Commands.toCommandsMap()
   }
 
-  override fun getExportedCustomBubblingEventTypeConstants(): Map<String, *> {
+  override fun getExportedCustomDirectEventTypeConstants(): Map<String, *> {
     return ViewProps.Events.toEventsMap()
   }
 
   @ReactProp(name = ViewProps.VIDEO_CONFIG)
   fun setVideoConfig(view: ReactNativeLiveStreamView, videoMap: ReadableMap) {
-    view.videoConfig = VideoConfig(
-      bitrate = videoMap.getInt(ViewProps.BITRATE),
-      resolution = videoMap.getString(ViewProps.RESOLUTION)?.getResolution()!!,
-      fps = videoMap.getInt(ViewProps.FPS)
-    )
+    if (view.isStreaming) {
+      view.videoBitrate = videoMap.getInt(ViewProps.BITRATE)
+    } else {
+      view.videoConfig = videoMap.toVideoConfig()
+    }
   }
 
   @ReactProp(name = ViewProps.AUDIO_CONFIG)
   fun setAudioConfig(view: ReactNativeLiveStreamView, audioMap: ReadableMap) {
-    view.audioConfig = AudioConfig(
-      bitrate = audioMap.getInt(ViewProps.BITRATE),
-      sampleRate = audioMap.getInt(ViewProps.SAMPLE_RATE),
-      stereo = audioMap.getBoolean(ViewProps.IS_STEREO),
-      echoCanceler = true,
-      noiseSuppressor = true
-    )
+    view.audioConfig = audioMap.toAudioConfig()
   }
 
   @ReactProp(name = ViewProps.CAMERA)

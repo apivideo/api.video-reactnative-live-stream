@@ -10,6 +10,7 @@ import {
 import {
   LiveStreamView,
   LiveStreamMethods,
+  Resolution,
 } from '@api.video/react-native-livestream';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { button } from './style';
@@ -17,7 +18,7 @@ import Settings from './components/settings';
 import assets from './assets';
 
 export interface ISettingsState {
-  resolution: string;
+  resolution: Resolution;
   framerate: number;
   videoBitrate: number;
   audioBitrate: number;
@@ -95,8 +96,14 @@ export default function App() {
       ref.current?.stopStreaming();
       setStreaming(false);
     } else {
-      ref.current?.startStreaming(settings.streamKey);
-      setStreaming(true);
+      ref.current
+        ?.startStreaming(settings.streamKey)
+        .then((_: boolean) => {
+          setStreaming(true);
+        })
+        .catch((_: any) => {
+          setStreaming(false);
+        });
     }
   };
 
@@ -134,11 +141,13 @@ export default function App() {
         onConnectionSuccess={() => {
           console.log('Received onConnectionSuccess');
         }}
-        onConnectionFailed={(e: any) => {
-          console.log('Received onConnectionFailed', e);
+        onConnectionFailed={(reason: string) => {
+          console.log('Received onConnectionFailed: ' + reason);
+          setStreaming(false);
         }}
         onDisconnect={() => {
           console.log('Received onDisconnect');
+          setStreaming(false);
         }}
       />
 

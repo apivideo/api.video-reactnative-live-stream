@@ -142,39 +142,38 @@ export default App;
 ## Props & Methods
 
 ```ts
-type ReactNativeLiveStreamProps = {
+type LiveStreamProps = {
   // Styles for the view containing the preview
   style: ViewStyle;
-  // default: 'back'
+  // camera facing orientation
   camera?: 'front' | 'back';
   video: {
-    // default: 30
+    // frame rate
     fps: number;
-    // default: '720p'
-    resolution: '240p' | '360p' | '480p' | '720p' | '1080p' | '2160p';
-    // If omitted we will infer it from the resolution
+    // resolution
+    resolution: '240p' | '360p' | '480p' | '720p' | '1080p';
+    // video bitrate. depends on resolutions.
     bitrate: number;
   };
   audio: {
-    // sample rate. Only for Android. default: 44100
+    // sample rate. Only for Android. Recommended: 44100
     sampleRate: 44100;
-    // true for stereo, false for mono. Only for Android. default: true
+    // true for stereo, false for mono. Only for Android. Recommended: true
     isStereo: true;
-    // default: 128000
-    bitrate?: number;
+    // audio bitrate. Recommended: 128000
+    bitrate: number;
   };
   // Mute/unmute microphone
   isMuted: false;
   // will be called when the connection is successful
-  onConnectionSuccess?: (event: NativeSyntheticEvent<{ }>) => void;
-  // will be called on connection's error
-  onConnectionFailed?: (event: NativeSyntheticEvent<{ code: string }>) => void;
+  onConnectionSuccess?: () => void;
+  // will be called when connection failed
+  onConnectionFailed?: (code: string) => void;
   // will be called when the live-stream is stopped
-  onDisconnect?: (event: NativeSyntheticEvent<{ }>) => void;
-  
+  onDisconnect?: () => void;
 };
 
-type ReactNativeLiveStreamMethods = {
+type LiveStreamMethods = {
   // Start the stream
   // streamKey: your live stream RTMP key
   // url: RTMP server url, default: rtmp://broadcast.api.video/s
@@ -238,7 +237,7 @@ api.video live stream library is using external native library for broadcasting
 
 | Plugin | README |
 | ------ | ------ |
-| rtmp-rtsp-stream-client-java | [rtmp-rtsp-stream-client-java] |
+| StreamPack | [StreamPack] |
 | HaishinKit | [HaishinKit] |
 
 # FAQ
@@ -248,6 +247,6 @@ Or use [Issues].
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
 
-   [rtmp-rtsp-stream-client-java]: <https://github.com/pedroSG94/rtmp-rtsp-stream-client-java>
+   [StreamPack]: <https://github.com/ThibaultBee/StreamPack>
    [HaishinKit]: <https://github.com/shogo4405/HaishinKit.swift>
    [Issues]: <https://github.com/apivideo/api.video-reactnative-live-stream/issues>
