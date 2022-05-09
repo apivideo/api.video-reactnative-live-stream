@@ -287,7 +287,7 @@ PODS:
   - React-jsinspector (0.68.1)
   - React-logger (0.68.1):
     - glog
-  - react-native-live-stream (1.0.0):
+  - react-native-live-stream (1.1.0):
     - ApiVideoLiveStream (= 0.2.1)
     - React-Core
   - React-perflogger (0.68.1)
@@ -545,7 +545,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 4a4bae5671b064a2248a690cf75957669489d08c
   React-jsinspector: 218a2503198ff28a085f8e16622a8d8f507c8019
   React-logger: f79dd3cc0f9b44f5611c6c7862badd891a862cf8
-  react-native-live-stream: 3eb7cfadf6b0d916f57149703a969f6adba6c4bf
+  react-native-live-stream: dbfcc4e7249eea03f92af1c567bba653ea3ff574
   React-perflogger: 30ab8d6db10e175626069e742eead3ebe8f24fd5
   React-RCTActionSheet: 4b45da334a175b24dabe75f856b98fed3dfd6201
   React-RCTAnimation: d6237386cb04500889877845b3e9e9291146bc2e

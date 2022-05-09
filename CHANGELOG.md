@@ -1,6 +1,13 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.1.0] - 2022-05-10
+- Fix connection callbacks on Android and iOS
+- Add default parameters
+- Add a way to set video bitrate during a live streaming
+- iOS only: stop preview and streaming when going to background
+- Move internal Android RTMP library to [StreamPack](https://github.com/ThibaultBee/StreamPack)
+
 ## [1.0.0] - 2022-03-22
 - Update sample app
 - Update README
