@@ -97,7 +97,7 @@ export default function App() {
       setStreaming(false);
     } else {
       ref.current
-        ?.startStreaming(settings.streamKey)
+        ?.startStreaming(settings.streamKey, settings.rtmpEndpoint)
         .then((_: boolean) => {
           setStreaming(true);
         })
