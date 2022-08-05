@@ -1,6 +1,7 @@
 package video.api.reactnative.livestream
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
@@ -17,93 +18,81 @@ import video.api.livestream.models.AudioConfig
 import video.api.livestream.models.VideoConfig
 
 
+@SuppressLint("MissingPermission")
 class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), IConnectionChecker {
   companion object {
     private const val TAG = "RNLiveStreamView"
   }
 
-  private var apiVideoLiveStream: ApiVideoLiveStream? = null
+  private val apiVideoLiveStream: ApiVideoLiveStream
 
   init {
     inflate(context, R.layout.react_native_livestream, this)
+    apiVideoLiveStream = ApiVideoLiveStream(
+      context = context,
+      connectionChecker = this,
+      apiVideoView = findViewById(R.id.apivideo_view)
+    )
   }
 
   var videoBitrate: Int
-    get() = apiVideoLiveStream?.videoBitrate ?: 0
+    get() = apiVideoLiveStream.videoBitrate
     set(value) {
-      apiVideoLiveStream?.videoBitrate = value
+      apiVideoLiveStream.videoBitrate = value
     }
 
-  var videoConfig: VideoConfig? = null
+  var videoConfig: VideoConfig?
+    get() = apiVideoLiveStream.videoConfig
     set(value) {
-      field = value
-      if (apiVideoLiveStream == null) {
-        apiVideoLiveStream = buildOrNull()
-      } else {
-        apiVideoLiveStream?.videoConfig = value!!
+      if (ActivityCompat.checkSelfPermission(
+          context,
+          Manifest.permission.CAMERA
+        ) != PackageManager.PERMISSION_GRANTED
+      ) {
+        Log.e(TAG, "Missing permissions Manifest.permission.CAMERA")
+        throw UnsupportedOperationException("Missing permissions Manifest.permission.CAMERA")
       }
+
+      apiVideoLiveStream.videoConfig = value
     }
 
-  var audioConfig: AudioConfig? = null
+
+  var audioConfig: AudioConfig?
+    get() = apiVideoLiveStream.audioConfig
     set(value) {
-      field = value
-      if (apiVideoLiveStream == null) {
-        apiVideoLiveStream = buildOrNull()
-      } else {
-        apiVideoLiveStream?.audioConfig = value!!
+      if (ActivityCompat.checkSelfPermission(
+          context,
+          Manifest.permission.RECORD_AUDIO
+        ) != PackageManager.PERMISSION_GRANTED
+      ) {
+        Log.e(TAG, "Missing permissions Manifest.permission.RECORD_AUDIO")
+        throw UnsupportedOperationException("Missing permissions Manifest.permission.RECORD_AUDIO")
       }
+
+      apiVideoLiveStream.audioConfig = value
     }
 
   val isStreaming: Boolean
-    get() = apiVideoLiveStream?.isStreaming ?: false
-
-  private fun buildOrNull(): ApiVideoLiveStream? {
-    if (ActivityCompat.checkSelfPermission(
-        context,
-        Manifest.permission.CAMERA
-      ) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
-        context,
-        Manifest.permission.RECORD_AUDIO
-      ) != PackageManager.PERMISSION_GRANTED
-    ) {
-      Log.e(
-        TAG,
-        "Missing permissions Manifest.permission.CAMERA or/and Manifest.permission.RECORD_AUDIO"
-      )
-    }
-
-    return if ((audioConfig != null) && (videoConfig != null)) {
-      ApiVideoLiveStream(
-        context = context,
-        connectionChecker = this,
-        initialAudioConfig = audioConfig!!,
-        initialVideoConfig = videoConfig!!,
-        initialCamera = camera,
-        apiVideoView = findViewById(R.id.apivideo_view)
-      )
-    } else {
-      null
-    }
-  }
+    get() = apiVideoLiveStream.isStreaming
 
   var camera: CameraFacingDirection = CameraFacingDirection.BACK
-    get() = apiVideoLiveStream?.camera ?: field
+    get() = apiVideoLiveStream.camera
     set(value) {
-      apiVideoLiveStream?.camera = value
+      apiVideoLiveStream.camera = value
       field = value
     }
 
   var isMuted: Boolean = false
-    get() = apiVideoLiveStream?.isMuted ?: field
+    get() = apiVideoLiveStream.isMuted
     set(value) {
-      apiVideoLiveStream?.isMuted = value
+      apiVideoLiveStream.isMuted = value
       field = value
     }
 
   internal fun startStreaming(requestId: Int, streamKey: String, url: String?) {
     try {
-      url?.let { apiVideoLiveStream?.startStreaming(streamKey, it) }
-        ?: apiVideoLiveStream?.startStreaming(streamKey)
+      url?.let { apiVideoLiveStream.startStreaming(streamKey, it) }
+        ?: apiVideoLiveStream.startStreaming(streamKey)
       onStartStreamingEvent(requestId, true)
     } catch (e: Exception) {
       Log.w(this::class.simpleName, "startStreaming failed", e)
@@ -112,7 +101,7 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
   }
 
   internal fun stopStreaming() {
-    apiVideoLiveStream?.stopStreaming()
+    apiVideoLiveStream.stopStreaming()
   }
 
   override fun onConnectionSuccess() {
