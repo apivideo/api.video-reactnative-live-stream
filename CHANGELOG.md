@@ -1,6 +1,10 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.1.2] - 2022-08-08
+- Android: multiple fixes on RTMP stream
+- iOS: fix start up camera (see [#26](https://github.com/apivideo/api.video-reactnative-live-stream/issues/26))
+
 ## [1.1.1] - 2022-06-28
 - Android: disconnect after a `stopStream`.
 - Android: fix streams after a `stopPreview` call.
