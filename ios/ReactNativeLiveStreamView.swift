@@ -38,70 +38,76 @@ extension String {
     }
 }
 
+extension AVCaptureDevice.Position {
+    func toCameraPositionName() -> String {
+        switch self {
+        case AVCaptureDevice.Position.back:
+            return "back"
+        case AVCaptureDevice.Position.front:
+            return "front"
+        default:
+            return "back"
+        }
+    }
+}
+
 class ReactNativeLiveStreamView : UIView {
-    private var liveStream: ApiVideoLiveStream?
+    private var liveStream: ApiVideoLiveStream!
     private var isStreaming: Bool = false
 
     override init(frame: CGRect) {
+       
         super.init(frame: frame)
-       // liveStream = ApiVideoLiveStream(preview: self)
+        
+        do {
+            liveStream = try ApiVideoLiveStream(initialAudioConfig: nil, initialVideoConfig: nil, preview: self)
+        } catch {
+            fatalError("build(): Can't create a live stream instance")
+        }
+        
+        liveStream.onConnectionSuccess = {() in
+            self.onConnectionSuccess?([:])
+        }
+        liveStream.onDisconnect = {() in
+            self.isStreaming = false
+            self.onDisconnect?([:])
+        }
+        liveStream.onConnectionFailed = {(code) in
+            self.isStreaming = false
+            self.onConnectionFailed?([
+                "code": code
+            ])
+        }
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func buildOrNull() -> ApiVideoLiveStream? {
-        if let audioConfig = audioConfig,
-           let videoConfig = videoConfig {
-            do {
-                let liveStream = try ApiVideoLiveStream(initialAudioConfig: audioConfig, initialVideoConfig: videoConfig, preview: self)
-                liveStream.onConnectionSuccess = {() in
-                    self.onConnectionSuccess?([:])
-                }
-                liveStream.onDisconnect = {() in
-                    self.isStreaming = false
-                    self.onDisconnect?([:])
-                }
-                liveStream.onConnectionFailed = {(code) in
-                    self.isStreaming = false
-                    self.onConnectionFailed?([
-                        "code": code
-                    ])
-                }
-                return liveStream
-            } catch {
-                fatalError("build(): Can't create a live stream instance")
-            }
+    private var videoBitrate: Int {
+        get {
+            return liveStream.videoBitrate
         }
-        return nil
-    }
-
-    private var videoBitrate: Int? {
-        didSet {
-            if let liveStream = liveStream {
-                liveStream.videoBitrate = videoBitrate
-            }
+        set {
+            liveStream.videoBitrate = newValue
         }
     }
 
     private var audioConfig: AudioConfig? {
-        didSet {
-            if let liveStream = liveStream {
-                liveStream.audioConfig = audioConfig!
-            } else {
-                liveStream = buildOrNull()
-            }
+        get {
+            liveStream.audioConfig
+        }
+        set {
+            liveStream.audioConfig = newValue
         }
     }
 
     private var videoConfig: VideoConfig? {
-        didSet {
-            if let liveStream = liveStream {
-                liveStream.videoConfig = videoConfig!
-            } else {
-                liveStream = buildOrNull()
-            }
+        get {
+            liveStream.videoConfig
+        }
+        set {
+            liveStream.videoConfig = newValue
         }
     }
 
@@ -123,35 +129,38 @@ class ReactNativeLiveStreamView : UIView {
         }
     }
 
-    @objc var camera: String = "back" {
-      didSet {
-          if let apiVideo = liveStream {
-              let value = camera.toCaptureDevicePosition()
-              if(value == apiVideo.camera){
-                  return
-              }
-              apiVideo.camera = camera.toCaptureDevicePosition()
+    @objc var camera: String {
+        get {
+            return liveStream.camera.toCameraPositionName()
+        }
+        set {
+          let value = newValue.toCaptureDevicePosition()
+          if(value == liveStream.camera){
+              return
           }
-      }
+          liveStream.camera = value
+        }
     }
 
-    @objc var isMuted: Bool = false {
-      didSet {
-          if let apiVideo = liveStream {
-            if(isMuted == apiVideo.isMuted){
+    @objc var isMuted: Bool {
+        get {
+            return liveStream.isMuted
+        }
+        set {
+            if(newValue == liveStream.isMuted){
                 return
             }
-            apiVideo.isMuted = isMuted
+            liveStream.isMuted = newValue
         }
-      }
     }
+    
 
     @objc func startStreaming(requestId: Int, streamKey: String, url: String? = nil) {
         do {
             if let url = url {
-                try liveStream!.startStreaming(streamKey: streamKey, url: url)
+                try liveStream.startStreaming(streamKey: streamKey, url: url)
             } else {
-                try liveStream!.startStreaming(streamKey: streamKey)
+                try liveStream.startStreaming(streamKey: streamKey)
             }
             isStreaming = true
             self.onStartStreaming?([
@@ -175,7 +184,7 @@ class ReactNativeLiveStreamView : UIView {
 
     @objc func stopStreaming() {
         isStreaming = false
-        liveStream!.stopStreaming()
+        liveStream.stopStreaming()
     }
 
     @objc var onStartStreaming: RCTDirectEventBlock? = nil

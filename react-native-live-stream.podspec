@@ -16,5 +16,5 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
   s.dependency "React-Core"
-  s.dependency 'ApiVideoLiveStream', '0.2.1'
+  s.dependency 'ApiVideoLiveStream', '1.0.0'
 end
