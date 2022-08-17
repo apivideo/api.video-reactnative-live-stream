@@ -6,6 +6,7 @@
 import Foundation
 import ApiVideoLiveStream
 import AVFoundation
+import CoreGraphics
 
 
 extension String {
@@ -54,6 +55,9 @@ extension AVCaptureDevice.Position {
 class ReactNativeLiveStreamView : UIView {
     private var liveStream: ApiVideoLiveStream!
     private var isStreaming: Bool = false
+    
+    private lazy var zoomGesture: UIPinchGestureRecognizer = .init(target: self, action: #selector(zoom(sender:)))
+    private let pinchZoomMultiplier: CGFloat = 2.2
 
     override init(frame: CGRect) {
        
@@ -153,7 +157,18 @@ class ReactNativeLiveStreamView : UIView {
             liveStream.isMuted = newValue
         }
     }
-    
+
+    @objc var nativeZoomEnabled: Bool {
+        didSet {
+            if(nativeZoomEnabled != oldValue) {
+                if(nativeZoomEnabled == true) {
+                    self.view.addGestureRecognizer(zoomGesture)
+                } else {
+                    self.view.removeGestureRecognizer(zoomGesture)
+                }
+            }
+        }
+    }
 
     @objc func startStreaming(requestId: Int, streamKey: String, url: String? = nil) {
         do {
@@ -185,6 +200,22 @@ class ReactNativeLiveStreamView : UIView {
     @objc func stopStreaming() {
         isStreaming = false
         liveStream.stopStreaming()
+    }
+
+    @objc func setZoomRatio(zoomRatio: CGFloat) {
+        if let liveStream = liveStream {
+            liveStream.zoomRatio = zoomRatio
+        }
+    }
+    
+    @objc
+    private func zoom(sender: UIPinchGestureRecognizer) {
+        if sender.state == .changed {
+            if let liveStream = liveStream {
+                liveStream.zoomRatio = liveStream.zoomRatio + (sender.scale - 1) * pinchZoomMultiplier
+            }
+            sender.scale = 1
+        }
     }
 
     @objc var onStartStreaming: RCTDirectEventBlock? = nil
