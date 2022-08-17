@@ -23,6 +23,7 @@ type LiveStreamProps = {
     sampleRate?: 8000 | 16000 | 32000 | 44100 | 48000;
     isStereo?: boolean;
   };
+  nativeZoomEnabled?: Boolean;
   onConnectionSuccess?: () => void;
   onConnectionFailed?: (code: string) => void;
   onDisconnect?: () => void;
@@ -42,6 +43,7 @@ type NativeLiveStreamProps = {
     sampleRate: 8000 | 16000 | 32000 | 44100 | 48000;
     isStereo: boolean;
   };
+  nativeZoomEnabled?: Boolean;
   onConnectionSuccess?: (event: NativeSyntheticEvent<{}>) => void;
   onConnectionFailed?: (event: NativeSyntheticEvent<{ code: string }>) => void;
   onDisconnect?: (event: NativeSyntheticEvent<{}>) => void;
@@ -68,11 +70,13 @@ const LIVE_STREAM_PROPS_DEFAULTS: NativeLiveStreamProps = {
     sampleRate: 44100,
     isStereo: true,
   },
+  nativeZoomEnabled: true,
 };
 
 export type LiveStreamMethods = {
   startStreaming: (streamKey: string, url?: string) => Promise<any>;
   stopStreaming: () => void;
+  setZoomRatio: (zoomRatio: number) => void;
 };
 
 const getDefaultBitrate = (resolution: Resolution): number => {
@@ -182,6 +186,25 @@ const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
           []
         );
       },
+      setZoomRatio: (zoomRatio: number) => {
+        // If the method works without performance issues we will go forward with that.
+        // Otherwise we will use the props.
+
+        // Typescript throws error that the method does not exist, it should exist.
+        // This is needed as to not throw a react rerender. If using a normal react prop, it will cause serious performance issues.
+        // Prop
+        // nativeRef.current?.setNativeProps({
+        //   zoomRatio: zoomRatio,
+        // });
+
+        // Method
+        UIManager.dispatchViewManagerCommand(
+          findNodeHandle(nativeRef.current),
+          UIManager.getViewManagerConfig('ReactNativeLiveStreamView').Commands
+            .zoomRatioFromManager,
+          [zoomRatio]
+        );
+      },
     }));
 
     return (
@@ -191,6 +214,7 @@ const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
         video={nativeLiveStreamProps.video}
         isMuted={nativeLiveStreamProps.isMuted}
         audio={nativeLiveStreamProps.audio}
+        nativeZoomEnabled={nativeLiveStreamProps.nativeZoomEnabled}
         onConnectionSuccess={nativeLiveStreamProps.onConnectionSuccess}
         onConnectionFailed={nativeLiveStreamProps.onConnectionFailed}
         onDisconnect={nativeLiveStreamProps.onDisconnect}

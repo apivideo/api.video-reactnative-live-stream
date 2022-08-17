@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
+import android.view.ScaleGestureDetector
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import com.facebook.react.bridge.Arguments
@@ -88,6 +89,47 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
       apiVideoLiveStream.isMuted = value
       field = value
     }
+
+  var zoomRatio: Float
+    get() = apiVideoLiveStream.zoomRatio
+    set(value) {
+      apiVideoLiveStream.zoomRatio = value
+    }
+
+  var nativeZoomEnabled: Boolean = false
+    @SuppressLint("ClickableViewAccessibility")
+    set(value) {
+      if(value) {
+        this.setOnTouchListener { _, event ->
+          pinchGesture.onTouchEvent(event)
+        }
+      } else {
+        this.setOnTouchListener(null)
+      }
+      field = value
+    }
+
+  private val pinchGesture: ScaleGestureDetector by lazy {
+    ScaleGestureDetector(
+      context,
+      object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        private var savedZoomRatio: Float = 1f
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+          zoomRatio = if (detector.scaleFactor < 1) {
+            savedZoomRatio * detector.scaleFactor
+          } else {
+            savedZoomRatio + ((detector.scaleFactor - 1))
+          }
+          return super.onScale(detector)
+        }
+
+        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
+          detector.currentSpan
+          savedZoomRatio = zoomRatio
+          return super.onScaleBegin(detector)
+        }
+      })
+  }
 
   internal fun startStreaming(requestId: Int, streamKey: String, url: String?) {
     try {
