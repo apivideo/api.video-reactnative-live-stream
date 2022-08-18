@@ -158,10 +158,10 @@ class ReactNativeLiveStreamView : UIView {
         }
     }
 
-    @objc var nativeZoomEnabled: Bool {
+    @objc var enablePinchedZoom: Bool {
         didSet {
-            if(nativeZoomEnabled != oldValue) {
-                if(nativeZoomEnabled == true) {
+            if(enablePinchedZoom != oldValue) {
+                if(enablePinchedZoom == true) {
                     self.view.addGestureRecognizer(zoomGesture)
                 } else {
                     self.view.removeGestureRecognizer(zoomGesture)

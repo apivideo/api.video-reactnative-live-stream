@@ -79,7 +79,12 @@ class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStream
   }
 
   @ReactProp(name = ViewProps.NATIVE_ZOOM_ENABLED)
-  fun nativeZoomEnabled(view: ReactNativeLiveStreamView, nativeZoomEnabled: Boolean) {
-    view.nativeZoomEnabled = nativeZoomEnabled
+  fun enablePinchedZoom(view: ReactNativeLiveStreamView, enablePinchedZoom: Boolean) {
+    view.enablePinchedZoom = enablePinchedZoom
+  }
+
+  @ReactProp(name = ViewProps.ZOOM_RATIO)
+  fun enablePinchedZoom(view: ReactNativeLiveStreamView, zoomRatio: Double) {
+    view.zoomRatio = zoomRatio.toFloat()
   }
 }

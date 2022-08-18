@@ -96,7 +96,7 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
       apiVideoLiveStream.zoomRatio = value
     }
 
-  var nativeZoomEnabled: Boolean = false
+  var enablePinchedZoom: Boolean = false
     @SuppressLint("ClickableViewAccessibility")
     set(value) {
       if(value) {

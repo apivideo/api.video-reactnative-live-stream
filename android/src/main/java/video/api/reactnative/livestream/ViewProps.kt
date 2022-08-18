@@ -8,7 +8,8 @@ object ViewProps {
   const val VIDEO_CONFIG = "video"
   const val IS_MUTED = "isMuted"
   const val CAMERA = "camera"
-  const val NATIVE_ZOOM_ENABLED = "nativeZoomEnabled"
+  const val ZOOM_RATIO = "zoomRatio"
+  const val NATIVE_ZOOM_ENABLED = "enablePinchedZoom"
 
   // Audio and video configurations
   const val BITRATE = "bitrate"

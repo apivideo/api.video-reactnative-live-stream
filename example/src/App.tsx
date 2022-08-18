@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { button } from './style';
 import Settings from './components/settings';
 import assets from './assets';
+import { Slider } from '@miblanchard/react-native-slider';
 
 export interface ISettingsState {
   resolution: Resolution;
@@ -33,6 +34,8 @@ export default function App() {
   const [audioMuted, setAudioMuted] = React.useState(false);
   const [camera, setCamera] = React.useState<'front' | 'back'>('back');
   const [settingsOpen, setSettingsOpen] = React.useState<boolean>(false);
+  // const zoomSlider = new Animated.Value(1);
+  const [zoomSlider, setZoomSlider] = React.useState<number>(1);
   const [warning, setWarning] = React.useState<{
     display: boolean;
     message: string;
@@ -51,6 +54,10 @@ export default function App() {
   const isAndroid = Platform.OS === 'android';
   const style = styles(streaming, isAndroid, warning.display);
   const growAnim = React.useRef(new Animated.Value(0)).current;
+
+  if (ref.current) {
+    console.log(ref.current);
+  }
 
   React.useEffect(() => {
     const grow = () => {
@@ -138,6 +145,8 @@ export default function App() {
           isStereo: true,
         }}
         isMuted={audioMuted}
+        zoomRatio={zoomSlider}
+        enablePinchedZoom={false}
         onConnectionSuccess={() => {
           console.log('Received onConnectionSuccess');
         }}
@@ -199,6 +208,27 @@ export default function App() {
           </TouchableOpacity>
         </Animated.View>
       )}
+      <View
+        style={{
+          position: 'absolute',
+          left: 10,
+          top: 72,
+          alignItems: 'stretch',
+          justifyContent: 'center',
+          width: 100,
+        }}
+      >
+        <Slider
+          minimumValue={1}
+          maximumValue={8}
+          value={zoomSlider}
+          onValueChange={(value: number | Array<number>) => {
+            // ref.current?.setZoomRatio(Number(value));
+            setZoomSlider(Number(value));
+            // zoomSlider.setValue(Number(value));
+          }}
+        />
+      </View>
 
       {settingsOpen && (
         <Settings

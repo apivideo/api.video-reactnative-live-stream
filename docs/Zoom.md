@@ -1,6 +1,6 @@
 ## Zoom
 
-There are a native zoom feature built into this package. Just ensure to set the prop `nativeZoomEnabled` to true.
+There are a native zoom feature built into this package. Just ensure to set the prop `enablePinchedZoom` to true.
 You can however implement this yourself using the `setZoomRatio` method on the LiveStreamView ref.
 \
 \

@@ -23,7 +23,8 @@ type LiveStreamProps = {
     sampleRate?: 8000 | 16000 | 32000 | 44100 | 48000;
     isStereo?: boolean;
   };
-  nativeZoomEnabled?: Boolean;
+  zoomRatio?: number;
+  enablePinchedZoom: Boolean;
   onConnectionSuccess?: () => void;
   onConnectionFailed?: (code: string) => void;
   onDisconnect?: () => void;
@@ -43,7 +44,8 @@ type NativeLiveStreamProps = {
     sampleRate: 8000 | 16000 | 32000 | 44100 | 48000;
     isStereo: boolean;
   };
-  nativeZoomEnabled?: Boolean;
+  zoomRatio: number;
+  enablePinchedZoom: Boolean;
   onConnectionSuccess?: (event: NativeSyntheticEvent<{}>) => void;
   onConnectionFailed?: (event: NativeSyntheticEvent<{ code: string }>) => void;
   onDisconnect?: (event: NativeSyntheticEvent<{}>) => void;
@@ -70,7 +72,8 @@ const LIVE_STREAM_PROPS_DEFAULTS: NativeLiveStreamProps = {
     sampleRate: 44100,
     isStereo: true,
   },
-  nativeZoomEnabled: true,
+  zoomRatio: 1.0,
+  enablePinchedZoom: true,
 };
 
 export type LiveStreamMethods = {
@@ -214,7 +217,8 @@ const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
         video={nativeLiveStreamProps.video}
         isMuted={nativeLiveStreamProps.isMuted}
         audio={nativeLiveStreamProps.audio}
-        nativeZoomEnabled={nativeLiveStreamProps.nativeZoomEnabled}
+        zoomRatio={nativeLiveStreamProps.zoomRatio}
+        enablePinchedZoom={nativeLiveStreamProps.enablePinchedZoom}
         onConnectionSuccess={nativeLiveStreamProps.onConnectionSuccess}
         onConnectionFailed={nativeLiveStreamProps.onConnectionFailed}
         onDisconnect={nativeLiveStreamProps.onDisconnect}
