@@ -124,7 +124,6 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
         }
 
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
-          detector.currentSpan
           savedZoomRatio = zoomRatio
           return super.onScaleBegin(detector)
         }
