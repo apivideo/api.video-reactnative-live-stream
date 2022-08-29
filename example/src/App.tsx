@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { button } from './style';
 import Settings from './components/settings';
 import assets from './assets';
+import { ZoomPicker } from './components/zoomSlider';
 
 export interface ISettingsState {
   resolution: Resolution;
@@ -138,6 +139,7 @@ export default function App() {
           isStereo: true,
         }}
         isMuted={audioMuted}
+        enablePinchedZoom={true}
         onConnectionSuccess={() => {
           console.log('Received onConnectionSuccess');
         }}
@@ -199,6 +201,10 @@ export default function App() {
           </TouchableOpacity>
         </Animated.View>
       )}
+      <ZoomPicker
+        setZoomRatio={(zoomRatio) => ref.current?.setZoomRatio(zoomRatio)}
+        zoomRange={{ min: 1, max: 4 }}
+      />
 
       {settingsOpen && (
         <Settings

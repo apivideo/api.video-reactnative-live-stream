@@ -8,6 +8,8 @@ object ViewProps {
   const val VIDEO_CONFIG = "video"
   const val IS_MUTED = "isMuted"
   const val CAMERA = "camera"
+  const val ZOOM_RATIO = "zoomRatio"
+  const val NATIVE_ZOOM_ENABLED = "enablePinchedZoom"
 
   // Audio and video configurations
   const val BITRATE = "bitrate"
@@ -18,7 +20,8 @@ object ViewProps {
 
   enum class Commands(val action: String) {
     START_STREAMING("startStreamingFromManager"),
-    STOP_STREAMING("stopStreamingFromManager");
+    STOP_STREAMING("stopStreamingFromManager"),
+    ZOOM_RATIO("zoomRatioFromManager");
 
     companion object {
       fun toCommandsMap(): Map<String, Int> {

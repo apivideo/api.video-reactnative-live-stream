@@ -1,4 +1,6 @@
 import ApiVideoLiveStream
+import Foundation
+import CoreGraphics
 
 @objc(ReactNativeLiveStreamViewManager)
 class ReactNativeLiveStreamViewManager: RCTViewManager {
@@ -10,7 +12,7 @@ class ReactNativeLiveStreamViewManager: RCTViewManager {
     return ReactNativeLiveStreamView()
   }
 
-    @objc func startStreamingFromManager(_ node: NSNumber, withRequestId requestId: NSNumber, withStreamKey streamKey: String, withUrl url: String?) -> Void {
+  @objc func startStreamingFromManager(_ node: NSNumber, withRequestId requestId: NSNumber, withStreamKey streamKey: String, withUrl url: String?) -> Void {
     DispatchQueue.main.async {                              
       let component = self.bridge.uiManager.view(            
         forReactTag: node                                     
@@ -19,12 +21,21 @@ class ReactNativeLiveStreamViewManager: RCTViewManager {
     }
   }
     
-    @objc func stopStreamingFromManager(_ node: NSNumber) {
-      DispatchQueue.main.async {
-        let component = self.bridge.uiManager.view(
-          forReactTag: node
-        ) as! ReactNativeLiveStreamView
-        component.stopStreaming()
-      }
+  @objc func stopStreamingFromManager(_ node: NSNumber) {
+    DispatchQueue.main.async {
+      let component = self.bridge.uiManager.view(
+        forReactTag: node
+      ) as! ReactNativeLiveStreamView
+      component.stopStreaming()
     }
+  }
+
+  @objc func zoomRatioFromManager(_ node: NSNumber, withZoomRatio zoomRatio: NSNumber) {
+    DispatchQueue.main.async {
+      let component = self.bridge.uiManager.view(
+        forReactTag: node
+      ) as! ReactNativeLiveStreamView
+        component.setZoomRatio(zoomRatio: CGFloat(zoomRatio))
+    }
+  }
 }

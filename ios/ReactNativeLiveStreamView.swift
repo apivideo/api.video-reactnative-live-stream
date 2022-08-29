@@ -6,6 +6,7 @@
 import Foundation
 import ApiVideoLiveStream
 import AVFoundation
+import CoreGraphics
 
 
 extension String {
@@ -54,6 +55,9 @@ extension AVCaptureDevice.Position {
 class ReactNativeLiveStreamView : UIView {
     private var liveStream: ApiVideoLiveStream!
     private var isStreaming: Bool = false
+    
+    private lazy var zoomGesture: UIPinchGestureRecognizer = .init(target: self, action: #selector(zoom(sender:)))
+    private let pinchZoomMultiplier: CGFloat = 2.2
 
     override init(frame: CGRect) {
        
@@ -78,6 +82,8 @@ class ReactNativeLiveStreamView : UIView {
                 "code": code
             ])
         }
+
+        self.addGestureRecognizer(zoomGesture)
     }
 
     required init?(coder: NSCoder) {
@@ -93,7 +99,7 @@ class ReactNativeLiveStreamView : UIView {
         }
     }
 
-    private var audioConfig: AudioConfig? {
+    private var audioConfig: AudioConfig {
         get {
             liveStream.audioConfig
         }
@@ -102,7 +108,7 @@ class ReactNativeLiveStreamView : UIView {
         }
     }
 
-    private var videoConfig: VideoConfig? {
+    private var videoConfig: VideoConfig {
         get {
             liveStream.videoConfig
         }
@@ -153,7 +159,24 @@ class ReactNativeLiveStreamView : UIView {
             liveStream.isMuted = newValue
         }
     }
-    
+
+    @objc var zoomRatio: Double {
+        get {
+            return Double(liveStream.zoomRatio)
+        }
+        set {
+            liveStream.zoomRatio = CGFloat(newValue)
+        }
+    }
+
+    @objc var enablePinchedZoom: Bool {
+        get {
+            return zoomGesture.isEnabled
+        }
+        set {
+            zoomGesture.isEnabled = newValue
+        }
+    }
 
     @objc func startStreaming(requestId: Int, streamKey: String, url: String? = nil) {
         do {
@@ -185,6 +208,20 @@ class ReactNativeLiveStreamView : UIView {
     @objc func stopStreaming() {
         isStreaming = false
         liveStream.stopStreaming()
+    }
+
+    @objc func setZoomRatio(zoomRatio: CGFloat) {
+        if let liveStream = liveStream {
+            liveStream.zoomRatio = zoomRatio
+        }
+    }
+
+    @objc
+    private func zoom(sender: UIPinchGestureRecognizer) {
+        if sender.state == .changed {
+            liveStream.zoomRatio = liveStream.zoomRatio + (sender.scale - 1) * pinchZoomMultiplier
+            sender.scale = 1
+        }
     }
 
     @objc var onStartStreaming: RCTDirectEventBlock? = nil
