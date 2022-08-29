@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.2.0] - 2022-08-29
+- Camera: add support for zoom on pinch (see [#9](https://github.com/apivideo/api.video-reactnative-live-stream/issues/9)). Thanks [BlueBazze](https://github.com/BlueBazze)
+
 ## [1.1.2] - 2022-08-08
 - Android: multiple fixes on RTMP stream
 - iOS: fix start up camera (see [#26](https://github.com/apivideo/api.video-reactnative-live-stream/issues/26))
