@@ -82,6 +82,8 @@ class ReactNativeLiveStreamView : UIView {
                 "code": code
             ])
         }
+
+        self.addGestureRecognizer(zoomGesture)
     }
 
     required init?(coder: NSCoder) {
@@ -158,16 +160,21 @@ class ReactNativeLiveStreamView : UIView {
         }
     }
 
-    @objc var enablePinchedZoom: Bool {
+    @objc var zoomRatio: Double {
+        get {
+            return Double(liveStream.zoomRatio)
+        }
         set {
-            if(newValue != oldValue) {
-                if(newValue == true) {
-                    self.view.addGestureRecognizer(zoomGesture)
-                } else {
-                    self.view.removeGestureRecognizer(zoomGesture)
-                }
-                enablePinchedZoom = newValue
-            }
+            liveStream.zoomRatio = CGFloat(newValue)
+        }
+    }
+
+    @objc var enablePinchedZoom: Bool {
+        get {
+            return zoomGesture.isEnabled
+        }
+        set {
+            zoomGesture.isEnabled = newValue
         }
     }
 
@@ -203,18 +210,10 @@ class ReactNativeLiveStreamView : UIView {
         liveStream.stopStreaming()
     }
 
-    @objc func setZoomRatio(zoomRatio: CGFloat) {
-        if let liveStream = liveStream {
-            liveStream.zoomRatio = zoomRatio
-        }
-    }
-    
     @objc
     private func zoom(sender: UIPinchGestureRecognizer) {
         if sender.state == .changed {
-            if let liveStream = liveStream {
-                liveStream.zoomRatio = liveStream.zoomRatio + (sender.scale - 1) * pinchZoomMultiplier
-            }
+            liveStream.zoomRatio = liveStream.zoomRatio + (sender.scale - 1) * pinchZoomMultiplier
             sender.scale = 1
         }
     }

@@ -166,7 +166,7 @@ type LiveStreamProps = {
   // Mute/unmute microphone
   isMuted: false;
   // Enables/disables the zoom gesture handled natively
-  nativeZoomEnabled?: boolean;
+  enablePinchedZoom?: boolean;
   // will be called when the connection is successful
   onConnectionSuccess?: () => void;
   // will be called when connection failed
@@ -182,8 +182,6 @@ type LiveStreamMethods = {
   startStreaming: (streamKey: string, url?: string) => void;
   // Stops the stream
   stopStreaming: () => void;
-  // Sets the zoom ratio. Can be used if you want to control the zooming.
-  setZoomRatio: (zoomRatio: number) => void;
 };
 ```
 
