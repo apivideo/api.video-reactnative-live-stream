@@ -27,6 +27,7 @@ export function ZoomPicker(props: IZoomPicker) {
           selectedStyle={{ backgroundColor: '#FA5B30' }}
           markerStyle={{ backgroundColor: '#FA5B30', height: 25, width: 25 }}
           containerStyle={{ top: 100 }}
+          step={0.1}
           min={props.zoomRange.min}
           max={props.zoomRange.max}
         />
