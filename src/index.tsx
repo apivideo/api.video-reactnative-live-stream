@@ -1,13 +1,12 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import {
-  requireNativeComponent,
-  ViewStyle,
-  UIManager,
   findNodeHandle,
   NativeSyntheticEvent,
+  UIManager,
+  ViewStyle,
 } from 'react-native';
-
-export type Resolution = '240p' | '360p' | '480p' | '720p' | '1080p';
+import { NativeLiveStreamProps, NativeLiveStreamView } from './nativeComponent';
+import type { Resolution } from './types';
 
 type LiveStreamProps = {
   style?: ViewStyle;
@@ -28,34 +27,6 @@ type LiveStreamProps = {
   onConnectionSuccess?: () => void;
   onConnectionFailed?: (code: string) => void;
   onDisconnect?: () => void;
-};
-
-type NativeLiveStreamProps = {
-  style: ViewStyle;
-  camera?: 'front' | 'back';
-  video: {
-    bitrate: number;
-    fps: number;
-    resolution: Resolution;
-  };
-  isMuted: boolean;
-  audio: {
-    bitrate: number;
-    sampleRate: 8000 | 16000 | 32000 | 44100 | 48000;
-    isStereo: boolean;
-  };
-  zoomRatio: number;
-  enablePinchedZoom: Boolean;
-  onConnectionSuccess?: (event: NativeSyntheticEvent<{}>) => void;
-  onConnectionFailed?: (event: NativeSyntheticEvent<{ code: string }>) => void;
-  onDisconnect?: (event: NativeSyntheticEvent<{}>) => void;
-  onStartStreaming?: (
-    event: NativeSyntheticEvent<{
-      requestId: number;
-      result: boolean;
-      error: string;
-    }>
-  ) => void;
 };
 
 const LIVE_STREAM_PROPS_DEFAULTS: NativeLiveStreamProps = {
@@ -79,7 +50,6 @@ const LIVE_STREAM_PROPS_DEFAULTS: NativeLiveStreamProps = {
 export type LiveStreamMethods = {
   startStreaming: (streamKey: string, url?: string) => Promise<any>;
   stopStreaming: () => void;
-  setZoomRatio: (zoomRatio: number) => void;
 };
 
 const getDefaultBitrate = (resolution: Resolution): number => {
@@ -96,9 +66,6 @@ const getDefaultBitrate = (resolution: Resolution): number => {
       return 3500000;
   }
 };
-
-export const NativeLiveStreamView =
-  requireNativeComponent<NativeLiveStreamProps>('ReactNativeLiveStreamView');
 
 const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
   (props, forwardedRef) => {
@@ -189,25 +156,6 @@ const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
           []
         );
       },
-      setZoomRatio: (zoomRatio: number) => {
-        // If the method works without performance issues we will go forward with that.
-        // Otherwise we will use the props.
-
-        // Typescript throws error that the method does not exist, it should exist.
-        // This is needed as to not throw a react rerender. If using a normal react prop, it will cause serious performance issues.
-        // Prop
-        // nativeRef.current?.setNativeProps({
-        //   zoomRatio: zoomRatio,
-        // });
-
-        // Method
-        UIManager.dispatchViewManagerCommand(
-          findNodeHandle(nativeRef.current),
-          UIManager.getViewManagerConfig('ReactNativeLiveStreamView').Commands
-            .zoomRatioFromManager,
-          [zoomRatio]
-        );
-      },
     }));
 
     return (
@@ -229,4 +177,5 @@ const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
   }
 );
 
+export * from './types';
 export { LiveStreamView };
