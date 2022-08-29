@@ -50,6 +50,7 @@ const LIVE_STREAM_PROPS_DEFAULTS: NativeLiveStreamProps = {
 export type LiveStreamMethods = {
   startStreaming: (streamKey: string, url?: string) => Promise<any>;
   stopStreaming: () => void;
+  setZoomRatio: (zoomRatio: number) => void;
 };
 
 const getDefaultBitrate = (resolution: Resolution): number => {
@@ -154,6 +155,14 @@ const LiveStreamView = forwardRef<LiveStreamMethods, LiveStreamProps>(
           UIManager.getViewManagerConfig('ReactNativeLiveStreamView').Commands
             .stopStreamingFromManager,
           []
+        );
+      },
+      setZoomRatio: (zoomRatio: number) => {
+        UIManager.dispatchViewManagerCommand(
+          findNodeHandle(nativeRef.current),
+          UIManager.getViewManagerConfig('ReactNativeLiveStreamView').Commands
+            .zoomRatioFromManager,
+          [zoomRatio]
         );
       },
     }));

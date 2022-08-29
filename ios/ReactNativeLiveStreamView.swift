@@ -210,6 +210,12 @@ class ReactNativeLiveStreamView : UIView {
         liveStream.stopStreaming()
     }
 
+    @objc func setZoomRatio(zoomRatio: CGFloat) {
+        if let liveStream = liveStream {
+            liveStream.zoomRatio = zoomRatio
+        }
+    }
+
     @objc
     private func zoom(sender: UIPinchGestureRecognizer) {
         if sender.state == .changed {

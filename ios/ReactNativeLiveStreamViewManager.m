@@ -20,5 +20,8 @@ RCT_EXTERN_METHOD(
 RCT_EXTERN_METHOD(
     stopStreamingFromManager:(nonnull NSNumber *)node
 )
+RCT_EXTERN_METHOD(
+                  zoomRatioFromManager:(nonnull NSNumber *)node withZoomRatio:(nonnull NSNumber)zoomRatio
+)
 
 @end

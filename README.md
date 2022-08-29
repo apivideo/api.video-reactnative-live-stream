@@ -1,12 +1,12 @@
 [![badge](https://img.shields.io/twitter/follow/api_video?style=social)](https://twitter.com/intent/follow?screen_name=api_video) &nbsp; [![badge](https://img.shields.io/github/stars/apivideo/api.video-reactnative-live-stream?style=social)](https://github.com/apivideo/api.video-reactnative-live-stream) &nbsp; [![badge](https://img.shields.io/discourse/topics?server=https%3A%2F%2Fcommunity.api.video)](https://community.api.video)
 ![](https://github.com/apivideo/API_OAS_file/blob/master/apivideo_banner.png)
 
-![npm](https://img.shields.io/npm/v/@api.video/react-native-livestream) 
+![npm](https://img.shields.io/npm/v/@api.video/react-native-livestream)
 ![ts](https://badgen.net/badge/-/TypeScript/blue?icon=typescript&label)
+
 <h1 align="center">React Native RTMP live stream client</h1>
 
 [api.video](https://api.video) is the video infrastructure for product builders. Lightning fast video APIs for integrating, scaling, and managing on-demand & low latency live streaming features in your app.
-
 
 # Table of contents
 
@@ -36,21 +36,28 @@ This module is made for broadcasting rtmp live stream from smartphone camera
 ```sh
 npm install @api.video/react-native-livestream
 ```
+
 or
+
 ```sh
 yarn add @api.video/react-native-livestream
 ```
+
 _Note: if you are on iOS, you will need two extra steps:_
-1) Don't forget to install the native dependencies with Cocoapods
+
+1. Don't forget to install the native dependencies with Cocoapods
+
 ```sh
 cd ios && pod install
 ```
-2) This project contains swift code, and if it's your first dependency with swift code, you need to create an empty swift file in your project (with the bridging header) from XCode. [Find how to do that](docs/install_swift_dependency.md)
+
+2. This project contains swift code, and if it's your first dependency with swift code, you need to create an empty swift file in your project (with the bridging header) from XCode. [Find how to do that](docs/install_swift_dependency.md)
 
 ## Permissions
+
 To be able to broadcast, you must:
 
-1) On Android: ask for internet, camera and microphone permissions:
+1. On Android: ask for internet, camera and microphone permissions:
 
 ```xml
 <manifest>
@@ -59,9 +66,10 @@ To be able to broadcast, you must:
   <uses-permission android:name="android.permission.CAMERA" />
 </manifest>
 ```
+
 Your application must dynamically require android.permission.CAMERA and android.permission.RECORD_AUDIO.
 
-2) On iOS: update Info.plist with a usage description for camera and microphone
+2. On iOS: update Info.plist with a usage description for camera and microphone
 
 ```xml
 <key>NSCameraUsageDescription</key>
@@ -71,7 +79,7 @@ Your application must dynamically require android.permission.CAMERA and android.
 <string>Your own description of the purpose</string>
 ```
 
-3) On react-native you must handle the permissions requests before starting your livestream. If permissions are not accepted you will not be able to broadcast.
+3. On react-native you must handle the permissions requests before starting your livestream. If permissions are not accepted you will not be able to broadcast.
 
 ## Code sample
 
@@ -182,17 +190,22 @@ type LiveStreamMethods = {
   startStreaming: (streamKey: string, url?: string) => void;
   // Stops the stream
   stopStreaming: () => void;
+  // Sets the zoomRatio
+  // Intended for use with React Native Gesture Handler, a slider or similar.
+  setZoomRatio: (zoomRatio) => void;
 };
 ```
 
 # Example App
+
 You can try our [example app](https://github.com/apivideo/api.video-reactnative-live-stream/tree/main/example), feel free to test it.
 
 ## Setup
+
 Be sure to follow the [React Native installation steps](https://reactnative.dev/docs/environment-setup) before anything.
 
-1) Open a new terminal
-2) Clone the repository and go into it
+1. Open a new terminal
+2. Clone the repository and go into it
 
 ```shell
 git clone https://github.com/apivideo/api.video-reactnative-live-stream.git livestream_example_app && cd livestream_example_app
@@ -208,26 +221,26 @@ yarn && yarn example android
 
 ### iOS
 
-1) Install the packages
+1. Install the packages
 
 ```shell
 yarn install
 ```
 
-2) Go into `/example/ios` and install the Pods
+2. Go into `/example/ios` and install the Pods
 
 ```shell
 cd /example/ios && pod install
 ```
 
-3) Sign your application
+3. Sign your application
 
 Open Xcode, click on "Open a project or file" and open the `Example.xcworkspace` file.
 <br />You can find it in `YOUR_PROJECT_NAME/example/ios`.
-<br />Click on Example, go in `Signin & Capabilities` tab, add your team and create a unique 
+<br />Click on Example, go in `Signin & Capabilities` tab, add your team and create a unique
 bundle identifier.
 
-4) Launch the application, from the root of your project
+4. Launch the application, from the root of your project
 
 ```shell
 yarn example ios
@@ -237,18 +250,17 @@ yarn example ios
 
 api.video live stream library is using external native library for broadcasting
 
-| Plugin | README |
-| ------ | ------ |
+| Plugin     | README       |
+| ---------- | ------------ |
 | StreamPack | [StreamPack] |
 | HaishinKit | [HaishinKit] |
 
 # FAQ
 
-If you have any questions, ask us here:  https://community.api.video .
+If you have any questions, ask us here: https://community.api.video .
 Or use [Issues].
 
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-
-   [StreamPack]: <https://github.com/ThibaultBee/StreamPack>
-   [HaishinKit]: <https://github.com/shogo4405/HaishinKit.swift>
-   [Issues]: <https://github.com/apivideo/api.video-reactnative-live-stream/issues>
+[//]: # "These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax"
+[streampack]: https://github.com/ThibaultBee/StreamPack
+[haishinkit]: https://github.com/shogo4405/HaishinKit.swift
+[issues]: https://github.com/apivideo/api.video-reactnative-live-stream/issues

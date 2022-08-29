@@ -29,4 +29,13 @@ class ReactNativeLiveStreamViewManager: RCTViewManager {
       component.stopStreaming()
     }
   }
+
+  @objc func zoomRatioFromManager(_ node: NSNumber, withZoomRatio zoomRatio: NSNumber) {
+    DispatchQueue.main.async {
+      let component = self.bridge.uiManager.view(
+        forReactTag: node
+      ) as! ReactNativeLiveStreamView
+        component.setZoomRatio(zoomRatio: CGFloat(zoomRatio))
+    }
+  }
 }
