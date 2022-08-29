@@ -99,7 +99,7 @@ class ReactNativeLiveStreamView : UIView {
         }
     }
 
-    private var audioConfig: AudioConfig? {
+    private var audioConfig: AudioConfig {
         get {
             liveStream.audioConfig
         }
@@ -108,7 +108,7 @@ class ReactNativeLiveStreamView : UIView {
         }
     }
 
-    private var videoConfig: VideoConfig? {
+    private var videoConfig: VideoConfig {
         get {
             liveStream.videoConfig
         }
