@@ -36,10 +36,6 @@ class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStream
         view.startStreaming(requestId, streamKey, url)
       }
       ViewProps.Commands.STOP_STREAMING.ordinal -> view.stopStreaming()
-      ViewProps.Commands.ZOOM_RATIO.ordinal -> {
-        val zoomRatio = args!!.getDouble(0)
-        view.zoomRatio = zoomRatio.toFloat()
-      }
       else -> {
         throw IllegalArgumentException("Unsupported command %d received by %s. $commandId")
       }
@@ -84,7 +80,7 @@ class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStream
   }
 
   @ReactProp(name = ViewProps.ZOOM_RATIO)
-  fun enablePinchedZoom(view: ReactNativeLiveStreamView, zoomRatio: Double) {
+  fun zoomRatio(view: ReactNativeLiveStreamView, zoomRatio: Double) {
     view.zoomRatio = zoomRatio.toFloat()
   }
 }

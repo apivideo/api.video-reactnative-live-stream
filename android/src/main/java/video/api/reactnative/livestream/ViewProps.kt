@@ -20,8 +20,7 @@ object ViewProps {
 
   enum class Commands(val action: String) {
     START_STREAMING("startStreamingFromManager"),
-    STOP_STREAMING("stopStreamingFromManager"),
-    ZOOM_RATIO("zoomRatioFromManager");
+    STOP_STREAMING("stopStreamingFromManager");
 
     companion object {
       fun toCommandsMap(): Map<String, Int> {
