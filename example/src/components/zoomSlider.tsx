@@ -7,7 +7,6 @@ const isAndroid = Platform.OS === 'android';
 
 interface IZoomPicker {
   setZoomRatio: (zoomRatio: number) => void;
-  zoomRatio: number;
   zoomRange: { min: number; max: number };
 }
 export function ZoomPicker(props: IZoomPicker) {
@@ -22,7 +21,6 @@ export function ZoomPicker(props: IZoomPicker) {
         <Slider
           vertical
           sliderLength={200}
-          values={[props.zoomRatio]}
           onValuesChange={(v) => props.setZoomRatio(v[0])}
           selectedStyle={{ backgroundColor: '#FA5B30' }}
           markerStyle={{ backgroundColor: '#FA5B30', height: 25, width: 25 }}

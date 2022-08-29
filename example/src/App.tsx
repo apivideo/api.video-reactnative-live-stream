@@ -34,7 +34,6 @@ export default function App() {
   const [audioMuted, setAudioMuted] = React.useState(false);
   const [camera, setCamera] = React.useState<'front' | 'back'>('back');
   const [settingsOpen, setSettingsOpen] = React.useState<boolean>(false);
-  const [zoomRatio, setZoomRatio] = React.useState<number>(1);
   const [warning, setWarning] = React.useState<{
     display: boolean;
     message: string;
@@ -140,7 +139,6 @@ export default function App() {
           isStereo: true,
         }}
         isMuted={audioMuted}
-        zoomRatio={zoomRatio}
         enablePinchedZoom={true}
         onConnectionSuccess={() => {
           console.log('Received onConnectionSuccess');
@@ -204,8 +202,7 @@ export default function App() {
         </Animated.View>
       )}
       <ZoomPicker
-        setZoomRatio={setZoomRatio}
-        zoomRatio={zoomRatio}
+        setZoomRatio={(zoomRatio) => ref.current?.setZoomRatio(zoomRatio)}
         zoomRange={{ min: 1, max: 4 }}
       />
 
