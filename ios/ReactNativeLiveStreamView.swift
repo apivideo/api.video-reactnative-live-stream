@@ -3,11 +3,10 @@
 //  api.video-reactnative-live-stream
 //
 
-import Foundation
 import ApiVideoLiveStream
 import AVFoundation
 import CoreGraphics
-
+import Foundation
 
 extension String {
     func toResolution() -> Resolution {
@@ -52,41 +51,41 @@ extension AVCaptureDevice.Position {
     }
 }
 
-class ReactNativeLiveStreamView : UIView {
+class ReactNativeLiveStreamView: UIView {
     private var liveStream: ApiVideoLiveStream!
     private var isStreaming: Bool = false
-    
+
     private lazy var zoomGesture: UIPinchGestureRecognizer = .init(target: self, action: #selector(zoom(sender:)))
     private let pinchZoomMultiplier: CGFloat = 2.2
 
     override init(frame: CGRect) {
-       
         super.init(frame: frame)
-        
+
         do {
             liveStream = try ApiVideoLiveStream(initialAudioConfig: nil, initialVideoConfig: nil, preview: self)
         } catch {
             fatalError("build(): Can't create a live stream instance")
         }
-        
-        liveStream.onConnectionSuccess = {() in
+
+        liveStream.onConnectionSuccess = { () in
             self.onConnectionSuccess?([:])
         }
-        liveStream.onDisconnect = {() in
+        liveStream.onDisconnect = { () in
             self.isStreaming = false
             self.onDisconnect?([:])
         }
-        liveStream.onConnectionFailed = {(code) in
+        liveStream.onConnectionFailed = { code in
             self.isStreaming = false
             self.onConnectionFailed?([
-                "code": code
+                "code": code,
             ])
         }
 
-        self.addGestureRecognizer(zoomGesture)
+        addGestureRecognizer(zoomGesture)
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -125,7 +124,7 @@ class ReactNativeLiveStreamView : UIView {
 
     @objc var video: NSDictionary = [:] {
         didSet {
-            if (isStreaming) {
+            if isStreaming {
                 videoBitrate = video["bitrate"] as! Int
             } else {
                 videoConfig = VideoConfig(bitrate: video["bitrate"] as! Int,
@@ -140,11 +139,11 @@ class ReactNativeLiveStreamView : UIView {
             return liveStream.camera.toCameraPositionName()
         }
         set {
-          let value = newValue.toCaptureDevicePosition()
-          if(value == liveStream.camera){
-              return
-          }
-          liveStream.camera = value
+            let value = newValue.toCaptureDevicePosition()
+            if value == liveStream.camera {
+                return
+            }
+            liveStream.camera = value
         }
     }
 
@@ -153,7 +152,7 @@ class ReactNativeLiveStreamView : UIView {
             return liveStream.isMuted
         }
         set {
-            if(newValue == liveStream.isMuted){
+            if newValue == liveStream.isMuted {
                 return
             }
             liveStream.isMuted = newValue
@@ -186,21 +185,21 @@ class ReactNativeLiveStreamView : UIView {
                 try liveStream.startStreaming(streamKey: streamKey)
             }
             isStreaming = true
-            self.onStartStreaming?([
+            onStartStreaming?([
                 "requestId": requestId,
-                "result": true
+                "result": true,
             ])
-        } catch  LiveStreamError.IllegalArgumentError(let message) {
+        } catch let LiveStreamError.IllegalArgumentError(message) {
             self.onStartStreaming?([
                 "requestId": requestId,
                 "result": false,
-                "error": message
+                "error": message,
             ])
         } catch {
-            self.onStartStreaming?([
+            onStartStreaming?([
                 "requestId": requestId,
                 "result": false,
-                "error": "Unknown error"
+                "error": "Unknown error",
             ])
         }
     }
@@ -224,13 +223,13 @@ class ReactNativeLiveStreamView : UIView {
         }
     }
 
-    @objc var onStartStreaming: RCTDirectEventBlock? = nil
+    @objc var onStartStreaming: RCTDirectEventBlock?
 
-    @objc var onConnectionSuccess: RCTDirectEventBlock? = nil
+    @objc var onConnectionSuccess: RCTDirectEventBlock?
 
-    @objc var onConnectionFailed: RCTDirectEventBlock? = nil
+    @objc var onConnectionFailed: RCTDirectEventBlock?
 
-    @objc var onDisconnect: RCTDirectEventBlock? = nil
+    @objc var onDisconnect: RCTDirectEventBlock?
 
     @objc override func didMoveToWindow() {
         super.didMoveToWindow()
