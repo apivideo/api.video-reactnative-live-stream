@@ -231,7 +231,8 @@ class ReactNativeLiveStreamView: UIView {
 
     @objc var onDisconnect: RCTDirectEventBlock?
 
-    @objc override func didMoveToWindow() {
-        super.didMoveToWindow()
+    @objc override public func removeFromSuperview() {
+            super.removeFromSuperview()
+            liveStream.stopPreview()
     }
 }
