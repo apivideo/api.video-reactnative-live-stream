@@ -81,7 +81,7 @@ export default function App() {
       setWarning({
         display: true,
         message: 'Please enter a valid RTMP endpoint in settings',
-      });
+      }); 
       return;
     }
     // No stream key
