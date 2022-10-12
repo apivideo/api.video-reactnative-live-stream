@@ -1,6 +1,10 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.2.1] - 2022-10-12
+- Fix multiple crashes on both iOS and Android (see [#38](https://github.com/apivideo/api.video-reactnative-live-stream/issues/38), [#33](https://github.com/apivideo/api.video-reactnative-live-stream/issues/33) and [#34](https://github.com/apivideo/api.video-reactnative-live-stream/issues/34))
+- Stop camera capture when view is put to background (see [#23](https://github.com/apivideo/api.video-reactnative-live-stream/issues/23]))
+
 ## [1.2.0] - 2022-08-29
 - Camera: add support for zoom on pinch (see [#9](https://github.com/apivideo/api.video-reactnative-live-stream/issues/9)). Thanks [BlueBazze](https://github.com/BlueBazze)
 
