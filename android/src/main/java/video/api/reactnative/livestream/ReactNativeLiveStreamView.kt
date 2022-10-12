@@ -17,10 +17,12 @@ import video.api.livestream.enums.CameraFacingDirection
 import video.api.livestream.interfaces.IConnectionChecker
 import video.api.livestream.models.AudioConfig
 import video.api.livestream.models.VideoConfig
+import java.io.Closeable
 
 
 @SuppressLint("MissingPermission")
-class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), IConnectionChecker {
+class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), IConnectionChecker,
+  Closeable {
   companion object {
     private const val TAG = "RNLiveStreamView"
   }
@@ -99,7 +101,7 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
   var enablePinchedZoom: Boolean = false
     @SuppressLint("ClickableViewAccessibility")
     set(value) {
-      if(value) {
+      if (value) {
         this.setOnTouchListener { _, event ->
           pinchGesture.onTouchEvent(event)
         }
@@ -192,5 +194,9 @@ class ReactNativeLiveStreamView(context: Context) : ConstraintLayout(context), I
     reactContext
       .getJSModule(RCTEventEmitter::class.java)
       .receiveEvent(id, eventName, params)
+  }
+
+  override fun close() {
+    apiVideoLiveStream.release()
   }
 }

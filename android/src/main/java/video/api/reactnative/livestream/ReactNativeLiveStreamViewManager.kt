@@ -87,4 +87,9 @@ class ReactNativeLiveStreamViewManager : SimpleViewManager<ReactNativeLiveStream
   fun zoomRatio(view: ReactNativeLiveStreamView, zoomRatio: Double) {
     view.zoomRatio = zoomRatio.toFloat()
   }
+
+  override fun onDropViewInstance(view: ReactNativeLiveStreamView) {
+    super.onDropViewInstance(view)
+    view.close()
+  }
 }
