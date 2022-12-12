@@ -97,7 +97,7 @@ const App = () => {
       <LiveStreamView
         style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
         ref={ref}
-        camera: 'back',
+        camera="back",
         video={{
           fps: 30,
           resolution: '720p',
