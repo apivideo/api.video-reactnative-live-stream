@@ -108,7 +108,7 @@ const App = () => {
           sampleRate: 44100,
           isStereo: true,
         }}
-        isMuted: false
+        isMuted={false}
         onConnectionSuccess={() => {
           //do what you want
         }}
