@@ -1,16 +1,18 @@
-name: Create draft release if needed
+name: Create draft release from CHANGELOG.md
+
 on:
   push:
-    branches:
-      - main
+    paths:
+      - 'CHANGELOG.md'
+
 jobs:
   update-documentation:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Create draft release if needed
-        uses: apivideo/api.video-release-from-changelog-action@v0.0.1
+        uses: apivideo/api.video-release-from-changelog-action@main
         with:
           github-auth-token: ${{ secrets.GITHUB_TOKEN }}
           prefix: v
-   
+
