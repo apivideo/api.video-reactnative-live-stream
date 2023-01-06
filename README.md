@@ -102,6 +102,7 @@ const App = () => {
           fps: 30,
           resolution: '720p',
           bitrate: '2*1024*1024', // # 2 Mbps
+          gopDuration: 1, // 1 second
         }}
         audio={{
           bitrate: 128000,
@@ -162,6 +163,8 @@ type LiveStreamProps = {
     resolution: '240p' | '360p' | '480p' | '720p' | '1080p';
     // video bitrate. depends on resolutions.
     bitrate: number;
+    // duration between 2 key frames in seconds
+    gopDuration: number;
   };
   audio: {
     // sample rate. Only for Android. Recommended: 44100

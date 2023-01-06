@@ -15,6 +15,7 @@ type LiveStreamProps = {
     bitrate?: number;
     fps?: number;
     resolution?: Resolution;
+    gopDuration?: number;
   };
   isMuted?: boolean;
   audio?: {
@@ -36,6 +37,7 @@ const LIVE_STREAM_PROPS_DEFAULTS: NativeLiveStreamProps = {
     bitrate: 2000000,
     fps: 30,
     resolution: '720p',
+    gopDuration: 1,
   },
   isMuted: false,
   audio: {

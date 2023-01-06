@@ -48,7 +48,8 @@ fun ReadableMap.toVideoConfig(): VideoConfig {
   return VideoConfig(
     bitrate = this.getInt(ViewProps.BITRATE),
     resolution = this.getString(ViewProps.RESOLUTION)?.getResolution()!!,
-    fps = this.getInt(ViewProps.FPS)
+    fps = this.getInt(ViewProps.FPS),
+    gopDuration = this.getDouble(ViewProps.GOP_DURATION).toFloat()
   )
 }
 

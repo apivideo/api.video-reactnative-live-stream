@@ -115,7 +115,8 @@ class ReactNativeLiveStreamView: UIView {
             } else {
                 videoConfig = VideoConfig(bitrate: video["bitrate"] as! Int,
                                           resolution: (video["resolution"] as! String).toResolution(),
-                                          fps: video["fps"] as! Float64)
+                                          fps: video["fps"] as! Float64,
+                                          gopDuration: video["gopDuration"] as! Float64)
             }
         }
     }

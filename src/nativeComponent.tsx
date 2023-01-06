@@ -12,6 +12,7 @@ export type NativeLiveStreamProps = {
     bitrate: number;
     fps: number;
     resolution: Resolution;
+    gopDuration: number;
   };
   isMuted: boolean;
   audio: {
