@@ -62,7 +62,7 @@ class ReactNativeLiveStreamView: UIView {
         super.init(frame: frame)
 
         do {
-            liveStream = try ApiVideoLiveStream(preview: self, initialAudioConfig: nil, initialVideoConfig: nil)
+            liveStream = try ApiVideoLiveStream(preview: self, initialAudioConfig: nil, initialVideoConfig: nil, initialCamera: nil)
         } catch {
             fatalError("build(): Can't create a live stream instance")
         }
