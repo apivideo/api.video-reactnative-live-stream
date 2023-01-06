@@ -63,6 +63,7 @@ class ReactNativeLiveStreamView: UIView {
 
         do {
             liveStream = try ApiVideoLiveStream(preview: self, initialAudioConfig: nil, initialVideoConfig: nil, initialCamera: nil)
+            liveStream.delegate = self
         } catch {
             fatalError("build(): Can't create a live stream instance")
         }
