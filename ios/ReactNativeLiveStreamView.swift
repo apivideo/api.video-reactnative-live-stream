@@ -62,23 +62,9 @@ class ReactNativeLiveStreamView: UIView {
         super.init(frame: frame)
 
         do {
-            liveStream = try ApiVideoLiveStream(initialAudioConfig: nil, initialVideoConfig: nil, preview: self)
+            liveStream = try ApiVideoLiveStream(preview: self, initialAudioConfig: nil, initialVideoConfig: nil)
         } catch {
             fatalError("build(): Can't create a live stream instance")
-        }
-
-        liveStream.onConnectionSuccess = { () in
-            self.onConnectionSuccess?([:])
-        }
-        liveStream.onDisconnect = { () in
-            self.isStreaming = false
-            self.onDisconnect?([:])
-        }
-        liveStream.onConnectionFailed = { code in
-            self.isStreaming = false
-            self.onConnectionFailed?([
-                "code": code,
-            ])
         }
 
         addGestureRecognizer(zoomGesture)
@@ -129,21 +115,21 @@ class ReactNativeLiveStreamView: UIView {
             } else {
                 videoConfig = VideoConfig(bitrate: video["bitrate"] as! Int,
                                           resolution: (video["resolution"] as! String).toResolution(),
-                                          fps: video["fps"] as! Int)
+                                          fps: video["fps"] as! Float64)
             }
         }
     }
 
     @objc var camera: String {
         get {
-            return liveStream.camera.toCameraPositionName()
+            return liveStream.cameraPosition.toCameraPositionName()
         }
         set {
             let value = newValue.toCaptureDevicePosition()
-            if value == liveStream.camera {
+            if value == liveStream.cameraPosition {
                 return
             }
-            liveStream.camera = value
+            liveStream.cameraPosition = value
         }
     }
 
@@ -234,5 +220,36 @@ class ReactNativeLiveStreamView: UIView {
     @objc override public func removeFromSuperview() {
             super.removeFromSuperview()
             liveStream.stopPreview()
+    }
+}
+
+extension ReactNativeLiveStreamView: ApiVideoLiveStreamDelegate {
+    /// Called when the connection to the rtmp server is successful
+    func connectionSuccess() {
+        self.onConnectionSuccess?([:])
+    }
+
+    /// Called when the connection to the rtmp server failed
+    func connectionFailed(_ code: String) {
+        self.isStreaming = false
+        self.onConnectionFailed?([
+            "code": code,
+        ])
+    }
+
+    /// Called when the connection to the rtmp server is closed
+    func disconnection() {
+        self.isStreaming = false
+        self.onDisconnect?([:])
+    }
+
+    /// Called if an error happened during the audio configuration
+    func audioError(_ error: Error) {
+        
+    }
+
+    /// Called if an error happened during the video configuration
+    func videoError(_ error: Error) {
+        
     }
 }
