@@ -1,6 +1,12 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.2.2] - 2023-01-11
+- Add a `gopDuration` API for the `video` object. Default value is 1.0 s. (see [#42](https://github.com/apivideo/api.video-reactnative-live-stream/issues/42))
+- Android: fix audio and video packets order (see [#46](https://github.com/apivideo/api.video-reactnative-live-stream/issues/46))
+- Android: fix crash when audio is muted on Pixel6 (see [#48](https://github.com/apivideo/api.video-reactnative-live-stream/issues/48))
+- iOS: Speed up front camera start up (see [#44](https://github.com/apivideo/api.video-reactnative-live-stream/issues/44))
+
 ## [1.2.1] - 2022-10-12
 - Fix multiple crashes on both iOS and Android (see [#38](https://github.com/apivideo/api.video-reactnative-live-stream/issues/38), [#33](https://github.com/apivideo/api.video-reactnative-live-stream/issues/33) and [#34](https://github.com/apivideo/api.video-reactnative-live-stream/issues/34))
 - Stop camera capture when view is put to background (see [#23](https://github.com/apivideo/api.video-reactnative-live-stream/issues/23]))
