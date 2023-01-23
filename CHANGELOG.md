@@ -1,6 +1,9 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.2.3] - 2023-01-23
+- iOS: fix the orientation of the device
+
 ## [1.2.2] - 2023-01-11
 - Add a `gopDuration` API for the `video` object. Default value is 1.0 s. (see [#42](https://github.com/apivideo/api.video-reactnative-live-stream/issues/42))
 - Android: fix audio and video packets order (see [#46](https://github.com/apivideo/api.video-reactnative-live-stream/issues/46))
