@@ -1,0 +1,116 @@
+name: Bug Report
+description: File a bug report
+title: "[Bug]: "
+labels: [ "bug" ]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+        
+        Rules for reporting a bug:
+        -------------------------
+        * Make sure the bug hasn't already been reported.
+        * Fill in as much of the template below as you're able.
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version are you using?
+      options:
+        - v1.2.3
+        - v1.2.2
+        - v1.2.1
+        - v1.2.0
+        - v1.1.2
+        - v1.1.1
+        - v1.1.0
+        - v1.0.0
+        - Older
+    validations:
+      required: true
+  - type: checkboxes
+    id: operating-systems
+    attributes:
+      label: Which operating systems have you used?
+      description: What OS are you using? You may select more than one.
+      options:
+        - label: Android
+        - label: iOS
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment that reproduces the issue
+      description: List of devices and OS version where the issue is reproducible?
+      placeholder: |
+        Example:
+        * Google Pixel5 (Android 13)
+        * iPhone 13 (iOS 14)
+        * ...
+    validations:
+      required: true
+  - type: dropdown
+    id: reproducible
+    attributes:
+      label: Is it reproducible in the example application?
+      description: Please try and reproduce the issue in the example application.
+      options:
+        - "Yes"
+        - "No"
+        - Not tested
+    validations:
+      required: true
+  - type: input
+    id: rtmp-server
+    attributes:
+      label: RTMP Server
+      placeholder: |
+        Example:
+        api.video
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Clear and complete steps we can use to reproduce the problem
+      placeholder: |
+        Example:
+        1. Configures video for 720p
+        2. Start streaming to the server
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+      placeholder: |
+        Example:
+        The player plays successfully
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      placeholder: |
+        Example:
+        The player crashes with the following stack trace:
+        ...
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      placeholder: |
+        Example:
+        react-native version
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs output
+      description: Please paste any relevant logs output here.
+      render: shell
