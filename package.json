@@ -1,6 +1,6 @@
 {
   "name": "@api.video/react-native-livestream",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "RTMP live streaming library from api.video",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",

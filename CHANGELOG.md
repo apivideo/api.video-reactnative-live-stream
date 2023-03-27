@@ -1,6 +1,11 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [1.2.4] - 2023-03-27
+- Android: call `onConnectionFailed` when `connectStream` failed to be sent
+- iOS: add `audiosamplerate` in `onMetadata` (see [#51](https://github.com/apivideo/api.video-reactnative-live-stream/issues/51))
+- iOS: mirror front camera (see [#58](https://github.com/apivideo/api.video-reactnative-live-stream/issues/58))
+
 ## [1.2.3] - 2023-01-23
 - iOS: fix the orientation of the device
 
