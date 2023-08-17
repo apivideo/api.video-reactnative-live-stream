@@ -1,13 +1,12 @@
 package video.api.reactnative.livestream.utils
 
-import android.util.Log
 import com.facebook.react.bridge.ReadableMap
-
-import video.api.livestream.enums.Resolution
 import video.api.livestream.enums.CameraFacingDirection
+import video.api.livestream.enums.Resolution
 import video.api.livestream.models.AudioConfig
 import video.api.livestream.models.VideoConfig
 import video.api.reactnative.livestream.ViewProps
+import java.security.InvalidParameterException
 
 fun String.getResolution(): Resolution {
   return when (this) {
@@ -17,8 +16,7 @@ fun String.getResolution(): Resolution {
     "720p" -> Resolution.RESOLUTION_720
     "1080p" -> Resolution.RESOLUTION_1080
     else -> {
-      Log.w("", "Unknown resolution $this, fallback to 720p")
-      Resolution.RESOLUTION_720
+      throw InvalidParameterException("Unknown resolution $this")
     }
   }
 }
@@ -28,8 +26,7 @@ fun String.getCameraFacing(): CameraFacingDirection {
     "front" -> CameraFacingDirection.FRONT
     "back" -> CameraFacingDirection.BACK
     else -> {
-      Log.w("", "Unknown camera facing direction $this, fallback to back camera")
-      CameraFacingDirection.BACK
+      throw InvalidParameterException("Unknown camera facing direction $this")
     }
   }
 }

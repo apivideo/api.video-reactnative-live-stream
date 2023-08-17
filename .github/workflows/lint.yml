@@ -1,0 +1,16 @@
+name: Lint
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+      - name: Install dependencies
+        run: yarn install
+      - name: Lint
+        run: yarn lint

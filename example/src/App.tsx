@@ -7,11 +7,7 @@ import {
   StatusBar,
   Animated,
 } from 'react-native';
-import {
-  LiveStreamView,
-  LiveStreamMethods,
-  Resolution,
-} from '@api.video/react-native-livestream';
+import { ApiVideoLiveStreamView } from '@api.video/react-native-livestream';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { button } from './style';
 import Settings from './components/settings';
@@ -48,7 +44,7 @@ export default function App() {
   });
 
   // CONSTANTS
-  const ref = React.useRef<LiveStreamMethods | null>(null);
+  const ref = React.useRef<ApiVideoLiveStreamMethods | null>(null);
   const isAndroid = Platform.OS === 'android';
   const style = styles(streaming, isAndroid, warning.display);
   const growAnim = React.useRef(new Animated.Value(0)).current;
@@ -124,7 +120,7 @@ export default function App() {
     <View style={style.container}>
       <StatusBar animated={true} barStyle="light-content" />
 
-      <LiveStreamView
+      <ApiVideoLiveStreamView
         style={style.livestreamView}
         ref={ref}
         camera={camera}

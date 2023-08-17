@@ -9,7 +9,7 @@ object ViewProps {
   const val IS_MUTED = "isMuted"
   const val CAMERA = "camera"
   const val ZOOM_RATIO = "zoomRatio"
-  const val NATIVE_ZOOM_ENABLED = "enablePinchedZoom"
+  const val ZOOM_ENABLED = "enablePinchedZoom"
 
   // Audio and video configurations
   const val BITRATE = "bitrate"
@@ -19,20 +19,7 @@ object ViewProps {
   const val SAMPLE_RATE = "sampleRate"
   const val IS_STEREO = "isStereo"
 
-  enum class Commands(val action: String) {
-    START_STREAMING("startStreamingFromManager"),
-    STOP_STREAMING("stopStreamingFromManager"),
-    ZOOM_RATIO("zoomRatioFromManager");
-
-    companion object {
-      fun toCommandsMap(): Map<String, Int> {
-        return values().associate { it.action to it.ordinal }
-      }
-    }
-  }
-
-  enum class Events(val type: String) {
-    ON_START_STREAMING("onStartStreaming"),
+  enum class Events(val eventName: String) {
     CONNECTION_SUCCESS("onConnectionSuccess"),
     CONNECTION_FAILED("onConnectionFailed"),
     DISCONNECTED("onDisconnect");
@@ -41,9 +28,21 @@ object ViewProps {
       fun toEventsMap(): Map<String, *> {
         val builder: MapBuilder.Builder<String, Map<String, String>> = MapBuilder.builder()
         values().forEach {
-          builder.put(it.type, MapBuilder.of("registrationName", it.type))
+          builder.put(it.eventName, MapBuilder.of("registrationName", it.eventName))
         }
         return builder.build()
+      }
+    }
+  }
+
+  enum class Commands(val action: String) {
+    START_STREAMING("startStreaming"),
+    STOP_STREAMING("stopStreaming"),
+    ZOOM_RATIO("setZoomRatioCommand");
+
+    companion object {
+      fun toCommandsMap(): Map<String, Int> {
+        return values().associate { it.action to it.ordinal }
       }
     }
   }
