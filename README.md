@@ -97,11 +97,12 @@ const App = () => {
       <LiveStreamView
         style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
         ref={ref}
-        camera="back",
+        camera="back"
+        enablePinchedZoom={true}
         video={{
           fps: 30,
           resolution: '720p',
-          bitrate: '2*1024*1024', // # 2 Mbps
+          bitrate: 2*1024*1024, // # 2 Mbps
           gopDuration: 1, // 1 second
         }}
         audio={{
