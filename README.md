@@ -31,6 +31,9 @@ This module is made for broadcasting rtmp live stream from smartphone camera
 
 # Getting started
 
+> :warning: **The React Native Live Stream SDK is designed for 0.69.1 version of React Native. Using the SDK with >0.69.1 of React Native can cause unexpected behaviour**
+
+
 ## Installation
 
 ```sh
