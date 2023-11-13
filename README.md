@@ -1,3 +1,4 @@
+<!--<documentation_excluded>-->
 [![badge](https://img.shields.io/twitter/follow/api_video?style=social)](https://twitter.com/intent/follow?screen_name=api_video) &nbsp; [![badge](https://img.shields.io/github/stars/apivideo/api.video-reactnative-live-stream?style=social)](https://github.com/apivideo/api.video-reactnative-live-stream) &nbsp; [![badge](https://img.shields.io/discourse/topics?server=https%3A%2F%2Fcommunity.api.video)](https://community.api.video)
 ![](https://github.com/apivideo/.github/blob/main/assets/apivideo_banner.png)
 
@@ -8,7 +9,7 @@
 
 [api.video](https://api.video) is the video infrastructure for product builders. Lightning fast video APIs for integrating, scaling, and managing on-demand & low latency live streaming features in your app.
 
-# Table of contents
+## Table of contents
 
 - [Table of contents](#table-of-contents)
 - [Project description](#project-description)
@@ -17,7 +18,7 @@
   - [Permissions](#permissions)
   - [Code sample](#code-sample)
 - [Documentation](#documentation)
-  - [Props & Methods](#props--methods)
+  - [Props \& Methods](#props--methods)
 - [Example App](#example-app)
   - [Setup](#setup)
     - [Android](#android)
@@ -25,16 +26,29 @@
 - [Plugins](#plugins)
 - [FAQ](#faq)
 
-# Project description
+<!--</documentation_excluded>-->
+<!--<documentation_only>
+---
+title: React Native live stream component
+meta: 
+  description: The official React Native live stream component for api.video. [api.video](https://api.video/) is the video infrastructure for product builders. Lightning fast video APIs for integrating, scaling, and managing on-demand & low latency live streaming features in your app.
+---
+
+# React Native Livestream Component
+
+[api.video](https://api.video/) is the video infrastructure for product builders. Lightning fast video APIs for integrating, scaling, and managing on-demand & low latency live streaming features in your app.
+
+</documentation_only>-->
+## Project description
 
 This module is made for broadcasting rtmp live stream from smartphone camera
 
-# Getting started
+## Getting started
 
-> :warning: **The React Native Live Stream SDK is designed for 0.69.1 version of React Native. Using the SDK with >0.69.1 of React Native can cause unexpected behaviour**
+:warning: **The React Native Live Stream SDK is designed for 0.69.1 version of React Native. Using the SDK with >0.69.1 of React Native can cause unexpected behaviour**
 
 
-## Installation
+### Installation
 
 ```sh
 npm install @api.video/react-native-livestream
@@ -54,9 +68,9 @@ _Note: if you are on iOS, you will need two extra steps:_
 cd ios && pod install
 ```
 
-2. This project contains swift code, and if it's your first dependency with swift code, you need to create an empty swift file in your project (with the bridging header) from XCode. [Find how to do that](docs/install_swift_dependency.md)
+1. This project contains swift code, and if it's your first dependency with swift code, you need to create an empty swift file in your project (with the bridging header) from XCode. [Find how to do that](https://github.com/apivideo/api.video-reactnative-live-stream/blob/main/docs/install_swift_dependency.md)
 
-## Permissions
+### Permissions
 
 To be able to broadcast, you must:
 
@@ -84,7 +98,7 @@ Your application must dynamically require android.permission.CAMERA and android.
 
 3. On react-native you must handle the permissions requests before starting your livestream. If permissions are not accepted you will not be able to broadcast.
 
-## Code sample
+### Code sample
 
 ```jsx
 import React, { useRef, useState } from 'react';
@@ -150,9 +164,9 @@ const App = () => {
 export default App;
 ```
 
-# Documentation
+## Documentation
 
-## Props & Methods
+### Props & Methods
 
 ```ts
 type LiveStreamProps = {
@@ -203,11 +217,11 @@ type LiveStreamMethods = {
 };
 ```
 
-# Example App
+## Example App
 
 You can try our [example app](https://github.com/apivideo/api.video-reactnative-live-stream/tree/main/example), feel free to test it.
 
-## Setup
+### Setup
 
 Be sure to follow the [React Native installation steps](https://reactnative.dev/docs/environment-setup) before anything.
 
@@ -218,7 +232,7 @@ Be sure to follow the [React Native installation steps](https://reactnative.dev/
 git clone https://github.com/apivideo/api.video-reactnative-live-stream.git livestream_example_app && cd livestream_example_app
 ```
 
-### Android
+#### Android
 
 Install the packages and launch the application
 
@@ -226,7 +240,7 @@ Install the packages and launch the application
 yarn && yarn example android
 ```
 
-### iOS
+#### iOS
 
 1. Install the packages
 
@@ -253,7 +267,7 @@ bundle identifier.
 yarn example ios
 ```
 
-# Plugins
+## Plugins
 
 api.video live stream library is using external native library for broadcasting
 
@@ -262,7 +276,7 @@ api.video live stream library is using external native library for broadcasting
 | StreamPack | [StreamPack] |
 | HaishinKit | [HaishinKit] |
 
-# FAQ
+## FAQ
 
 If you have any questions, ask us here: https://community.api.video .
 Or use [Issues].
