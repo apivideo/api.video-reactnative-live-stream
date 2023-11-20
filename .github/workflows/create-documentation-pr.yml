@@ -1,0 +1,27 @@
+name: Create documentation PR
+on:
+  # Trigger the workflow on pull requests targeting the main branch
+  pull_request:
+    types: [assigned, unassigned, opened, reopened, synchronize, edited, labeled, unlabeled, edited, closed]
+    branches:
+      - main
+
+jobs:
+  create_documentation_pr:
+    if: github.event.action != 'closed'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out current repository code
+        uses: actions/checkout@v2
+
+      - name: Create the documentation pull request
+        uses: apivideo/api.video-create-readme-file-pull-request-action@main
+        with: 
+          source-file-path: "README.md"
+          destination-repository: apivideo/api.video-documentation
+          destination-path: sdks/livestream
+          destination-filename: react-native-livestream-component.md
+          pat: "${{ secrets.PAT }}"
+          
