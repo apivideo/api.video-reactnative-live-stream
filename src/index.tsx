@@ -21,7 +21,7 @@ type ApiVideoLiveStreamProps = {
   isMuted?: boolean;
   audio?: {
     bitrate?: number;
-    sampleRate?: 8000 | 16000 | 32000 | 44100 | 48000;
+    sampleRate?: 5500 | 11025 | 22050 | 44100;
     isStereo?: boolean;
   };
   zoomRatio?: number;

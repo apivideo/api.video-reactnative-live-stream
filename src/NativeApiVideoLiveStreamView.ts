@@ -27,7 +27,7 @@ export interface NativeLiveStreamProps extends ViewProps {
   isMuted: boolean;
   audio: {
     bitrate: Int32;
-    sampleRate?: WithDefault<8000 | 16000 | 32000 | 44100 | 48000, 44100>;
+    sampleRate?: WithDefault<5500 | 11025 | 22050 | 44100, 44100>;
     isStereo: boolean;
   };
   zoomRatio: Float;
