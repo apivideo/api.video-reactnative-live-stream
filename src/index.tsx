@@ -7,6 +7,7 @@ import NativeApiVideoLiveStreamView, {
   NativeLiveStreamProps,
   NativeResolution,
   OnConnectionFailedEvent,
+  OnPermissionsDeniedEvent,
 } from './NativeApiVideoLiveStreamView';
 
 type ApiVideoLiveStreamProps = {
@@ -30,6 +31,8 @@ type ApiVideoLiveStreamProps = {
   onConnectionSuccess?: () => void;
   onConnectionFailed?: (code: string) => void;
   onDisconnect?: () => void;
+
+  onPermissionsDenied?: (permissions: string[]) => void;
 };
 
 const LIVE_STREAM_PROPS_DEFAULTS: NativeLiveStreamProps = {
@@ -115,6 +118,11 @@ const ApiVideoLiveStreamView = forwardRef<
           props.onDisconnect?.();
         }
       : undefined,
+    onPermissionsDenied: props.onPermissionsDenied
+      ? (event: NativeSyntheticEvent<OnPermissionsDeniedEvent>) => {
+          props.onPermissionsDenied?.(event.nativeEvent.permissions);
+        }
+      : undefined,
   };
 
   const nativeRef = useRef<React.ElementRef<NativeLiveStreamViewType> | null>(
@@ -162,6 +170,7 @@ const ApiVideoLiveStreamView = forwardRef<
       onConnectionSuccess={nativeLiveStreamProps.onConnectionSuccess}
       onConnectionFailed={nativeLiveStreamProps.onConnectionFailed}
       onDisconnect={nativeLiveStreamProps.onDisconnect}
+      onPermissionsDenied={nativeLiveStreamProps.onPermissionsDenied}
       ref={nativeRef as any}
     />
   );
