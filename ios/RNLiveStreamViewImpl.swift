@@ -33,7 +33,7 @@ extension String {
         case "front":
             return AVCaptureDevice.Position.front
         default:
-            return AVCaptureDevice.Position.back
+            return AVCaptureDevice.Position.unspecified
         }
     }
 }
@@ -46,12 +46,13 @@ extension AVCaptureDevice.Position {
         case AVCaptureDevice.Position.front:
             return "front"
         default:
-            return "back"
+            return "unspecified"
         }
     }
 }
 
-class RNLiveStreamViewImpl: UIView {
+@objc(RNLiveStreamViewImpl)
+public class RNLiveStreamViewImpl: UIView {
     private var liveStream: ApiVideoLiveStream!
     private var isStreaming: Bool = false
 
@@ -103,13 +104,13 @@ class RNLiveStreamViewImpl: UIView {
         }
     }
 
-    @objc var audio: NSDictionary = [:] {
+    @objc public var audio: NSDictionary = [:] {
         didSet {
             audioConfig = AudioConfig(bitrate: audio["bitrate"] as! Int)
         }
     }
 
-    @objc var video: NSDictionary = [:] {
+    @objc public var video: NSDictionary = [:] {
         didSet {
             if isStreaming {
                 videoBitrate = video["bitrate"] as! Int
@@ -122,7 +123,7 @@ class RNLiveStreamViewImpl: UIView {
         }
     }
 
-    @objc var camera: String {
+    @objc public var camera: String {
         get {
             return liveStream.cameraPosition.toCameraPositionName()
         }
@@ -135,7 +136,7 @@ class RNLiveStreamViewImpl: UIView {
         }
     }
 
-    @objc var isMuted: Bool {
+    @objc public var isMuted: Bool {
         get {
             return liveStream.isMuted
         }
@@ -147,7 +148,7 @@ class RNLiveStreamViewImpl: UIView {
         }
     }
 
-    @objc var zoomRatio: Float {
+    @objc public var zoomRatio: Float {
         get {
             return Float(liveStream.zoomRatio)
         }
@@ -156,7 +157,7 @@ class RNLiveStreamViewImpl: UIView {
         }
     }
 
-    @objc var enablePinchedZoom: Bool {
+    @objc public var enablePinchedZoom: Bool {
         get {
             return zoomGesture.isEnabled
         }
@@ -165,7 +166,7 @@ class RNLiveStreamViewImpl: UIView {
         }
     }
 
-    @objc func startStreaming(_ streamKey: String, url: String? = nil) throws {
+    @objc public func startStreaming(_ streamKey: String, url: String?) throws {
         if let url = url {
             try liveStream.startStreaming(streamKey: streamKey, url: url)
         } else {
@@ -174,15 +175,13 @@ class RNLiveStreamViewImpl: UIView {
         isStreaming = true
     }
 
-    @objc func stopStreaming() {
+    @objc public func stopStreaming() {
         isStreaming = false
         liveStream.stopStreaming()
     }
 
-    @objc func setZoomRatio(zoomRatio: CGFloat) {
-        if let liveStream = liveStream {
-            liveStream.zoomRatio = zoomRatio
-        }
+    @objc public func setZoomRatio(zoomRatio: CGFloat) {
+        liveStream.zoomRatio = zoomRatio
     }
 
     @objc
@@ -193,11 +192,11 @@ class RNLiveStreamViewImpl: UIView {
         }
     }
 
-    @objc var onConnectionSuccess: RCTDirectEventBlock?
+    @objc public var onConnectionSuccess: (_ dictionnary: [String: Any]) -> Void = { _ in }
 
-    @objc var onConnectionFailed: RCTDirectEventBlock?
+    @objc public var onConnectionFailed: (_ dictionnary: [String: Any]) -> Void = { _ in }
 
-    @objc var onDisconnect: RCTDirectEventBlock?
+    @objc public var onDisconnect: (_ dictionnary: [String: Any]) -> Void = { _ in }
 
     @objc override public func removeFromSuperview() {
         super.removeFromSuperview()
@@ -207,27 +206,25 @@ class RNLiveStreamViewImpl: UIView {
 
 extension RNLiveStreamViewImpl: ApiVideoLiveStreamDelegate {
     /// Called when the connection to the rtmp server is successful
-    func connectionSuccess() {
-        onConnectionSuccess?([:])
+    public func connectionSuccess() {
+        onConnectionSuccess([:])
     }
 
     /// Called when the connection to the rtmp server failed
-    func connectionFailed(_ code: String) {
+    public func connectionFailed(_ code: String) {
         isStreaming = false
-        onConnectionFailed?([
-            "code": code,
-        ])
+        onConnectionFailed(["code": code])
     }
 
     /// Called when the connection to the rtmp server is closed
-    func disconnection() {
+    public func disconnection() {
         isStreaming = false
-        onDisconnect?([:])
+        onDisconnect([:])
     }
 
     /// Called if an error happened during the audio configuration
-    func audioError(_: Error) {}
+    public func audioError(_: Error) {}
 
     /// Called if an error happened during the video configuration
-    func videoError(_: Error) {}
+    public func videoError(_: Error) {}
 }

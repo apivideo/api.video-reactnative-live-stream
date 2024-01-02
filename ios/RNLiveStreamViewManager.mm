@@ -1,9 +1,5 @@
 #import "React/RCTViewManager.h"
 
-#ifdef RCT_NEW_ARCH_ENABLED
-#import "ApiVideoLiveStreamViewSpec/ApiVideoLiveStreamViewSpec.h"
-#endif
-
 @interface RCT_EXTERN_REMAP_MODULE(ApiVideoLiveStreamView, RNLiveStreamViewManager, RCTViewManager)
 
 RCT_EXPORT_VIEW_PROPERTY(audio, NSDictionary)
@@ -27,14 +23,5 @@ RCT_EXTERN_METHOD(stopStreaming:(nonnull NSNumber *)reactTag)
 RCT_EXTERN_METHOD(setZoomRatioCommand:
                   (nonnull NSNumber *)reactTag
                   withZoomRatio:(nonnull NSNumber *)zoomRatio)
-
-// Thanks to this guard, we won't compile this code when we build for the old architecture.
-#ifdef RCT_NEW_ARCH_ENABLED
-- (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
-    (const facebook::react::ObjCTurboModule::InitParams &)params
-{
-    return std::make_shared<facebook::react::NativeApiVideoLiveStreamViewSpecJSI>(params);
-}
-#endif
 
 @end
