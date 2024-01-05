@@ -38,7 +38,7 @@ const LIVE_STREAM_PROPS_DEFAULTS: NativeLiveStreamProps = {
   video: {
     bitrate: 2000000,
     fps: 30,
-    resolution: '_720p',
+    resolution: '720p',
     gopDuration: 1,
   },
   isMuted: false,
@@ -57,7 +57,7 @@ export type ApiVideoLiveStreamMethods = {
   setZoomRatio: (zoomRatio: number) => void;
 };
 
-const getDefaultBitrate = (resolution: Resolution): number => {
+const getDefaultBitrate = (resolution: NativeResolution): number => {
   switch (resolution) {
     case '240p':
       return 800000;
@@ -72,29 +72,20 @@ const getDefaultBitrate = (resolution: Resolution): number => {
   }
 };
 
-const convertNativeResolutionToResolution = (
-  resolution: NativeResolution
-): Resolution => {
-  return resolution.replace('_', '') as Resolution;
-};
-
 const ApiVideoLiveStreamView = forwardRef<
   ApiVideoLiveStreamMethods,
   ApiVideoLiveStreamProps
 >((props, forwardedRef) => {
+  const nativeResolution =
+    props.video?.resolution || LIVE_STREAM_PROPS_DEFAULTS.video.resolution!;
   const nativeLiveStreamProps: NativeLiveStreamProps = {
     ...LIVE_STREAM_PROPS_DEFAULTS,
     ...props,
     video: {
       ...LIVE_STREAM_PROPS_DEFAULTS.video,
-      bitrate: getDefaultBitrate(
-        props.video?.resolution ||
-          convertNativeResolutionToResolution(
-            LIVE_STREAM_PROPS_DEFAULTS.video?.resolution || '_720p'
-          )
-      ),
-      resolution: '_720p', // TODO convert resolution to native
+      bitrate: getDefaultBitrate(nativeResolution),
       ...props.video,
+      resolution: props.video?.resolution!,
     },
     audio: {
       ...LIVE_STREAM_PROPS_DEFAULTS.audio,
