@@ -147,6 +147,9 @@ export default function App() {
           console.log('Received onDisconnect');
           setStreaming(false);
         }}
+        onPermissionsDenied={(permissions: string[]) => {
+          console.log('Received onPermissionsDenied: ' + permissions);
+        }}
       />
 
       <View style={button({ bottom: isAndroid ? 20 : 40 }).container}>

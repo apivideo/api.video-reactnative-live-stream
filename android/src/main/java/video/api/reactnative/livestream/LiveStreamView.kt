@@ -3,17 +3,20 @@ package video.api.reactnative.livestream
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.pm.PackageManager
 import android.util.AttributeSet
 import android.util.Log
 import android.view.ScaleGestureDetector
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
+import com.facebook.react.bridge.UiThreadUtil.runOnUiThread
+import com.facebook.react.uimanager.ThemedReactContext
 import video.api.livestream.ApiVideoLiveStream
 import video.api.livestream.enums.CameraFacingDirection
-import video.api.livestream.interfaces.IConnectionChecker
+import video.api.livestream.interfaces.IConnectionListener
 import video.api.livestream.models.AudioConfig
 import video.api.livestream.models.VideoConfig
+import video.api.reactnative.livestream.utils.permissions.PermissionsManager
+import video.api.reactnative.livestream.utils.permissions.SerialPermissionsManager
+import video.api.reactnative.livestream.utils.showDialog
 import java.io.Closeable
 
 
@@ -25,12 +28,20 @@ class LiveStreamView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyle),
   Closeable {
   private val liveStream: ApiVideoLiveStream
+  private val permissionsManager = SerialPermissionsManager(
+    PermissionsManager((context as ThemedReactContext).reactApplicationContext)
+  )
 
+  // Connection listeners
   var onConnectionSuccess: (() -> Unit)? = null
   var onConnectionFailed: ((reason: String?) -> Unit)? = null
   var onDisconnected: (() -> Unit)? = null
 
-  private val connectionListener = object : IConnectionChecker {
+  // Permission listeners
+  var onPermissionsDenied: ((List<String>) -> Unit)? = null
+  var onPermissionsRationale: ((List<String>) -> Unit)? = null
+
+  private val connectionListener = object : IConnectionListener {
     override fun onConnectionSuccess() {
       onConnectionSuccess?.let { it() }
     }
@@ -48,8 +59,55 @@ class LiveStreamView @JvmOverloads constructor(
     inflate(context, R.layout.react_native_livestream, this)
     liveStream = ApiVideoLiveStream(
       context = context,
-      connectionChecker = connectionListener,
-      apiVideoView = findViewById(R.id.apivideo_view)
+      connectionListener = connectionListener,
+      apiVideoView = findViewById(R.id.apivideo_view),
+      permissionRequester = { permissions, onGranted ->
+        permissionsManager.requestPermissions(
+          permissions,
+          onAllGranted = {
+            onGranted()
+          },
+          onShowPermissionRationale = { missingPermissions, onRequiredPermissionLastTime ->
+            runOnUiThread {
+              when {
+                missingPermissions.size > 1 -> {
+                  context.showDialog(
+                    R.string.permission_required,
+                    R.string.camera_and_record_audio_permission_required_message,
+                    android.R.string.ok,
+                    onPositiveButtonClick = { onRequiredPermissionLastTime() }
+                  )
+                }
+
+                missingPermissions.contains(Manifest.permission.CAMERA) -> {
+                  context.showDialog(
+                    R.string.permission_required,
+                    R.string.camera_permission_required_message,
+                    android.R.string.ok,
+                    onPositiveButtonClick = { onRequiredPermissionLastTime() }
+                  )
+                }
+
+                missingPermissions.contains(Manifest.permission.RECORD_AUDIO) -> {
+                  context.showDialog(
+                    R.string.permission_required,
+                    R.string.record_audio_permission_required_message,
+                    android.R.string.ok,
+                    onPositiveButtonClick = { onRequiredPermissionLastTime() }
+                  )
+                }
+              }
+            }
+            val permissionsStrings = missingPermissions.joinToString(", ")
+            Log.e(TAG, "Asking rationale for missing permissions: $permissionsStrings")
+            onPermissionsRationale?.let { it(missingPermissions) }
+          },
+          onAtLeastOnePermissionDenied = { missingPermissions ->
+            val permissionsStrings = missingPermissions.joinToString(", ")
+            Log.e(TAG, "Missing permissions: $permissionsStrings")
+            onPermissionsDenied?.let { it(missingPermissions) }
+          })
+      }
     )
   }
 
@@ -62,41 +120,59 @@ class LiveStreamView @JvmOverloads constructor(
   var videoConfig: VideoConfig?
     get() = liveStream.videoConfig
     set(value) {
-      if (ActivityCompat.checkSelfPermission(
-          context,
-          Manifest.permission.CAMERA
-        ) != PackageManager.PERMISSION_GRANTED
-      ) {
-        Log.e(TAG, "Missing permissions Manifest.permission.CAMERA")
-        throw UnsupportedOperationException("Missing permissions Manifest.permission.CAMERA")
-      }
-
-      liveStream.videoConfig = value
+      permissionsManager.requestPermission(
+        Manifest.permission.CAMERA,
+        onGranted = {
+          liveStream.videoConfig = value
+        },
+        onShowPermissionRationale = { onRequiredPermissionLastTime ->
+          runOnUiThread {
+            context.showDialog(
+              R.string.permission_required,
+              R.string.camera_permission_required_message,
+              android.R.string.ok,
+              onPositiveButtonClick = { onRequiredPermissionLastTime() }
+            )
+          }
+        },
+        onDenied = {
+          Log.e(TAG, "Missing permissions Manifest.permission.CAMERA")
+          onPermissionsDenied?.let { it(listOf(Manifest.permission.CAMERA)) }
+        })
     }
 
 
   var audioConfig: AudioConfig?
     get() = liveStream.audioConfig
     set(value) {
-      if (ActivityCompat.checkSelfPermission(
-          context,
-          Manifest.permission.RECORD_AUDIO
-        ) != PackageManager.PERMISSION_GRANTED
-      ) {
-        Log.e(TAG, "Missing permissions Manifest.permission.RECORD_AUDIO")
-        throw UnsupportedOperationException("Missing permissions Manifest.permission.RECORD_AUDIO")
-      }
-
-      liveStream.audioConfig = value
+      permissionsManager.requestPermission(
+        Manifest.permission.RECORD_AUDIO,
+        onGranted = {
+          liveStream.audioConfig = value
+        },
+        onShowPermissionRationale = { onRequiredPermissionLastTime ->
+          runOnUiThread {
+            context.showDialog(
+              R.string.permission_required,
+              R.string.record_audio_permission_required_message,
+              android.R.string.ok,
+              onPositiveButtonClick = { onRequiredPermissionLastTime() }
+            )
+          }
+        },
+        onDenied = {
+          Log.e(TAG, "Missing permissions Manifest.permission.RECORD_AUDIO")
+          onPermissionsDenied?.let { it(listOf(Manifest.permission.RECORD_AUDIO)) }
+        })
     }
 
   val isStreaming: Boolean
     get() = liveStream.isStreaming
 
   var camera: CameraFacingDirection = CameraFacingDirection.BACK
-    get() = liveStream.camera
+    get() = liveStream.cameraPosition
     set(value) {
-      liveStream.camera = value
+      liveStream.cameraPosition = value
       field = value
     }
 
@@ -148,6 +224,9 @@ class LiveStreamView @JvmOverloads constructor(
   }
 
   fun startStreaming(streamKey: String, url: String?) {
+    require(permissionsManager.hasPermission(Manifest.permission.CAMERA)) { "Missing permissions Manifest.permission.CAMERA" }
+    require(permissionsManager.hasPermission(Manifest.permission.RECORD_AUDIO)) { "Missing permissions Manifest.permission.RECORD_AUDIO" }
+
     url?.let { liveStream.startStreaming(streamKey, it) }
       ?: liveStream.startStreaming(streamKey)
   }

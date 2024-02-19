@@ -9,6 +9,7 @@ import com.facebook.react.uimanager.annotations.ReactProp
 import video.api.reactnative.livestream.events.OnConnectionFailedEvent
 import video.api.reactnative.livestream.events.OnConnectionSuccessEvent
 import video.api.reactnative.livestream.events.OnDisconnectEvent
+import video.api.reactnative.livestream.events.OnPermissionsDeniedEvent
 import video.api.reactnative.livestream.utils.getCameraFacing
 import video.api.reactnative.livestream.utils.toAudioConfig
 import video.api.reactnative.livestream.utils.toVideoConfig
@@ -32,6 +33,11 @@ class LiveStreamViewManager : LiveStreamViewManagerSpec<LiveStreamView>() {
     view.onDisconnected = {
       UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.id)?.dispatchEvent(
         OnDisconnectEvent(view.id)
+      ) ?: Log.e(NAME, "No event dispatcher for react tag ${view.id}")
+    }
+    view.onPermissionsDenied = { permissions ->
+      UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.id)?.dispatchEvent(
+        OnPermissionsDeniedEvent(view.id, permissions)
       ) ?: Log.e(NAME, "No event dispatcher for react tag ${view.id}")
     }
     return view

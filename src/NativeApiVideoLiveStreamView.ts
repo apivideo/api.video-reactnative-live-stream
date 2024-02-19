@@ -16,6 +16,10 @@ export type OnConnectionFailedEvent = Readonly<{
   code: string;
 }>;
 
+export type OnPermissionsDeniedEvent = Readonly<{
+  permissions: string[];
+}>;
+
 export interface NativeLiveStreamProps extends ViewProps {
   camera?: WithDefault<Camera, 'back'>;
   video: {
@@ -36,6 +40,8 @@ export interface NativeLiveStreamProps extends ViewProps {
   onConnectionSuccess?: DirectEventHandler<null>;
   onConnectionFailed?: DirectEventHandler<OnConnectionFailedEvent>;
   onDisconnect?: DirectEventHandler<null>;
+
+  onPermissionsDenied?: DirectEventHandler<OnPermissionsDeniedEvent>;
 }
 
 export type NativeLiveStreamViewType = HostComponent<NativeLiveStreamProps>;

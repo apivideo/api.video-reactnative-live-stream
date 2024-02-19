@@ -20,9 +20,14 @@ object ViewProps {
   const val IS_STEREO = "isStereo"
 
   enum class Events(val eventName: String) {
+    // Connection events
     CONNECTION_SUCCESS("onConnectionSuccess"),
     CONNECTION_FAILED("onConnectionFailed"),
-    DISCONNECTED("onDisconnect");
+    DISCONNECTED("onDisconnect"),
+
+    // Permission events
+    PERMISSIONS_DENIED("onPermissionsDenied"),
+    PERMISSIONS_RATIONALE("onPermissionsRationale");
 
     companion object {
       fun toEventsMap(): Map<String, *> {
