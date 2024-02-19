@@ -1,11 +1,10 @@
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import { ViewStyle, NativeSyntheticEvent } from 'react-native';
-import type { Resolution } from './types';
 import NativeApiVideoLiveStreamView, {
   Commands as NativeLiveStreamCommands,
   NativeLiveStreamViewType,
   NativeLiveStreamProps,
-  NativeResolution,
+  Resolution,
   OnConnectionFailedEvent,
   OnPermissionsDeniedEvent,
 } from './NativeApiVideoLiveStreamView';
@@ -41,7 +40,7 @@ const LIVE_STREAM_PROPS_DEFAULTS: NativeLiveStreamProps = {
   video: {
     bitrate: 2000000,
     fps: 30,
-    resolution: '_720p',
+    resolution: { width: 1280, height: 720 },
     gopDuration: 1,
   },
   isMuted: false,
@@ -61,24 +60,19 @@ export type ApiVideoLiveStreamMethods = {
 };
 
 const getDefaultBitrate = (resolution: Resolution): number => {
-  switch (resolution) {
-    case '240p':
+  var numOfPixels = resolution.width * resolution.height;
+  switch (true) {
+    case numOfPixels <= 102240: // for 4/3 and 16/9 240p
       return 800000;
-    case '360p':
+    case numOfPixels <= 230400: // for 16/9 360p
       return 1000000;
-    case '480p':
+    case numOfPixels <= 409920: // for 4/3 and 16/9 480p
       return 1300000;
-    case '720p':
+    case numOfPixels <= 921600: // for 4/3 600p, 4/3 768p and 16/9 720p
       return 2000000;
-    case '1080p':
-      return 3500000;
+    default:
+      return 3500000; // for 16/9 1080p
   }
-};
-
-const convertNativeResolutionToResolution = (
-  resolution: NativeResolution
-): Resolution => {
-  return resolution.replace('_', '') as Resolution;
 };
 
 const ApiVideoLiveStreamView = forwardRef<
@@ -91,12 +85,9 @@ const ApiVideoLiveStreamView = forwardRef<
     video: {
       ...LIVE_STREAM_PROPS_DEFAULTS.video,
       bitrate: getDefaultBitrate(
-        props.video?.resolution ||
-          convertNativeResolutionToResolution(
-            LIVE_STREAM_PROPS_DEFAULTS.video?.resolution || '_720p'
-          )
+        props.video?.resolution || { width: 1280, height: 720 }
       ),
-      resolution: '_720p', // TODO convert resolution to native
+      resolution: { width: 1280, height: 720 },
       ...props.video,
     },
     audio: {

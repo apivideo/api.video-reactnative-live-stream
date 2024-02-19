@@ -8,9 +8,12 @@ import type {
 } from 'react-native/Libraries/Types/CodegenTypes';
 import codegenNativeCommands from 'react-native/Libraries/Utilities/codegenNativeCommands';
 
-// Type can't start with a digit so we prefix it with an underscore.
-export type NativeResolution = '_240p' | '_360p' | '_480p' | '_720p' | '_1080p';
 export type Camera = 'front' | 'back';
+
+export type Resolution = Readonly<{
+  width: Int32;
+  height: Int32;
+}>;
 
 export type OnConnectionFailedEvent = Readonly<{
   code: string;
@@ -25,7 +28,7 @@ export interface NativeLiveStreamProps extends ViewProps {
   video: {
     bitrate: Int32;
     fps: Int32;
-    resolution?: WithDefault<NativeResolution, '_720p'>;
+    resolution?: Resolution;
     gopDuration: Float;
   };
   isMuted: boolean;

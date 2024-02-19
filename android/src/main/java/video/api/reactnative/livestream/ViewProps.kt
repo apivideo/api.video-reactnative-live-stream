@@ -14,6 +14,8 @@ object ViewProps {
   // Audio and video configurations
   const val BITRATE = "bitrate"
   const val RESOLUTION = "resolution"
+  const val WIDTH = "width"
+  const val HEIGHT = "height"
   const val FPS = "fps"
   const val GOP_DURATION = "gopDuration"
   const val SAMPLE_RATE = "sampleRate"

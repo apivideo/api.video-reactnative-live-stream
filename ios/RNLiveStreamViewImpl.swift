@@ -9,23 +9,6 @@ import CoreGraphics
 import Foundation
 
 extension String {
-    func toResolution() -> Resolution {
-        switch self {
-        case "240p":
-            return Resolution.RESOLUTION_240
-        case "360p":
-            return Resolution.RESOLUTION_360
-        case "480p":
-            return Resolution.RESOLUTION_480
-        case "720p":
-            return Resolution.RESOLUTION_720
-        case "1080p":
-            return Resolution.RESOLUTION_1080
-        default:
-            return Resolution.RESOLUTION_720
-        }
-    }
-
     func toCaptureDevicePosition() -> AVCaptureDevice.Position {
         switch self {
         case "back":
@@ -115,8 +98,9 @@ public class RNLiveStreamViewImpl: UIView {
             if isStreaming {
                 videoBitrate = video["bitrate"] as! Int
             } else {
+                let resolution = video["resolution"] as! Dictionary<String, Int>
                 videoConfig = VideoConfig(bitrate: video["bitrate"] as! Int,
-                                          resolution: (video["resolution"] as! String).toResolution(),
+                                          resolution: CGSize(width: resolution["width"]!, height: resolution["height"]!),
                                           fps: video["fps"] as! Float64,
                                           gopDuration: video["gopDuration"] as! Float64)
             }

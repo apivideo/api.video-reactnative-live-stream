@@ -85,9 +85,9 @@ using namespace facebook::react;
         [view setCamera:newCamera];
     }
 
-    NSString *resolution = RCTNSStringFromStringNilIfEmpty(toString(newViewProps.video.resolution));
-    NSDictionary *newVideoConfig = @{ @"bitrate" : @(newViewProps.video.bitrate), @"resolution" : resolution, @"fps" : @(newViewProps.video.fps), @"gopDuration" : @(newViewProps.video.gopDuration)};
-    if ((oldViewProps.video.bitrate != newViewProps.video.bitrate) || (oldViewProps.video.fps != newViewProps.video.fps) || (oldViewProps.video.resolution != newViewProps.video.resolution) || (oldViewProps.video.gopDuration != newViewProps.video.gopDuration)) {
+    NSDictionary *newResolution = @{ @"width" : @(newViewProps.video.resolution.width), @"height" : @(newViewProps.video.resolution.height) };
+    NSDictionary *newVideoConfig = @{ @"bitrate" : @(newViewProps.video.bitrate), @"resolution" : newResolution, @"fps" : @(newViewProps.video.fps), @"gopDuration" : @(newViewProps.video.gopDuration)};
+    if ((oldViewProps.video.bitrate != newViewProps.video.bitrate) || (oldViewProps.video.fps != newViewProps.video.fps) || (oldViewProps.video.resolution.width != newViewProps.video.resolution.width) || (oldViewProps.video.resolution.height != newViewProps.video.resolution.height) || (oldViewProps.video.gopDuration != newViewProps.video.gopDuration)) {
         [view setVideo:newVideoConfig];
     } else if (view.video != newVideoConfig) {
         [view setVideo:newVideoConfig];
