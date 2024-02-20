@@ -23,6 +23,12 @@ export type OnPermissionsDeniedEvent = Readonly<{
   permissions: string[];
 }>;
 
+export type OnStartStreamingEvent = Readonly<{
+  requestId: Int32;
+  result: boolean;
+  error: string;
+}>;
+
 export interface NativeLiveStreamProps extends ViewProps {
   camera?: WithDefault<Camera, 'back'>;
   video: {
@@ -45,6 +51,9 @@ export interface NativeLiveStreamProps extends ViewProps {
   onDisconnect?: DirectEventHandler<null>;
 
   onPermissionsDenied?: DirectEventHandler<OnPermissionsDeniedEvent>;
+
+  // Internal use only
+  onStartStreaming?: DirectEventHandler<OnStartStreamingEvent>;
 }
 
 export type NativeLiveStreamViewType = HostComponent<NativeLiveStreamProps>;
@@ -52,6 +61,7 @@ export type NativeLiveStreamViewType = HostComponent<NativeLiveStreamProps>;
 interface NativeCommands {
   startStreaming: (
     viewRef: React.ElementRef<NativeLiveStreamViewType>,
+    requestId: Int32,
     streamKey: string,
     url?: string
   ) => void;

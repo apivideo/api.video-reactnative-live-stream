@@ -150,13 +150,31 @@ public class RNLiveStreamViewImpl: UIView {
         }
     }
 
-    @objc public func startStreaming(_ streamKey: String, url: String?) throws {
-        if let url = url {
-            try liveStream.startStreaming(streamKey: streamKey, url: url)
-        } else {
-            try liveStream.startStreaming(streamKey: streamKey)
-        }
-        isStreaming = true
+    @objc public func startStreaming(requestId: Int, streamKey: String, url: String?) {
+        do {
+           if let url = url {
+               try liveStream.startStreaming(streamKey: streamKey, url: url)
+           } else {
+               try liveStream.startStreaming(streamKey: streamKey)
+           }
+           isStreaming = true
+           onStartStreaming([
+               "requestId": requestId,
+               "result": true,
+           ])
+       } catch let LiveStreamError.IllegalArgumentError(message) {
+           self.onStartStreaming([
+               "requestId": requestId,
+               "result": false,
+               "error": message,
+           ])
+       } catch {
+           onStartStreaming([
+               "requestId": requestId,
+               "result": false,
+               "error": error.localizedDescription,
+           ])
+       }
     }
 
     @objc public func stopStreaming() {
@@ -182,6 +200,8 @@ public class RNLiveStreamViewImpl: UIView {
 
     @objc public var onDisconnect: (_ dictionnary: [String: Any]) -> Void = { _ in }
 
+    @objc public var onStartStreaming: (_ dictionnary: [String: Any]) -> Void = { _ in }
+    
     @objc override public func removeFromSuperview() {
         super.removeFromSuperview()
         liveStream.stopPreview()

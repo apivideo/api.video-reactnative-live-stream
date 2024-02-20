@@ -29,7 +29,10 @@ object ViewProps {
 
     // Permission events
     PERMISSIONS_DENIED("onPermissionsDenied"),
-    PERMISSIONS_RATIONALE("onPermissionsRationale");
+    PERMISSIONS_RATIONALE("onPermissionsRationale"),
+
+    // Internal events
+    START_STREAMING("onStartStreaming");
 
     companion object {
       fun toEventsMap(): Map<String, *> {

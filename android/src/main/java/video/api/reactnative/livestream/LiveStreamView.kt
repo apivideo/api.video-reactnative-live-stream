@@ -41,6 +41,9 @@ class LiveStreamView @JvmOverloads constructor(
   var onPermissionsDenied: ((List<String>) -> Unit)? = null
   var onPermissionsRationale: ((List<String>) -> Unit)? = null
 
+  // Internal usage only
+  var onStartStreaming: ((requestId: Int, result: Boolean, error: String?) -> Unit)? = null
+
   private val connectionListener = object : IConnectionListener {
     override fun onConnectionSuccess() {
       onConnectionSuccess?.let { it() }
@@ -223,12 +226,19 @@ class LiveStreamView @JvmOverloads constructor(
       })
   }
 
-  fun startStreaming(streamKey: String, url: String?) {
-    require(permissionsManager.hasPermission(Manifest.permission.CAMERA)) { "Missing permissions Manifest.permission.CAMERA" }
-    require(permissionsManager.hasPermission(Manifest.permission.RECORD_AUDIO)) { "Missing permissions Manifest.permission.RECORD_AUDIO" }
+  fun startStreaming(requestId: Int, streamKey: String, url: String?) {
+    try {
+      require(permissionsManager.hasPermission(Manifest.permission.CAMERA)) { "Missing permissions Manifest.permission.CAMERA" }
+      require(permissionsManager.hasPermission(Manifest.permission.RECORD_AUDIO)) { "Missing permissions Manifest.permission.RECORD_AUDIO" }
 
-    url?.let { liveStream.startStreaming(streamKey, it) }
-      ?: liveStream.startStreaming(streamKey)
+      url?.let { liveStream.startStreaming(streamKey, it) }
+        ?: liveStream.startStreaming(streamKey)
+
+      onStartStreaming?.let { it(requestId, true, null) }
+    } catch (e: Exception) {
+      Log.e(TAG, "Failed to start streaming", e)
+      onStartStreaming?.let { it(requestId, false, e.message) }
+    }
   }
 
   fun stopStreaming() {

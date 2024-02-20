@@ -10,6 +10,7 @@ import video.api.reactnative.livestream.events.OnConnectionFailedEvent
 import video.api.reactnative.livestream.events.OnConnectionSuccessEvent
 import video.api.reactnative.livestream.events.OnDisconnectEvent
 import video.api.reactnative.livestream.events.OnPermissionsDeniedEvent
+import video.api.reactnative.livestream.events.OnStartStreamingEvent
 import video.api.reactnative.livestream.utils.getCameraFacing
 import video.api.reactnative.livestream.utils.toAudioConfig
 import video.api.reactnative.livestream.utils.toVideoConfig
@@ -38,6 +39,11 @@ class LiveStreamViewManager : LiveStreamViewManagerSpec<LiveStreamView>() {
     view.onPermissionsDenied = { permissions ->
       UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.id)?.dispatchEvent(
         OnPermissionsDeniedEvent(view.id, permissions)
+      ) ?: Log.e(NAME, "No event dispatcher for react tag ${view.id}")
+    }
+    view.onStartStreaming = { requestId, result, error ->
+      UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.id)?.dispatchEvent(
+        OnStartStreamingEvent(view.id, requestId, result, error)
       ) ?: Log.e(NAME, "No event dispatcher for react tag ${view.id}")
     }
     return view
@@ -92,8 +98,13 @@ class LiveStreamViewManager : LiveStreamViewManagerSpec<LiveStreamView>() {
   }
 
   @ReactMethod
-  override fun startStreaming(view: LiveStreamView, streamKey: String, url: String?) {
-    view.startStreaming(streamKey, url)
+  override fun startStreaming(
+    view: LiveStreamView,
+    requestId: Int,
+    streamKey: String,
+    url: String?
+  ) {
+    view.startStreaming(requestId, streamKey, url)
   }
 
   @ReactMethod

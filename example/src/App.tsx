@@ -96,9 +96,11 @@ export default function App() {
       ref.current
         ?.startStreaming(settings.streamKey, settings.rtmpEndpoint)
         .then((_: boolean) => {
+          console.log('Streaming started');
           setStreaming(true);
         })
-        .catch((_: any) => {
+        .catch((e: any) => {
+          console.log('Failed to start streaming: ', e);
           setStreaming(false);
         });
     }

@@ -7,6 +7,7 @@ import NativeApiVideoLiveStreamView, {
   Resolution,
   OnConnectionFailedEvent,
   OnPermissionsDeniedEvent,
+  OnStartStreamingEvent,
 } from './NativeApiVideoLiveStreamView';
 
 type ApiVideoLiveStreamProps = {
@@ -114,24 +115,48 @@ const ApiVideoLiveStreamView = forwardRef<
           props.onPermissionsDenied?.(event.nativeEvent.permissions);
         }
       : undefined,
+    onStartStreaming: (event: NativeSyntheticEvent<OnStartStreamingEvent>) => {
+      const { requestId, result, error } = event.nativeEvent;
+      const promise = _requestMap.current.get(requestId);
+
+      if (result) {
+        promise?.resolve(result);
+      } else {
+        promise?.reject(error);
+      }
+      _requestMap.current.delete(requestId);
+    },
   };
 
   const nativeRef = useRef<React.ElementRef<NativeLiveStreamViewType> | null>(
     null
   );
+  let _nextRequestId = useRef<number>(1);
+  const _requestMap = useRef<
+    Map<
+      number,
+      { resolve: (result: boolean) => void; reject: (error?: string) => void }
+    >
+  >(new Map());
 
   useImperativeHandle(forwardedRef, () => ({
     startStreaming: (streamKey: string, url?: string): Promise<boolean> => {
       if (nativeRef.current) {
+        const requestId = _nextRequestId.current++;
+        const requestMap = _requestMap;
+
+        const promise = new Promise<boolean>((resolve, reject) => {
+          requestMap.current.set(requestId, { resolve, reject });
+        });
+
         NativeLiveStreamCommands.startStreaming(
           nativeRef.current,
+          requestId,
           streamKey,
           url
         );
-        // TODO: find a way to return a promise from native startStreaming
-        return new Promise((resolve, reject) => {
-          resolve(true);
-        });
+
+        return promise;
       } else {
         return new Promise((resolve, reject) => {
           reject('Native component is not mounted');
@@ -162,6 +187,7 @@ const ApiVideoLiveStreamView = forwardRef<
       onConnectionFailed={nativeLiveStreamProps.onConnectionFailed}
       onDisconnect={nativeLiveStreamProps.onDisconnect}
       onPermissionsDenied={nativeLiveStreamProps.onPermissionsDenied}
+      onStartStreaming={nativeLiveStreamProps.onStartStreaming}
       ref={nativeRef as any}
     />
   );

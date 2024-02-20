@@ -12,13 +12,13 @@ RCT_EXPORT_VIEW_PROPERTY(zoomRatio, double)
 RCT_EXPORT_VIEW_PROPERTY(onConnectionSuccess, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onConnectionFailed, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onDisconnect, RCTDirectEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onStartStreaming, RCTDirectEventBlock)
 
 RCT_EXTERN_METHOD(startStreaming:
                   (nonnull NSNumber *)reactTag
+                  withRequestId:(nonnull NSNumber)requestId
                   withStreamKey:(nonnull NSString)streamKey
                   withUrl:(NSString)url)
-                 // resolve:(RCTPromiseResolveBlock)resolve
-                 // reject:(RCTPromiseRejectBlock)reject)
 RCT_EXTERN_METHOD(stopStreaming:(nonnull NSNumber *)reactTag)
 RCT_EXTERN_METHOD(setZoomRatioCommand:
                   (nonnull NSNumber *)reactTag

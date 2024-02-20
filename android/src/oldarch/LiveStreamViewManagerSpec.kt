@@ -13,16 +13,17 @@ abstract class LiveStreamViewManagerSpec<T : View> : SimpleViewManager<T>() {
   abstract fun setZoomRatio(view: T, value: Float)
   abstract fun setEnablePinchedZoom(view: T, value: Boolean)
 
-  abstract fun startStreaming(view: T, streamKey: String, url: String?)
+  abstract fun startStreaming(view: T, requestId: Int, streamKey: String, url: String?)
   abstract fun stopStreaming(view: T)
   abstract fun setZoomRatioCommand(view: T, zoomRatio: Float)
 
   override fun receiveCommand(root: T, commandId: String, args: ReadableArray?) {
     when (commandId) {
       ViewProps.Commands.START_STREAMING.action -> {
-        val streamKey = args?.getString(0) ?: return
-        val url = args.getString(1)
-        startStreaming(root, streamKey, url)
+        val requestId = args?.getInt(0) ?: return
+        val streamKey = args.getString(1)
+        val url = args.getString(2)
+        startStreaming(root, requestId, streamKey, url)
       }
 
       ViewProps.Commands.STOP_STREAMING.action -> {

@@ -12,17 +12,11 @@ class RNLiveStreamViewManager: RCTViewManager {
         return RNLiveStreamViewImpl()
     }
 
-    @objc(startStreaming:withStreamKey:withUrl:) // resolve:reject:)
-    func startStreaming(_ reactTag: NSNumber, streamKey: String, url: String? /* , resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock */ ) {
+    @objc(startStreaming:withRequestId:withStreamKey:withUrl:)
+    func startStreaming(_ reactTag: NSNumber, withRequestId requestId: NSNumber, streamKey: String, url: String?) {
         bridge!.uiManager.addUIBlock { (_: RCTUIManager?, viewRegistry: [NSNumber: UIView]?) in
             let view: RNLiveStreamViewImpl = (viewRegistry![reactTag] as? RNLiveStreamViewImpl)!
-            do {
-                try view.startStreaming(streamKey, url: url)
-                // resolve(true)
-            } catch {
-                // TODO: reject
-                // reject("Failed_to_start_streaming", "Could not start streaming", error)
-            }
+            view.startStreaming(requestId: Int(truncating: requestId), streamKey: streamKey, url: url)
         }
     }
 

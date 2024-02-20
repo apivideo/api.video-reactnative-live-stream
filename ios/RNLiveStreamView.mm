@@ -64,7 +64,23 @@ using namespace facebook::react;
                 std::static_pointer_cast<const ApiVideoLiveStreamViewEventEmitter>(_eventEmitter)->onDisconnect(data);
             }
         };
-
+        
+        _view.onStartStreaming = [self](NSDictionary *dictionary) {
+            if (_eventEmitter) {
+                NSString *error = [dictionary valueForKey:@"error"];
+                std::string stdError;
+                if (error != nil) {
+                    stdError = std::string([error UTF8String]);
+                }
+                ApiVideoLiveStreamViewEventEmitter::OnStartStreaming data = {
+                    .requestId = [[dictionary valueForKey:@"requestId"] intValue],
+                    .result = static_cast<bool>([[dictionary valueForKey:@"result"] boolValue]),
+                    .error = stdError,
+                };
+                std::static_pointer_cast<const ApiVideoLiveStreamViewEventEmitter>(_eventEmitter)->onStartStreaming(data);
+            }
+        };
+        
         self.contentView = _view;
    }
    return self;
@@ -128,11 +144,9 @@ using namespace facebook::react;
 
 // MARK: RCTComponentViewProtocol
 
-- (void)startStreaming:(nonnull NSString *)streamKey url:(NSString *)url
+- (void)startStreaming:(NSInteger)requestId streamKey:(NSString *)streamKey url:(NSString *)url
 {
-    NSError *error = nil;
-    [_view startStreaming:streamKey url:url error:&error];
-
+    [_view startStreamingWithRequestId:requestId streamKey:streamKey url:url];
 }
 
 - (void)stopStreaming
