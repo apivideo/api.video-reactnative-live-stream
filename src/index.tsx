@@ -91,7 +91,7 @@ function resolveResolution(
   if (typeof resolution === 'string') {
     const predefined = predefinedResolutions[resolution];
     if (!predefined) {
-      throw new Error('Unknown resolution');
+      throw new Error('Unknown resolution ' + resolution);
     }
     return predefined;
   }
