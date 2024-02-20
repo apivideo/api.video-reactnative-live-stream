@@ -7,7 +7,7 @@ import {
   StatusBar,
   Animated,
 } from 'react-native';
-import { ApiVideoLiveStreamView } from '@api.video/react-native-livestream';
+import { ApiVideoLiveStreamView, PredefinedResolution } from '@api.video/react-native-livestream';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { button } from './style';
 import Settings from './components/settings';
@@ -15,7 +15,7 @@ import assets from './assets';
 import { ZoomPicker } from './components/zoomSlider';
 
 export interface ISettingsState {
-  resolution: Resolution;
+  resolution: PredefinedResolution;
   framerate: number;
   videoBitrate: number;
   audioBitrate: number;
@@ -35,7 +35,7 @@ export default function App() {
     message: string;
   }>({ display: false, message: '' });
   const [settings, setSettings] = React.useState<ISettingsState>({
-    resolution: { width: 640, height: 360 },
+    resolution: "360p",
     framerate: 30,
     videoBitrate: assets.sections.video.Bitrate.min,
     audioBitrate: 64000,

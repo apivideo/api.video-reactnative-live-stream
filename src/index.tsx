@@ -8,6 +8,7 @@ import NativeApiVideoLiveStreamView, {
   OnConnectionFailedEvent,
   OnPermissionsDeniedEvent,
   OnStartStreamingEvent,
+  PredefinedResolution,
 } from './NativeApiVideoLiveStreamView';
 
 type ApiVideoLiveStreamProps = {
@@ -16,7 +17,7 @@ type ApiVideoLiveStreamProps = {
   video?: {
     bitrate?: number;
     fps?: number;
-    resolution?: Resolution;
+    resolution?: Resolution | PredefinedResolution;
     gopDuration?: number;
   };
   isMuted?: boolean;
@@ -76,20 +77,42 @@ const getDefaultBitrate = (resolution: Resolution): number => {
   }
 };
 
+
+function resolveResolution(resolution: Resolution | PredefinedResolution): Resolution {
+  const predefinedResolutions: Record<PredefinedResolution, Resolution> = {
+    "1080p": { width: 1920, height: 1080 },
+    "720p": { width: 1280, height: 720 },
+    "480p": { width: 858, height: 480 },
+    "360p": { width: 640, height: 360 },
+    "240p": { width: 352, height: 240 },
+  };
+
+  if (typeof resolution === "string") {
+    const predefined = predefinedResolutions[resolution];
+    if (!predefined) {
+      throw new Error("Unknown resolution");
+    }
+    return predefined;
+  } 
+  return {
+    width: Math.max(resolution.height, resolution.width),
+    height: Math.min(resolution.height, resolution.width),
+  };
+}
+
 const ApiVideoLiveStreamView = forwardRef<
   ApiVideoLiveStreamMethods,
   ApiVideoLiveStreamProps
 >((props, forwardedRef) => {
+  const resolution = resolveResolution(props.video?.resolution || "720p")
   const nativeLiveStreamProps: NativeLiveStreamProps = {
     ...LIVE_STREAM_PROPS_DEFAULTS,
     ...props,
     video: {
       ...LIVE_STREAM_PROPS_DEFAULTS.video,
-      bitrate: getDefaultBitrate(
-        props.video?.resolution || { width: 1280, height: 720 }
-      ),
-      resolution: { width: 1280, height: 720 },
+      bitrate: getDefaultBitrate(resolution),
       ...props.video,
+      resolution,
     },
     audio: {
       ...LIVE_STREAM_PROPS_DEFAULTS.audio,
@@ -193,5 +216,5 @@ const ApiVideoLiveStreamView = forwardRef<
   );
 });
 
-export * from './types';
 export { ApiVideoLiveStreamView };
+export type { Resolution, PredefinedResolution} from './NativeApiVideoLiveStreamView';
