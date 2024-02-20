@@ -7,7 +7,10 @@ import {
   StatusBar,
   Animated,
 } from 'react-native';
-import { ApiVideoLiveStreamView, PredefinedResolution } from '@api.video/react-native-livestream';
+import {
+  ApiVideoLiveStreamView,
+  PredefinedResolution,
+} from '@api.video/react-native-livestream';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { button } from './style';
 import Settings from './components/settings';
@@ -35,7 +38,7 @@ export default function App() {
     message: string;
   }>({ display: false, message: '' });
   const [settings, setSettings] = React.useState<ISettingsState>({
-    resolution: "360p",
+    resolution: '360p',
     framerate: 30,
     videoBitrate: assets.sections.video.Bitrate.min,
     audioBitrate: 64000,

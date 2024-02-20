@@ -15,8 +15,7 @@ export type Resolution = Readonly<{
   height: Int32;
 }>;
 
-export type PredefinedResolution = "240p" | "360p" | "480p" | "720p" | "1080p";
-
+export type PredefinedResolution = '240p' | '360p' | '480p' | '720p' | '1080p';
 
 export type OnConnectionFailedEvent = Readonly<{
   code: string;
