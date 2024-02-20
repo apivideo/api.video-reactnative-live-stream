@@ -82,7 +82,7 @@ function resolveResolution(resolution: Resolution | PredefinedResolution): Resol
   const predefinedResolutions: Record<PredefinedResolution, Resolution> = {
     "1080p": { width: 1920, height: 1080 },
     "720p": { width: 1280, height: 720 },
-    "480p": { width: 858, height: 480 },
+    "480p": { width: 854, height: 480 },
     "360p": { width: 640, height: 360 },
     "240p": { width: 352, height: 240 },
   };
