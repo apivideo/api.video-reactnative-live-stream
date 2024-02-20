@@ -101,6 +101,10 @@ export default function App() {
         })
         .catch((e: any) => {
           console.log('Failed to start streaming: ', e);
+          setWarning({
+            display: true,
+            message: `Failed to start streaming: ${e}`,
+          });
           setStreaming(false);
         });
     }
