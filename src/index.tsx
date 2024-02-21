@@ -8,8 +8,9 @@ import NativeApiVideoLiveStreamView, {
   OnConnectionFailedEvent,
   OnPermissionsDeniedEvent,
   OnStartStreamingEvent,
-  PredefinedResolution,
 } from './NativeApiVideoLiveStreamView';
+
+export type PredefinedResolution = '240p' | '360p' | '480p' | '720p' | '1080p';
 
 type ApiVideoLiveStreamProps = {
   style?: ViewStyle;
@@ -218,7 +219,4 @@ const ApiVideoLiveStreamView = forwardRef<
 });
 
 export { ApiVideoLiveStreamView };
-export type {
-  Resolution,
-  PredefinedResolution,
-} from './NativeApiVideoLiveStreamView';
+export type { Resolution } from './NativeApiVideoLiveStreamView';
