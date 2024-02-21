@@ -103,7 +103,7 @@ Your application must dynamically require android.permission.CAMERA and android.
 ```jsx
 import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { LiveStreamView } from '@api.video/react-native-livestream';
+import { ApiVideoLiveStreamView } from '@api.video/react-native-livestream';
 
 const App = () => {
   const ref = useRef(null);
@@ -111,14 +111,14 @@ const App = () => {
 
   return (
     <View style={{ flex: 1, alignItems: 'center' }}>
-      <LiveStreamView
+      <ApiVideoLiveStreamView
         style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
         ref={ref}
         camera="back"
         enablePinchedZoom={true}
         video={{
           fps: 30,
-          resolution: '720p',
+          resolution: '720p', // Alternatively, you can specify the resolution in pixels: { width: 1280, height: 720 }
           bitrate: 2*1024*1024, // # 2 Mbps
           gopDuration: 1, // 1 second
         }}
@@ -169,7 +169,7 @@ export default App;
 ### Props & Methods
 
 ```ts
-type LiveStreamProps = {
+type ApiVideoLiveStreamProps = {
   // Styles for the view containing the preview
   style: ViewStyle;
   // camera facing orientation
@@ -177,8 +177,8 @@ type LiveStreamProps = {
   video: {
     // frame rate
     fps: number;
-    // resolution
-    resolution: '240p' | '360p' | '480p' | '720p' | '1080p';
+    // resolution.
+    resolution: Resolution | PredefinedResolution; 
     // video bitrate. depends on resolutions.
     bitrate: number;
     // duration between 2 key frames in seconds
@@ -204,7 +204,7 @@ type LiveStreamProps = {
   onDisconnect?: () => void;
 };
 
-type LiveStreamMethods = {
+type ApiVideoLiveStreamMethods = {
   // Start the stream
   // streamKey: your live stream RTMP key
   // url: RTMP server url, default: rtmp://broadcast.api.video/s
