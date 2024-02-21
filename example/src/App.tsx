@@ -196,7 +196,7 @@ export default function App() {
         <Animated.View style={[style.settingsButton, { width: growAnim }]}>
           {warning.display && (
             <View style={style.warningContainer}>
-              <Text style={style.warning} numberOfLines={1}>
+              <Text style={style.warning} numberOfLines={3}>
                 {warning.message}
               </Text>
             </View>
