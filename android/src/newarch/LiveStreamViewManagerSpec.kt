@@ -18,12 +18,4 @@ abstract class LiveStreamViewManagerSpec<T : View> : SimpleViewManager<T>(),
   override fun getDelegate(): ViewManagerDelegate<T>? {
     return mDelegate
   }
-
-  companion object {
-    init {
-      if (BuildConfig.CODEGEN_MODULE_REGISTRATION != null) {
-        SoLoader.loadLibrary(BuildConfig.CODEGEN_MODULE_REGISTRATION)
-      }
-    }
-  }
 }

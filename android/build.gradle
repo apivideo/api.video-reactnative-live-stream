@@ -1,7 +1,11 @@
-buildscript {
-  // Buildscript is evaluated before everything else so we can't use getExtOrDefault
-  def kotlinVersion = rootProject.ext.has("kotlinVersion") ? rootProject.ext.get("kotlinVersion") : project.properties["ApiVideoLivestream_kotlinVersion"]
+import com.android.Version
 
+import java.nio.file.Paths
+
+buildscript {
+   ext.safeExtGet = {prop ->
+      rootProject.ext.has(prop) ? rootProject.ext.get(prop) : project.properties['ApiVideoLiveStream_' + prop]
+  }
   repositories {
     google()
     mavenCentral()
@@ -10,54 +14,38 @@ buildscript {
   dependencies {
     classpath "com.android.tools.build:gradle:8.1.1"
     // noinspection DifferentKotlinGradleVersion
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${safeExtGet('kotlinVersion')}"
   }
-}
-
-def isNewArchitectureEnabled() {
-  return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
-}
-
-apply plugin: "com.android.library"
-apply plugin: "kotlin-android"
-
-import groovy.json.JsonSlurper
-
-// https://github.com/callstack/react-native-builder-bob/discussions/359
-def registrationCompat = {
-  def reactNativeManifest = file("$projectDir/../node_modules/react-native/package.json").exists()
-    ? file("$projectDir/../node_modules/react-native/package.json") // developer mode, to run example app
-    : file("$projectDir/../../react-native/package.json")
-  def reactNativeVersion = new JsonSlurper().parseText(reactNativeManifest.text).version as String
-  // Fabric was introduced at react-native@0.68, full CMake support were introduced at react-native@0.70
-  // Use Android.mk for compatibility with react-native@0.68/0.69
-  reactNativeVersion.matches('(0.68.*|0.69.*)')
-}()
-
-def codegenViewLibraryName = "ApiVideoLiveStreamView"
-def codegenViewModuleName = {
-  // Autolink for Fabric uses codegenConfig.name in package.json since react-native@0.70
-  // Use codegenViewLibraryName for compatibility with react-native@0.68/0.69
-  def libraryManifestJson = new JsonSlurper().parseText(file("$projectDir/../package.json").text)
-  registrationCompat ? codegenViewLibraryName : libraryManifestJson.codegenConfig.name
-}()
-
-def appProject = rootProject.allprojects.find { it.plugins.hasPlugin('com.android.application') }
-
-if (isNewArchitectureEnabled()) {
-  apply plugin: "com.facebook.react"
 }
 
 def getExtOrDefault(name) {
   return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties["ApiVideoLivestream_" + name]
 }
 
-def getExtOrIntegerDefault(name) {
-  return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["ApiVideoLivestream_" + name]).toInteger()
+def getExtOrIntegerDefault(prop) {
+  return getExtOrDefault(prop).toInteger()
 }
 
-def supportsNamespace() {
-  def parsed = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
+static def findNodeModulePath(baseDir, packageName) {
+    def basePath = baseDir.toPath().normalize()
+    // Node's module resolution algorithm searches up to the root directory,
+    // after which the base path will be null
+    while (basePath) {
+        def candidatePath = Paths.get(basePath.toString(), "node_modules", packageName)
+        if (candidatePath.toFile().exists()) {
+            return candidatePath.toString()
+        }
+        basePath = basePath.getParent()
+    }
+    return null
+}
+
+def isNewArchitectureEnabled() {
+  return rootProject.hasProperty("newArchEnabled") && rootProject.getProperty("newArchEnabled") == "true"
+}
+
+static def supportsNamespace() {
+  def parsed = Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
   def major = parsed[0].toInteger()
   def minor = parsed[1].toInteger()
 
@@ -68,6 +56,12 @@ def supportsNamespace() {
 
   return major >= 8
 }
+
+apply plugin: 'com.android.library'
+if (isNewArchitectureEnabled()) {
+    apply plugin: 'com.facebook.react'
+}
+apply plugin: 'kotlin-android'
 
 android {
   if (supportsNamespace()) {
@@ -87,42 +81,6 @@ android {
     minSdkVersion getExtOrIntegerDefault("minSdkVersion")
     targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
     buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
-    buildConfigField "String", "CODEGEN_MODULE_REGISTRATION", (isNewArchitectureEnabled() && registrationCompat ? "\"${codegenViewModuleName}_registration\"" : "null")
-    if (isNewArchitectureEnabled() && registrationCompat) {
-      def reactAndroidProject = project(':ReactAndroid')
-      externalNativeBuild {
-        ndkBuild {
-          arguments "APP_PLATFORM=android-21",
-            "APP_STL=c++_shared",
-            "NDK_TOOLCHAIN_VERSION=clang",
-            "GENERATED_SRC_DIR=$buildDir/generated/source", // for react_codegen_* in this library's codegen/jni
-            "PROJECT_BUILD_DIR=${appProject.buildDir}", // for REACT_NDK_EXPORT_DIR in ReactAndroid's Android-prebuilt.mk
-            "REACT_ANDROID_DIR=${reactAndroidProject.projectDir}",
-            "REACT_ANDROID_BUILD_DIR=${reactAndroidProject.buildDir}",
-            "CODEGEN_MODULE_NAME=$codegenViewModuleName"
-          cFlags "-Wall", "-Werror", "-fexceptions", "-frtti", "-DWITH_INSPECTOR=1"
-          cppFlags "-std=c++17"
-          targets "${codegenViewModuleName}_registration"
-        }
-      }
-    }
-  }
-  if (isNewArchitectureEnabled() && registrationCompat) {
-    // We configure the NDK build only if you decide to opt-in for the New Architecture.
-    externalNativeBuild {
-      ndkBuild {
-        path "Android.mk"
-      }
-    }
-  }
-  buildTypes {
-    release {
-      minifyEnabled false
-    }
-  }
-
-  lintOptions {
-    disable "GradleCompatible"
   }
 
   compileOptions {
@@ -133,11 +91,7 @@ android {
   sourceSets {
     main {
       if (isNewArchitectureEnabled()) {
-        java.srcDirs += [
-          "src/newarch",
-          // This is needed to build Kotlin project with NewArch enabled
-          "${project.buildDir}/generated/source/codegen/java"
-        ]
+        java.srcDirs += ["src/newarch"]
       } else {
         java.srcDirs += ["src/oldarch"]
       }
@@ -145,12 +99,20 @@ android {
   }
 }
 
-repositories {
-  mavenCentral()
-  google()
+def reactNativePath = findNodeModulePath(projectDir, "react-native")
+def codegenPath = findNodeModulePath(projectDir, "@react-native/codegen")
+if (codegenPath == null) {
+  // Compat for 0.71 and lower (to be removed)
+  codegenPath = findNodeModulePath(projectDir, "react-native-codegen")
 }
 
-def kotlinVersion = getExtOrDefault("kotlinVersion")
+repositories {
+    maven {
+        url "${reactNativePath}/android"
+    }
+    mavenCentral()
+    google()
+}
 
 dependencies {
   // For < 0.71, this will be from the local maven repo
@@ -165,12 +127,4 @@ dependencies {
   }
 
   implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-}
-
-if (isNewArchitectureEnabled()) {
-  react {
-    jsRootDir = file("../src/")
-    libraryName = codegenViewLibraryName
-    codegenJavaPackageName = "video.api.reactnative.livestream"
-  }
 }
