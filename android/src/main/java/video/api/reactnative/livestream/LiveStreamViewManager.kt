@@ -21,6 +21,7 @@ class LiveStreamViewManager : LiveStreamViewManagerSpec<LiveStreamView>() {
 
   override fun createViewInstance(reactContext: ThemedReactContext): LiveStreamView {
     val view = LiveStreamView(reactContext)
+    reactContext.addLifecycleEventListener(view)
     view.onConnectionSuccess = {
       UIManagerHelper.getEventDispatcherForReactTag(reactContext, view.id)?.dispatchEvent(
         OnConnectionSuccessEvent(view.id)

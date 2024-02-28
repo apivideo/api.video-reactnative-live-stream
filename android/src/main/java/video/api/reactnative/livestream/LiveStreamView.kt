@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.ScaleGestureDetector
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.facebook.react.bridge.LifecycleEventListener
 import com.facebook.react.bridge.UiThreadUtil.runOnUiThread
 import com.facebook.react.uimanager.ThemedReactContext
 import video.api.livestream.ApiVideoLiveStream
@@ -26,7 +27,7 @@ class LiveStreamView @JvmOverloads constructor(
   attrs: AttributeSet? = null,
   defStyle: Int = 0
 ) : ConstraintLayout(context, attrs, defStyle),
-  Closeable {
+  Closeable, LifecycleEventListener {
   private val liveStream: ApiVideoLiveStream
   private val permissionsManager = SerialPermissionsManager(
     PermissionsManager((context as ThemedReactContext).reactApplicationContext)
@@ -123,50 +124,22 @@ class LiveStreamView @JvmOverloads constructor(
   var videoConfig: VideoConfig?
     get() = liveStream.videoConfig
     set(value) {
-      permissionsManager.requestPermission(
-        Manifest.permission.CAMERA,
-        onGranted = {
-          liveStream.videoConfig = value
-        },
-        onShowPermissionRationale = { onRequiredPermissionLastTime ->
-          runOnUiThread {
-            context.showDialog(
-              R.string.permission_required,
-              R.string.camera_permission_required_message,
-              android.R.string.ok,
-              onPositiveButtonClick = { onRequiredPermissionLastTime() }
-            )
-          }
-        },
-        onDenied = {
-          Log.e(TAG, "Missing permissions Manifest.permission.CAMERA")
-          onPermissionsDenied?.let { it(listOf(Manifest.permission.CAMERA)) }
-        })
+      /**
+       * Camera permission is required when `startPreview` is called internally. The permission
+       * request goes through the `permissionRequester` callback.
+       */
+      liveStream.videoConfig = value
     }
 
 
   var audioConfig: AudioConfig?
     get() = liveStream.audioConfig
     set(value) {
-      permissionsManager.requestPermission(
-        Manifest.permission.RECORD_AUDIO,
-        onGranted = {
-          liveStream.audioConfig = value
-        },
-        onShowPermissionRationale = { onRequiredPermissionLastTime ->
-          runOnUiThread {
-            context.showDialog(
-              R.string.permission_required,
-              R.string.record_audio_permission_required_message,
-              android.R.string.ok,
-              onPositiveButtonClick = { onRequiredPermissionLastTime() }
-            )
-          }
-        },
-        onDenied = {
-          Log.e(TAG, "Missing permissions Manifest.permission.RECORD_AUDIO")
-          onPermissionsDenied?.let { it(listOf(Manifest.permission.RECORD_AUDIO)) }
-        })
+      /**
+       * Record audio permission is required when `configure` is called internally. The permission
+       * request goes through the `permissionRequester` callback.
+       */
+      liveStream.audioConfig = value
     }
 
   val isStreaming: Boolean
@@ -251,5 +224,34 @@ class LiveStreamView @JvmOverloads constructor(
 
   companion object {
     private const val TAG = "RNLiveStreamView"
+  }
+
+  /**
+   * If you request a permission here, it will loop indefinitely between [onHostPause] and
+   * [onHostResume].
+   */
+  override fun onHostResume() {
+    /**
+     * Only start preview if the app has the required permissions.
+     */
+    if (permissionsManager.hasPermission(Manifest.permission.CAMERA)) {
+      liveStream.startPreview()
+    }
+    /**
+     * Workaround to reapply audio config in case it was not applied when the app started (due to
+     * missing RECORD_AUDIO permissions).
+     */
+    if (permissionsManager.hasPermission(Manifest.permission.RECORD_AUDIO)) {
+      liveStream.audioConfig = liveStream.audioConfig
+    }
+  }
+
+  override fun onHostPause() {
+    liveStream.stopStreaming()
+    liveStream.stopPreview()
+  }
+
+  override fun onHostDestroy() {
+    liveStream.release()
   }
 }
