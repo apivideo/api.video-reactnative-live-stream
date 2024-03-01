@@ -16,13 +16,15 @@
 - [Getting started](#getting-started)
   - [Installation](#installation)
   - [Permissions](#permissions)
+    - [Android](#android)
+    - [iOS](#ios)
   - [Code sample](#code-sample)
 - [Documentation](#documentation)
   - [Props \& Methods](#props--methods)
 - [Example App](#example-app)
   - [Setup](#setup)
-    - [Android](#android)
-    - [iOS](#ios)
+    - [Android](#android-1)
+    - [iOS](#ios-1)
 - [Plugins](#plugins)
 - [FAQ](#faq)
 
@@ -41,12 +43,9 @@ meta:
 </documentation_only>-->
 ## Project description
 
-This module is made for broadcasting rtmp live stream from smartphone camera
+This module is made for broadcasting RTMP live stream from smartphone camera
 
 ## Getting started
-
-:warning: **The React Native Live Stream SDK is designed for 0.69.1 version of React Native. Using the SDK with >0.69.1 of React Native can cause unexpected behaviour**
-
 
 ### Installation
 
@@ -60,33 +59,25 @@ or
 yarn add @api.video/react-native-livestream
 ```
 
-_Note: if you are on iOS, you will need two extra steps:_
-
-1. Don't forget to install the native dependencies with Cocoapods
-
-```sh
-cd ios && pod install
-```
-
-1. This project contains swift code, and if it's your first dependency with swift code, you need to create an empty swift file in your project (with the bridging header) from XCode. [Find how to do that](https://github.com/apivideo/api.video-reactnative-live-stream/blob/main/docs/install_swift_dependency.md)
-
 ### Permissions
 
-To be able to broadcast, you must:
+#### Android
 
-1. On Android: ask for internet, camera and microphone permissions:
+Permissions `android.permission.RECORD_AUDIO`, `android.permission.CAMERA` and `android.permission.INTERNET` are in the library manifest and will be requested by this library at runtime. You don't have to request them in your application.
+
+For the PlayStore, your application might declare this in its `AndroidManifest.xml`
 
 ```xml
+
 <manifest>
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.RECORD_AUDIO" />
-  <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
 </manifest>
 ```
 
-Your application must dynamically require android.permission.CAMERA and android.permission.RECORD_AUDIO.
+#### iOS
 
-2. On iOS: update Info.plist with a usage description for camera and microphone
+Update `Info.plist` with a usage description for camera and microphone
 
 ```xml
 <key>NSCameraUsageDescription</key>
@@ -96,14 +87,12 @@ Your application must dynamically require android.permission.CAMERA and android.
 <string>Your own description of the purpose</string>
 ```
 
-3. On react-native you must handle the permissions requests before starting your livestream. If permissions are not accepted you will not be able to broadcast.
-
 ### Code sample
 
 ```jsx
 import React, { useRef, useState } from 'react';
 import { View, TouchableOpacity } from 'react-native';
-import { LiveStreamView } from '@api.video/react-native-livestream';
+import { ApiVideoLiveStreamView } from '@api.video/react-native-livestream';
 
 const App = () => {
   const ref = useRef(null);
@@ -111,14 +100,14 @@ const App = () => {
 
   return (
     <View style={{ flex: 1, alignItems: 'center' }}>
-      <LiveStreamView
+      <ApiVideoLiveStreamView
         style={{ flex: 1, backgroundColor: 'black', alignSelf: 'stretch' }}
         ref={ref}
         camera="back"
         enablePinchedZoom={true}
         video={{
           fps: 30,
-          resolution: '720p',
+          resolution: '720p', // Alternatively, you can specify the resolution in pixels: { width: 1280, height: 720 }
           bitrate: 2*1024*1024, // # 2 Mbps
           gopDuration: 1, // 1 second
         }}
@@ -169,7 +158,7 @@ export default App;
 ### Props & Methods
 
 ```ts
-type LiveStreamProps = {
+type ApiVideoLiveStreamProps = {
   // Styles for the view containing the preview
   style: ViewStyle;
   // camera facing orientation
@@ -177,8 +166,8 @@ type LiveStreamProps = {
   video: {
     // frame rate
     fps: number;
-    // resolution
-    resolution: '240p' | '360p' | '480p' | '720p' | '1080p';
+    // resolution.
+    resolution: Resolution | PredefinedResolution; 
     // video bitrate. depends on resolutions.
     bitrate: number;
     // duration between 2 key frames in seconds
@@ -204,7 +193,7 @@ type LiveStreamProps = {
   onDisconnect?: () => void;
 };
 
-type LiveStreamMethods = {
+type ApiVideoLiveStreamMethods = {
   // Start the stream
   // streamKey: your live stream RTMP key
   // url: RTMP server url, default: rtmp://broadcast.api.video/s

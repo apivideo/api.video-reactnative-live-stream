@@ -8,9 +8,8 @@ import {
   Animated,
 } from 'react-native';
 import {
-  LiveStreamView,
-  LiveStreamMethods,
-  Resolution,
+  ApiVideoLiveStreamView,
+  PredefinedResolution,
 } from '@api.video/react-native-livestream';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { button } from './style';
@@ -19,7 +18,7 @@ import assets from './assets';
 import { ZoomPicker } from './components/zoomSlider';
 
 export interface ISettingsState {
-  resolution: Resolution;
+  resolution: PredefinedResolution;
   framerate: number;
   videoBitrate: number;
   audioBitrate: number;
@@ -48,7 +47,7 @@ export default function App() {
   });
 
   // CONSTANTS
-  const ref = React.useRef<LiveStreamMethods | null>(null);
+  const ref = React.useRef<ApiVideoLiveStreamMethods | null>(null);
   const isAndroid = Platform.OS === 'android';
   const style = styles(streaming, isAndroid, warning.display);
   const growAnim = React.useRef(new Animated.Value(0)).current;
@@ -100,9 +99,15 @@ export default function App() {
       ref.current
         ?.startStreaming(settings.streamKey, settings.rtmpEndpoint)
         .then((_: boolean) => {
+          console.log('Streaming started');
           setStreaming(true);
         })
-        .catch((_: any) => {
+        .catch((e: any) => {
+          console.log('Failed to start streaming: ', e);
+          setWarning({
+            display: true,
+            message: `Failed to start streaming: ${e}`,
+          });
           setStreaming(false);
         });
     }
@@ -124,7 +129,7 @@ export default function App() {
     <View style={style.container}>
       <StatusBar animated={true} barStyle="light-content" />
 
-      <LiveStreamView
+      <ApiVideoLiveStreamView
         style={style.livestreamView}
         ref={ref}
         camera={camera}
@@ -150,6 +155,9 @@ export default function App() {
         onDisconnect={() => {
           console.log('Received onDisconnect');
           setStreaming(false);
+        }}
+        onPermissionsDenied={(permissions: string[]) => {
+          console.log('Received onPermissionsDenied: ' + permissions);
         }}
       />
 
@@ -188,7 +196,7 @@ export default function App() {
         <Animated.View style={[style.settingsButton, { width: growAnim }]}>
           {warning.display && (
             <View style={style.warningContainer}>
-              <Text style={style.warning} numberOfLines={1}>
+              <Text style={style.warning} numberOfLines={3}>
                 {warning.message}
               </Text>
             </View>
