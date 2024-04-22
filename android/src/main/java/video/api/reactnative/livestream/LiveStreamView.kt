@@ -15,6 +15,7 @@ import video.api.livestream.enums.CameraFacingDirection
 import video.api.livestream.interfaces.IConnectionListener
 import video.api.livestream.models.AudioConfig
 import video.api.livestream.models.VideoConfig
+import video.api.reactnative.livestream.utils.OrientationManager
 import video.api.reactnative.livestream.utils.permissions.PermissionsManager
 import video.api.reactnative.livestream.utils.permissions.SerialPermissionsManager
 import video.api.reactnative.livestream.utils.showDialog
@@ -32,6 +33,8 @@ class LiveStreamView @JvmOverloads constructor(
   private val permissionsManager = SerialPermissionsManager(
     PermissionsManager((context as ThemedReactContext).reactApplicationContext)
   )
+
+  private val orientationManager = OrientationManager(context)
 
   // Connection listeners
   var onConnectionSuccess: (() -> Unit)? = null
@@ -204,6 +207,15 @@ class LiveStreamView @JvmOverloads constructor(
       require(permissionsManager.hasPermission(Manifest.permission.CAMERA)) { "Missing permissions Manifest.permission.CAMERA" }
       require(permissionsManager.hasPermission(Manifest.permission.RECORD_AUDIO)) { "Missing permissions Manifest.permission.RECORD_AUDIO" }
 
+      /**
+       * Workaround to reapply video config in case orientation has changed.
+       * This happens because `configChanges` may be disabled in the AndroidManifest.xml of a RN
+       * application.
+       */
+      if (orientationManager.orientationHasChanged) {
+        liveStream.videoConfig = liveStream.videoConfig
+      }
+
       url?.let { liveStream.startStreaming(streamKey, it) }
         ?: liveStream.startStreaming(streamKey)
 
@@ -219,6 +231,7 @@ class LiveStreamView @JvmOverloads constructor(
   }
 
   override fun close() {
+    orientationManager.close()
     liveStream.release()
   }
 
