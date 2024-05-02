@@ -231,29 +231,17 @@ yarn && yarn example android
 
 #### iOS
 
-1. Install the packages
-
-```shell
-yarn install
-```
-
-2. Go into `/example/ios` and install the Pods
-
-```shell
-cd /example/ios && pod install
-```
-
-3. Sign your application
+1. Sign your application
 
 Open Xcode, click on "Open a project or file" and open the `Example.xcworkspace` file.
 <br />You can find it in `YOUR_PROJECT_NAME/example/ios`.
 <br />Click on Example, go in `Signin & Capabilities` tab, add your team and create a unique
 bundle identifier.
 
-4. Launch the application, from the root of your project
+2. Install the packages and launch the application
 
 ```shell
-yarn example ios
+yarn && yarn example ios
 ```
 
 ## Plugins
