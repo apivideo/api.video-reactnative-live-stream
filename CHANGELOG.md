@@ -1,6 +1,16 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [2.0.0] - 2024-05-02
+`LiveStreamView` has been renamed `ApiVideoLiveStreamView`
+`LiveStreamMethods` has been renamed `ApiVideoLiveStreamMethods`
+`LiveStreamProps` has been renamed `ApiVideoLiveStreamProps`
+
+- Upgrade React Native to 0.73
+- Add support for new React Native architecture
+- Android: fix preview size
+- Android: improve how timestamp are handled. It improves the compatibility with few servers.
+
 ## [1.2.4] - 2023-03-27
 - Android: call `onConnectionFailed` when `connectStream` failed to be sent
 - iOS: add `audiosamplerate` in `onMetadata` (see [#51](https://github.com/apivideo/api.video-reactnative-live-stream/issues/51))
