@@ -61,7 +61,7 @@ export default (streaming: boolean, android: boolean, warning: boolean) =>
       minHeight: 50,
       paddingVertical: 5,
       paddingHorizontal: 15,
-      borderRadius: warning ? 60 : undefined,
+      borderRadius: warning ? 20 : undefined,
       borderColor: '#FFFFFF',
       borderWidth: warning ? 0.5 : undefined,
       backgroundColor: warning ? '#DC3546' : undefined,
@@ -71,11 +71,13 @@ export default (streaming: boolean, android: boolean, warning: boolean) =>
       right: 10,
     },
     warningContainer: {
-      marginRight: 20,
+      marginRight: 10,
+      borderRadius: 10,
     },
     warning: {
+      borderRadius: 10,
       color: '#FFFFFF',
-      fontSize: 10,
+      fontSize: 12,
       fontWeight: '700',
     },
   });

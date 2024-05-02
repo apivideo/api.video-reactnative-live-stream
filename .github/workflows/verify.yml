@@ -1,0 +1,27 @@
+name: Verify package
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+      - name: Install dependencies
+        run: yarn install
+      - name: Lint
+        run: yarn lint
+  pack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+      - name: Install dependencies
+        run: yarn install
+      - name: Pack in dry run mode
+        run: yarn pack --dry-run

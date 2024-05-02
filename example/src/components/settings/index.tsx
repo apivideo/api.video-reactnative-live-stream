@@ -11,7 +11,7 @@ import Section from './sections';
 import styles from './style';
 import assets from '../../assets';
 import type { ISettingsState } from 'example/src/App';
-import type { Resolution } from '@api.video/react-native-livestream';
+import type { PredefinedResolution } from '@api.video/react-native-livestream';
 
 interface ISettingsProps {
   closeSettings: () => void;
@@ -49,7 +49,7 @@ const Settings: React.FC<ISettingsProps> = ({
     if (key === 'Resolution') {
       setSettingsState((_prev) => ({
         ..._prev,
-        resolution: value as Resolution,
+        resolution: value as PredefinedResolution,
       }));
       return;
     }

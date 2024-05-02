@@ -1,0 +1,37 @@
+name: Build iOS
+
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        extraEnv: [RCT_NEW_ARCH_ENABLED=0, RCT_NEW_ARCH_ENABLED=1]
+    runs-on: macos-13
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install latest Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'yarn'
+      - name: Install package npm dependencies
+        run: yarn --frozen-lockfile
+        shell: bash
+      - name: Install example npm dependencies
+        run: yarn example --frozen-lockfile
+        shell: bash
+      - name: Install Ruby gems
+        run: gem install cocoapods -v 1.15.2
+      - name: Install Pods
+        run: ${{matrix.extraEnv}} pod install
+        working-directory: example/ios
+      - name: Build iOS test app
+        run: xcodebuild -workspace Example.xcworkspace -scheme Example -destination "platform=iOS Simulator,name=iPhone 14" CODE_SIGNING_ALLOWED=NO COMPILER_INDEX_STORE_ENABLE=NO build
+        working-directory: example/ios
+    timeout-minutes: 60
