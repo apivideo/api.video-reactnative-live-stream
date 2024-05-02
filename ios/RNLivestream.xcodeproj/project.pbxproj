@@ -22,10 +22,10 @@
 		134814201AA4EA6300B7C361 /* libRNLivestream.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRNLivestream.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		21237D932A866EFD00A5CDCD /* RNLivestream-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RNLivestream-Bridging-Header.h"; sourceTree = "<group>"; };
 		212E11F62B4468BC00FFDE96 /* RNLiveStreamViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNLiveStreamViewManager.swift; sourceTree = "<group>"; };
-		212E11F72B4468BC00FFDE96 /* RNLiveStreamViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNLiveStreamViewManager.m; sourceTree = "<group>"; };
 		212E11F82B4468BD00FFDE96 /* RNLiveStreamViewImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNLiveStreamViewImpl.swift; sourceTree = "<group>"; };
-		212E11F92B4468BD00FFDE96 /* RNLiveStreamView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNLiveStreamView.m; sourceTree = "<group>"; };
 		212E11FA2B4468BD00FFDE96 /* RNLiveStreamView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNLiveStreamView.h; sourceTree = "<group>"; };
+		21407D072BDBA4FB00E54A12 /* RNLiveStreamView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RNLiveStreamView.mm; sourceTree = "<group>"; };
+		21407D082BDBA4FC00E54A12 /* RNLiveStreamViewManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RNLiveStreamViewManager.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,10 +50,10 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
+				21407D072BDBA4FB00E54A12 /* RNLiveStreamView.mm */,
+				21407D082BDBA4FC00E54A12 /* RNLiveStreamViewManager.mm */,
 				212E11FA2B4468BD00FFDE96 /* RNLiveStreamView.h */,
-				212E11F92B4468BD00FFDE96 /* RNLiveStreamView.m */,
 				212E11F82B4468BD00FFDE96 /* RNLiveStreamViewImpl.swift */,
-				212E11F72B4468BC00FFDE96 /* RNLiveStreamViewManager.m */,
 				212E11F62B4468BC00FFDE96 /* RNLiveStreamViewManager.swift */,
 				134814211AA4EA7D00B7C361 /* Products */,
 				21237D932A866EFD00A5CDCD /* RNLivestream-Bridging-Header.h */,
