@@ -1,6 +1,6 @@
 PODS:
-  - ApiVideoLiveStream (1.4.1):
-    - HaishinKit (= 1.7.3)
+  - ApiVideoLiveStream (1.4.3):
+    - HaishinKit (= 1.8.1)
   - boost (1.83.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -70,13 +70,13 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
-  - HaishinKit (1.7.3):
-    - Logboard (~> 2.4.1)
+  - HaishinKit (1.8.1):
+    - Logboard (~> 2.5.0)
   - hermes-engine (0.73.6):
     - hermes-engine/Pre-built (= 0.73.6)
   - hermes-engine/Pre-built (0.73.6)
   - libevent (2.1.12)
-  - Logboard (2.4.1)
+  - Logboard (2.5.0)
   - OpenSSL-Universal (1.1.1100)
   - RCT-Folly (2022.05.16.00):
     - boost
@@ -950,7 +950,7 @@ PODS:
     - glog
     - React-debug
   - react-native-livestream (2.0.0):
-    - ApiVideoLiveStream (= 1.4.1)
+    - ApiVideoLiveStream (= 1.4.3)
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1328,7 +1328,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  ApiVideoLiveStream: 8f9dce7f6d15d5e4bb3c7a25e406bf2a36337a5a
+  ApiVideoLiveStream: f567cfa06fce5469a3092f0ce401f0fb03d544ac
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
@@ -1344,10 +1344,10 @@ SPEC CHECKSUMS:
   FlipperKit: 37525a5d056ef9b93d1578e04bc3ea1de940094f
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
-  HaishinKit: 326e27c4d06427ba53bffc68e516a92033293051
+  HaishinKit: 15fcbf1328ac6344aa4200173bfad3ac70ed272b
   hermes-engine: 9cecf9953a681df7556b8cc9c74905de8f3293c0
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
-  Logboard: b78984e3f9fa5075d5bfd9308d51b453992aad0e
+  Logboard: 4674a3d86681539a0ad1fca528d888b90871e268
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 7169b2b1c44399c76a47b5deaaba715eeeb476c0
   RCTRequired: ca1d7414aba0b27efcfa2ccd37637edb1ab77d96
@@ -1370,7 +1370,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 85583ef014ce53d731a98c66a0e24496f7a83066
   React-logger: 3eb80a977f0d9669468ef641a5e1fabbc50a09ec
   React-Mapbuffer: 84ea43c6c6232049135b1550b8c60b2faac19fab
-  react-native-livestream: 9765b4d740223757382faba42e88da00aa832254
+  react-native-livestream: dc5608a068abb659b17363330824ba34f195bc3c
   React-nativeconfig: b4d4e9901d4cabb57be63053fd2aa6086eb3c85f
   React-NativeModulesApple: cd26e56d56350e123da0c1e3e4c76cb58a05e1ee
   React-perflogger: 5f49905de275bac07ac7ea7f575a70611fa988f2
@@ -1397,4 +1397,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 255a48dda5c07f719673c67a94d628fe06cf6c60
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2
