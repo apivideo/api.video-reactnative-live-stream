@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ExampleTests.m */; };
+		211AB6342C1733D100B647E1 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 211AB6332C1733D100B647E1 /* PrivacyInfo.xcprivacy */; };
 		21237D8E2A866D8C00A5CDCD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21237D882A866D8C00A5CDCD /* LaunchScreen.storyboard */; };
 		21237D8F2A866D8C00A5CDCD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 21237D8A2A866D8C00A5CDCD /* main.m */; };
 		21237D902A866D8C00A5CDCD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21237D8B2A866D8C00A5CDCD /* Images.xcassets */; };
@@ -38,6 +39,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleTests.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		211AB6332C1733D100B647E1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		21237D882A866D8C00A5CDCD /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		21237D892A866D8C00A5CDCD /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		21237D8A2A866D8C00A5CDCD /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 		21237D872A866D8C00A5CDCD /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				211AB6332C1733D100B647E1 /* PrivacyInfo.xcprivacy */,
 				21237D882A866D8C00A5CDCD /* LaunchScreen.storyboard */,
 				21237D892A866D8C00A5CDCD /* AppDelegate.h */,
 				21237D8A2A866D8C00A5CDCD /* main.m */,
@@ -275,6 +278,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				211AB6342C1733D100B647E1 /* PrivacyInfo.xcprivacy in Resources */,
 				21237D8E2A866D8C00A5CDCD /* LaunchScreen.storyboard in Resources */,
 				21237D902A866D8C00A5CDCD /* Images.xcassets in Resources */,
 			);
