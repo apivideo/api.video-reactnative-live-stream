@@ -1,6 +1,6 @@
 PODS:
-  - ApiVideoLiveStream (1.4.3):
-    - HaishinKit (= 1.8.1)
+  - ApiVideoLiveStream (1.4.4):
+    - HaishinKit (= 1.9.3)
   - boost (1.83.0)
   - CocoaAsyncSocket (7.6.5)
   - DoubleConversion (1.1.6)
@@ -70,7 +70,7 @@ PODS:
     - FlipperKit/FlipperKitNetworkPlugin
   - fmt (6.2.1)
   - glog (0.3.5)
-  - HaishinKit (1.8.1):
+  - HaishinKit (1.9.3):
     - Logboard (~> 2.5.0)
   - hermes-engine (0.73.8):
     - hermes-engine/Pre-built (= 0.73.8)
@@ -950,7 +950,7 @@ PODS:
     - glog
     - React-debug
   - react-native-livestream (2.0.0):
-    - ApiVideoLiveStream (= 1.4.3)
+    - ApiVideoLiveStream (= 1.4.4)
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1328,7 +1328,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  ApiVideoLiveStream: f567cfa06fce5469a3092f0ce401f0fb03d544ac
+  ApiVideoLiveStream: 5595ebc9b65e6a3a90cbe2f7d5a2e749293649d9
   boost: d3f49c53809116a5d38da093a8aa78bf551aed09
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: fea03f2699887d960129cc54bba7e52542b6f953
@@ -1344,7 +1344,7 @@ SPEC CHECKSUMS:
   FlipperKit: 37525a5d056ef9b93d1578e04bc3ea1de940094f
   fmt: ff9d55029c625d3757ed641535fd4a75fedc7ce9
   glog: c5d68082e772fa1c511173d6b30a9de2c05a69a2
-  HaishinKit: 15fcbf1328ac6344aa4200173bfad3ac70ed272b
+  HaishinKit: 14d2b1913144ec0dc0b6a8d8ddc75684b4852670
   hermes-engine: b12d9bb1b7cee546f5e48212e7ea7e3c1665a367
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   Logboard: 4674a3d86681539a0ad1fca528d888b90871e268
@@ -1370,7 +1370,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 1729acf5ffe2d4439d698da25fddf0c75d07d1a1
   React-logger: 60afd40b183e8e6642bfd0108f1a1ad360cc665e
   React-Mapbuffer: 672a9342eb75a4d0663306e94d4dfc88aee73b93
-  react-native-livestream: dc5608a068abb659b17363330824ba34f195bc3c
+  react-native-livestream: a7168b0caf29fce01d5cdc94c968124c1d3658e8
   React-nativeconfig: 2e44d0d2dd222b12a5183f4bcaa4a91881497acb
   React-NativeModulesApple: 8aa032fe6c92c1a3c63e4809d42816284a56a9b0
   React-perflogger: f9367428cf475f4606b5965c1d5a71781bb95299
