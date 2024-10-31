@@ -1,5 +1,6 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
+  "include": ["src/*"],
   "compilerOptions": {
     "noEmit": false
   }

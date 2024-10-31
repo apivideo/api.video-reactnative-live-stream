@@ -11,26 +11,31 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'yarn'
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: adopt
           java-version: 17
+
       - name: Install package npm dependencies
         run: yarn --frozen-lockfile
-        shell: bash
+
       - name: Install example npm dependencies
-        run: yarn example --frozen-lockfile
-        shell: bash
+        run: yarn --frozen-lockfile
+        working-directory: example
+
       - name: Build Android test app
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: wrapper
           arguments: -PnewArchEnabled=${{matrix.newArchEnabled}} :app:assembleRelease
           build-root-directory: example/android
+
     timeout-minutes: 60
