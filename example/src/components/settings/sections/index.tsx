@@ -48,7 +48,7 @@ const Section: React.FC<ISectionProps> = ({
             subSectionName
           ];
 
-          if (currentSubSection.type === 'list')
+          if (currentSubSection.type === 'list') {
             return (
               <SectionListItem
                 key={i}
@@ -60,8 +60,9 @@ const Section: React.FC<ISectionProps> = ({
                 settings={settings}
               />
             );
+          }
 
-          if (currentSubSection.type === 'slider')
+          if (currentSubSection.type === 'slider') {
             return (
               <SectionSliderItem
                 key={i}
@@ -71,6 +72,7 @@ const Section: React.FC<ISectionProps> = ({
                 setVideoBitrate={setVideoBitrate}
               />
             );
+          }
 
           const isRtmpEndpoint = subSectionName === 'RTMP endpoint';
           const value = isRtmpEndpoint ? rtmpEndpoint : streamKey;

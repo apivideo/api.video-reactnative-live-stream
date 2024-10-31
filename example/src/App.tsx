@@ -114,8 +114,11 @@ export default function App() {
   };
 
   const handleCamera = (): void => {
-    if (camera === 'back') setCamera('front');
-    else setCamera('back');
+    if (camera === 'back') {
+      setCamera('front');
+    } else {
+      setCamera('back');
+    }
   };
 
   const handleClickOnSettings = () => {
