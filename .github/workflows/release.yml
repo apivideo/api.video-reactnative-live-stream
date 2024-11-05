@@ -1,17 +1,29 @@
-name: Release React Native Live Stream package
+name: Publish package to npmjs
+
 on:
   release:
     types: [published]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          registry-url: 'https://registry.npmjs.org'
-      - run: yarn
-      - name: Publish to npm
-        run: yarn publish
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
+          cache: 'yarn'
+
+      - name: Prepare NPM credentials
+        run: |
+          echo "npmAuthToken: ${NODE_AUTH_TOKEN}" >> .yarnrc.yml
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - run: yarn
+
+      - name: Publish to npm
+        run: yarn npm publish --access public
