@@ -131,7 +131,11 @@ class LiveStreamView @JvmOverloads constructor(
        * Camera permission is required when `startPreview` is called internally. The permission
        * request goes through the `permissionRequester` callback.
        */
-      liveStream.videoConfig = value
+      try {
+        liveStream.videoConfig = value
+      } catch (e: Exception) {
+        Log.e(TAG, "Failed to set video config", e)
+      }
     }
 
 
@@ -246,7 +250,11 @@ class LiveStreamView @JvmOverloads constructor(
      * Only start preview if the app has the required permissions.
      */
     if (permissionsManager.hasPermission(Manifest.permission.CAMERA)) {
-      liveStream.startPreview()
+      try {
+        liveStream.startPreview()
+      } catch (e: Exception) {
+        Log.e(TAG, "Failed to start preview", e)
+      }
     }
     /**
      * Workaround to reapply audio config in case it was not applied when the app started (due to
