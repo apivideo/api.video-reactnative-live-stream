@@ -35,7 +35,9 @@ jobs:
         working-directory: example/ios
 
       - name: Build iOS test app
-        run: xcodebuild -workspace Example.xcworkspace -scheme Example -destination "platform=iOS Simulator,name=iPhone 14" CODE_SIGNING_ALLOWED=NO COMPILER_INDEX_STORE_ENABLE=NO build
+        run: |
+          xcodebuild -downloadPlatform iOS
+          xcodebuild -workspace Example.xcworkspace -scheme Example -sdk iphoneos CODE_SIGNING_ALLOWED=NO COMPILER_INDEX_STORE_ENABLE=NO build
         working-directory: example/ios
 
     timeout-minutes: 60
