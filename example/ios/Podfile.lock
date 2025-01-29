@@ -1247,7 +1247,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-livestream (2.0.1):
+  - react-native-livestream (2.0.2):
     - ApiVideoLiveStream (= 1.4.6)
     - DoubleConversion
     - glog
@@ -1808,7 +1808,7 @@ SPEC CHECKSUMS:
   React-logger: 7b5b458327a1ff0d7e5a349430d1ed133dcebaa3
   React-Mapbuffer: 0d88ad9afa9e195dd7634424bde1d38e4129e646
   React-microtasksnativemodule: 17234f35d37e6ed388e18a6314210b3b9e051219
-  react-native-livestream: 2529f8d209491541a1d6eb9b014b1258b060ff89
+  react-native-livestream: 2c0657aa80ff4ce6c7c390763b6af29bc3d6cca5
   React-nativeconfig: 93fe8c85a8c40820c57814e30f3e44b94c995a7b
   React-NativeModulesApple: a4457b73e63e983db66d66612160006bccb00ad5
   React-perflogger: 3140b7778984a486db80d4d2aeaa266cae4eb8c7

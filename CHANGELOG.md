@@ -1,6 +1,11 @@
 # Changelog
 All changes to this project will be documented in this file.
 
+## [2.0.2] - 2025-01-29
+- Upgrade to React Native 0.76
+- Android: fix crash on lifecycle scope. See [#91](https://github.com/apivideo/api.video-reactnative-live-stream/issues/91)
+- iOS: fix `isMuted` state. See [#95](https://github.com/apivideo/api.video-reactnative-live-stream/issues/95)
+
 ## [2.0.1] - 2024-07-15
 - Fix definition types. Thanks @Pitros. See [#77](https://github.com/apivideo/api.video-reactnative-live-stream/pull/77)
 - Fix NPE on audio processor. See [#82](https://github.com/apivideo/api.video-reactnative-live-stream/issues/82)
